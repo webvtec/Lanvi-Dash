@@ -13,7 +13,9 @@
       background-size: 300% 300%;
       animation: gradientShift 15s ease infinite;
       color: white;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     @keyframes gradientShift {
@@ -22,16 +24,9 @@
       100% { background-position: 0% 50%; }
     }
 
-    .header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-
-    /* Logo container */
     .logo {
-      width: 200px;
+      margin-top: 20px;
+      width: 220px;
     }
 
     .logo svg {
@@ -39,12 +34,12 @@
       height: auto;
     }
 
-    /* Hexagon nav */
+    /* Hexagon container */
     .hexagon {
       position: relative;
       width: 420px;
       height: 120px;
-      margin-top: 25px;
+      margin-top: 20px;
     }
 
     .hexagon svg {
@@ -52,6 +47,7 @@
       height: 100%;
     }
 
+    /* Buttons inside hexagon */
     .hexagon-content {
       position: absolute;
       top: 0;
@@ -76,62 +72,58 @@
     }
 
     .hexagon-content button:hover {
-      background: white;
-      color: #6a0dad;
+      background: #9370DB;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <!-- Logo (SVG) -->
-    <div class="logo">
-      <svg viewBox="0 0 300 350" xmlns="http://www.w3.org/2000/svg">
-        <!-- Gradient Definition -->
-        <defs>
-          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#8A2BE2; stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#FF00FF; stop-opacity:1" />
-          </linearGradient>
-        </defs>
+  <!-- Logo -->
+  <div class="logo">
+    <svg viewBox="0 0 300 350" xmlns="http://www.w3.org/2000/svg">
+      <!-- Gradient Definition -->
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#8A2BE2; stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#FF00FF; stop-opacity:1" />
+        </linearGradient>
+      </defs>
 
-        <!-- Circle Background -->
-        <circle cx="150" cy="100" r="80" fill="url(#grad)" />
+      <!-- Circle Background -->
+      <circle cx="150" cy="100" r="80" fill="url(#grad)" />
 
-        <!-- Laptop Icon (improved proportions) -->
-        <!-- Screen -->
-        <rect x="100" y="55" width="100" height="65" rx="6" ry="6"
-              stroke="black" stroke-width="6" fill="none" />
-        <!-- Base -->
-        <rect x="85" y="120" width="130" height="20"
-              stroke="black" stroke-width="6" fill="none" />
-        <!-- Trackpad -->
-        <rect x="135" y="125" width="30" height="10" fill="black" rx="2" />
+      <!-- Laptop Icon (fixed proportions) -->
+      <!-- Screen -->
+      <rect x="100" y="50" width="100" height="70" rx="6" ry="6"
+            stroke="black" stroke-width="6" fill="black" />
+      <!-- Keyboard base -->
+      <rect x="85" y="120" width="130" height="20"
+            stroke="black" stroke-width="6" fill="black" />
+      <!-- Trackpad -->
+      <rect x="135" y="125" width="30" height="10" fill="white" rx="2" />
 
-        <!-- WEB VTEC -->
-        <text x="50%" y="250" text-anchor="middle" font-size="34" font-weight="bold" fill="url(#grad)">
-          WEB VTEC
-        </text>
+      <!-- WEB VTEC -->
+      <text x="50%" y="250" text-anchor="middle" font-size="34" font-weight="bold" fill="url(#grad)">
+        WEB VTEC
+      </text>
 
-        <!-- AUTOMATE NOW! -->
-        <text x="50%" y="290" text-anchor="middle" font-size="20" letter-spacing="3" fill="#A52A2A">
-          AUTOMATE NOW!
-        </text>
-      </svg>
-    </div>
+      <!-- AUTOMATE NOW! -->
+      <text x="50%" y="290" text-anchor="middle" font-size="20" letter-spacing="3" fill="#A52A2A">
+        AUTOMATE NOW!
+      </text>
+    </svg>
+  </div>
 
-    <!-- Hexagon Navigation -->
-    <div class="hexagon">
-      <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
-        <!-- White filled hexagon with purple border -->
-        <polygon points="20,50 60,10 240,10 280,50 240,90 60,90"
-          fill="white" stroke="#9370DB" stroke-width="8" />
-      </svg>
-      <div class="hexagon-content">
-        <button>Home</button>
-        <button>About</button>
-        <button>Services</button>
-        <button>Contact</button>
-      </div>
+  <!-- Hexagon Navigation -->
+  <div class="hexagon">
+    <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="20,50 60,10 240,10 280,50 240,90 60,90"
+        fill="white" stroke="#9370DB" stroke-width="8" />
+    </svg>
+    <div class="hexagon-content">
+      <button>Home</button>
+      <button>About</button>
+      <button>Services</button>
+      <button>Contact</button>
     </div>
   </div>
 </body>
