@@ -9,28 +9,21 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1e0036, #3a0ca3, #7209b7, #f72585);
-      background-size: 300% 300%;
-      animation: gradientShift 15s ease infinite;
+      background: linear-gradient(135deg, #2b1055, #7597de); /* static background */
       color: white;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
     .header {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      padding: 15px 20px;
+      align-items: center;
+      padding: 15px 10px;
     }
 
-    /* Logo container */
+    /* Logo */
     .logo {
-      width: 120px; /* smaller size */
+      width: 100px; /* smaller for top-left look */
+      margin-bottom: 10px;
     }
 
     .logo svg {
@@ -41,9 +34,9 @@
     /* Hexagon nav */
     .hexagon {
       position: relative;
-      width: 380px;
-      height: 80px;
-      margin-top: 15px;
+      width: 80vw;   /* responsive: 80% of viewport width */
+      max-width: 600px;
+      height: 90px;  /* slim height */
     }
 
     .hexagon svg {
@@ -58,9 +51,8 @@
       width: 100%;
       height: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: space-evenly;
       align-items: center;
-      gap: 20px;
     }
 
     .hexagon-content button {
@@ -83,7 +75,6 @@
     <!-- Logo (SVG) -->
     <div class="logo">
       <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- Gradient Definition -->
         <defs>
           <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" style="stop-color:#8A2BE2; stop-opacity:1" />
@@ -94,14 +85,11 @@
         <!-- Circle Background -->
         <circle cx="150" cy="100" r="60" fill="url(#grad)" />
 
-        <!-- Laptop Icon (fixed proportions) -->
-        <!-- Screen -->
+        <!-- Laptop Icon -->
         <rect x="105" y="60" width="90" height="55" rx="5" ry="5"
               stroke="black" stroke-width="5" fill="none" />
-        <!-- Base aligned with screen -->
         <rect x="105" y="115" width="90" height="12"
               stroke="black" stroke-width="5" fill="none" />
-        <!-- Trackpad -->
         <rect x="140" y="118" width="20" height="6" fill="black" rx="2" />
 
         <!-- WEB VTEC -->
@@ -118,9 +106,9 @@
 
     <!-- Hexagon Navigation -->
     <div class="hexagon">
-      <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
-        <!-- Slim white filled hexagon with purple border -->
-        <polygon points="20,50 60,15 240,15 280,50 240,85 60,85"
+      <svg viewBox="0 0 300 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Wider hexagon -->
+        <polygon points="15,50 60,10 240,10 285,50 240,90 60,90"
           fill="white" stroke="#9370DB" stroke-width="6" />
       </svg>
       <div class="hexagon-content">
