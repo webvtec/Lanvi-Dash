@@ -58,11 +58,13 @@
         .main-content {
     padding: 40px 20px;
     display: flex;
-    align-items: flex-start;   /* align items to the top instead of center */
-    justify-content: space-between;
+    justify-content: flex-start;  /* keep logo left */
+    align-items: flex-start;      /* align top */
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;           /* required for button absolute positioning */
 }
+
 
 
 /* Logo + text stacked */
@@ -128,7 +130,11 @@
     text-decoration: none;
     display: inline-block;
     letter-spacing: 1px;
+    position: absolute;  /* lock inside parent container */
+    top: 20px;           /* move higher */
+    right: 20px;         /* push to far right */
 }
+
 
 
         .cta-button:hover {
