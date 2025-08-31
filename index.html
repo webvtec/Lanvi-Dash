@@ -156,43 +156,49 @@
     }
 
     @media (max-width: 768px) {
-        .main-content {
-            flex-direction: column;
-            gap: 30px;
-            text-align: center;
-        }
-
-        .nav-menu {
-            flex-wrap: nowrap;
-            justify-content: space-between;
-            gap: 8px;
-            overflow: visible;
-        }
-
-        .nav-item {
-            flex-shrink: 1;
-            white-space: nowrap;
-            overflow: visible;
-            text-overflow: clip;
-            font-size: 11px;
-            padding: 5px 8px;
-            min-width: 0;
-        }
-
-        .brand-name {
-            font-size: 22px;
-        }
-
-        .logo-container {
-            width: 200px;
-            height: 200px;
-        }
-
-        .logo-svg {
-            width: 80px;
-            height: 80px;
-        }
+    .main-content {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
     }
+
+    .nav-menu {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        gap: 8px;
+        overflow: visible;
+    }
+
+    .nav-item {
+        flex-shrink: 1;
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: clip;
+        font-size: 11px;
+        padding: 5px 8px;
+        min-width: 0;
+    }
+
+    /* Smaller logo on mobile */
+    .logo-container {
+        width: 150px;
+        height: 150px;
+        padding: 15px;
+    }
+
+    .logo-svg {
+        width: 60px;
+        height: 60px;
+    }
+
+    .brand-name {
+        font-size: 18px;
+    }
+
+    .brand-tagline {
+        font-size: 10px;
+    }
+}
 
     .navy-gradient-container {
       background: linear-gradient(to bottom, #0A1E3F 0%, #A296E7 60%);
