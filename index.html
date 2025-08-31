@@ -205,7 +205,7 @@
 
 
     .client-button {
-    background: linear-gradient(135deg, #8B5CF6, #A855F7); /* darker gradient for secondary */
+    background: linear-gradient(135deg, #8B5CF6, #A855F7);
     color: white;
     padding: 14px 36px;
     border: none;
@@ -216,7 +216,7 @@
     box-shadow: 0 6px 20px rgba(75, 85, 99, 0.3);
     transition: all 0.3s ease;
     display: inline-block;
-    margin-top: 1px; /* space between CTA and this button */
+    margin-top: 3px; /* mobile spacing */
     text-decoration: none;
     letter-spacing: 1px;
 }
@@ -224,6 +224,13 @@
 .client-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(75, 85, 99, 0.5);
+}
+
+/* Add more space only on desktop */
+@media (min-width: 769px) {
+    .client-button {
+        margin-top: 30px; /* more breathing room under CTA */
+    }
 }
 
     
