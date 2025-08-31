@@ -4,250 +4,205 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web VTec - Automate Now!</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-          font-family: Arial, sans-serif;
-          background: linear-gradient(135deg, #0A1E3F 0%, #A296E7 100%);
-          color: #A296E7; /* Soft off-white for contrast */
-      }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0A1E3F 0%, #A296E7 100%);
+      color: #A296E7;
+    }
 
-
-        .header {
-            background: linear-gradient(135deg, #8B5CF6, #A855F7);
-            padding: 15px 20px;
-            border-radius: 0 0 30px 30px;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        }
-
-        .nav-menu {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 12px 25px;
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-item {
-            color: #4B5563;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            padding: 8px 16px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item:hover {
-            background: rgba(139, 92, 246, 0.1);
-            color: #8B5CF6;
-        }
-
-        .nav-item.active {
-            background: #8B5CF6;
-            color: white;
-        }
-
-        .main-content {
-    padding: 40px 20px;
-    display: flex;
-    justify-content: flex-start;  /* keep logo left */
-    align-items: flex-start;      /* align top */
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;           /* required for button absolute positioning */
-}
-
-
-
-/* Logo + text stacked */
-.logo-section {
-    display: flex;
-    flex-direction: column;   /* stack logo and text */
-    align-items: flex-start;  /* left align */
-    gap: 10px;
-}
-
-/* Smaller laptop logo */
-.logo-container {
-    width: 90px;
-    height: 90px;
-    background: linear-gradient(135deg, #8B5CF6, #A855F7);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
-}
-
-.logo-svg {
-    width: 55px;
-    height: 55px;
-}
-
-.brand-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* left align the texts */
-}
-
-.brand-name {
-    font-size: 28px;  /* smaller brand name */
-    font-weight: bold;
-    background: linear-gradient(135deg, #8B5CF6, #A855F7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 2px;
-}
-
-.brand-tagline {
-    font-size: 12px;
-    color: #6B7280;
-    letter-spacing: 2px;
-    margin-top: 3px;
-}
-
-/* Smaller CTA button, aligned right */
-.cta-button {
-    background: linear-gradient(135deg, #8B5CF6, #A855F7);
-    color: white;
-    padding: 6px 14px;       /* smaller padding */
-    border: none;
-    border-radius: 20px;     /* slightly smaller curve */
-    font-size: 13px;         /* smaller text */
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); /* lighter shadow */
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-    letter-spacing: 0.5px;
-    position: absolute;
-    top: 70px;   /* adjust this until it aligns well */
-    right: 20px;
-}
-
-
-
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4);
-        }
-
-        .divider-line {
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #D1D5DB, transparent);
-            margin: 40px 0;
-        }
-
-        .content-area {
-            min-height: 400px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin: 20px;
-        }
-
-        @media (max-width: 768px) {
-    .main-content {
-        flex-direction: column;
-        gap: 30px;
-        text-align: center;
+    .header {
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        padding: 15px 20px;
+        border-radius: 0 0 30px 30px;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
     }
 
     .nav-menu {
-        flex-wrap: nowrap;              /* Keep buttons in one line */
-        justify-content: space-between; /* Space them out */
-        gap: 8px;                      /* Small gaps */
-        overflow: visible;             /* No scroll, no clipping */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 12px 25px;
+        border-radius: 25px;
+        backdrop-filter: blur(10px);
     }
 
     .nav-item {
-        flex-shrink: 1;                /* Allow shrinking */
-        white-space: nowrap;           /* No wrapping */
-        overflow: visible;             /* Show full text */
-        text-overflow: clip;           /* No ellipsis */
-        font-size: 11px;               /* Smaller font */
-        padding: 5px 8px;              /* Smaller padding */
-        min-width: 0;                  /* Allow shrinking */
+        color: #4B5563;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 8px 16px;
+        border-radius: 15px;
+        transition: all 0.3s ease;
     }
 
-    .brand-name {
-        font-size: 28px;
+    .nav-item:hover {
+        background: rgba(139, 92, 246, 0.1);
+        color: #8B5CF6;
+    }
+
+    .nav-item.active {
+        background: #8B5CF6;
+        color: white;
+    }
+
+    /* Centered main section */
+    .main-content {
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;   /* stack logo + button */
+        align-items: center;      /* center horizontally */
+        justify-content: center;  /* center vertically */
+        text-align: center;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     /* Circle with gradient background */
-.logo-container {
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle at center, #C715FF 0%, #000000 100%);
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;   /* stack laptop + text vertically */
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    box-shadow: 0 0 25px rgba(160, 32, 240, 0.6);
-    text-align: center;
-}
+    .logo-container {
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle at center, #C715FF 0%, #000000 100%);
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;   /* stack laptop + text vertically */
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-shadow: 0 0 25px rgba(160, 32, 240, 0.6);
+        text-align: center;
+        margin-bottom: 30px; /* space between logo and button */
+    }
 
-/* Laptop inside */
-.logo-svg {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 10px;
-}
+    /* Laptop inside */
+    .logo-svg {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
 
-/* Gradient text: WEB VTEC */
-.brand-name {
-    font-size: 24px;
-    font-weight: bold;
-    background: linear-gradient(135deg, #C715FF, #8B5CF6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 2px;
-}
+    /* Gradient text: WEB VTEC */
+    .brand-name {
+        font-size: 24px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #C715FF, #8B5CF6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 2px;
+    }
 
-/* Gradient text: AUTOMATE NOW! */
-.brand-tagline {
-    font-size: 12px;
-    font-weight: bold;
-    background: linear-gradient(90deg, #FF4500, #FF6347);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 2px;
-    margin-top: 4px;
-}
+    /* Gradient text: AUTOMATE NOW! */
+    .brand-tagline {
+        font-size: 12px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #FF4500, #FF6347);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 2px;
+        margin-top: 4px;
+    }
 
+    /* Larger CTA button BELOW logo */
+    .cta-button {
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        color: white;
+        padding: 16px 40px;   /* bigger button */
+        border: none;
+        border-radius: 35px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        letter-spacing: 1px;
+    }
 
-.navy-gradient-container {
-  background: linear-gradient(to bottom, #0A1E3F 0%, #A296E7 60%);
-  padding: 40px 20px;
-}
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(139, 92, 246, 0.6);
+    }
 
-.content-area {
-  background: rgba(255, 255, 255, 0.07); /* subtle translucent white */
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  padding: 30px;
-  margin: 20px auto;
-  max-width: 1200px;
-  color: #A296E7;
-}
+    .divider-line {
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #D1D5DB, transparent);
+        margin: 40px 0;
+    }
 
+    .content-area {
+        min-height: 400px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin: 20px;
+    }
 
-    </style>
+    @media (max-width: 768px) {
+        .main-content {
+            flex-direction: column;
+            gap: 30px;
+            text-align: center;
+        }
+
+        .nav-menu {
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            gap: 8px;
+            overflow: visible;
+        }
+
+        .nav-item {
+            flex-shrink: 1;
+            white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+            font-size: 11px;
+            padding: 5px 8px;
+            min-width: 0;
+        }
+
+        .brand-name {
+            font-size: 22px;
+        }
+
+        .logo-container {
+            width: 200px;
+            height: 200px;
+        }
+
+        .logo-svg {
+            width: 80px;
+            height: 80px;
+        }
+    }
+
+    .navy-gradient-container {
+      background: linear-gradient(to bottom, #0A1E3F 0%, #A296E7 60%);
+      padding: 40px 20px;
+    }
+
+    .content-area {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 1200px;
+      color: #A296E7;
+    }
+</style>
+
 </head>
 <body>
     <header class="header">
@@ -259,34 +214,35 @@
     </header>
 
     <main class="main-content">
-  <!-- Left side: Logo + Text -->
+  <!-- Centered Logo -->
   <div class="logo-section">
-  <div class="logo-container">
-    <!-- Laptop -->
-    <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <rect x="20" y="20" width="60" height="40" rx="3" ry="3"
-            fill="none" stroke="#000" stroke-width="3" />
-      <rect x="25" y="25" width="50" height="30" rx="2" ry="2"
-            fill="#000" />
-      <rect x="48" y="60" width="4" height="3"
-            fill="#000" rx="1" ry="1" />
-      <rect x="20" y="63" width="60" height="20" rx="3" ry="3"
-            fill="transparent" stroke="#000" stroke-width="3" />
-      <rect x="42" y="72" width="16" height="8" rx="1" ry="1"
-            fill="#000" />
-    </svg>
+    <div class="logo-container">
+      <!-- Laptop -->
+      <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="60" height="40" rx="3" ry="3"
+              fill="none" stroke="#000" stroke-width="3" />
+        <rect x="25" y="25" width="50" height="30" rx="2" ry="2"
+              fill="#000" />
+        <rect x="48" y="60" width="4" height="3"
+              fill="#000" rx="1" ry="1" />
+        <rect x="20" y="63" width="60" height="20" rx="3" ry="3"
+              fill="transparent" stroke="#000" stroke-width="3" />
+        <rect x="42" y="72" width="16" height="8" rx="1" ry="1"
+              fill="#000" />
+      </svg>
 
-    <!-- Text INSIDE the circle -->
-    <div class="brand-text">
-      <div class="brand-name">WEB VTEC</div>
-      <div class="brand-tagline">AUTOMATE NOW!</div>
+      <!-- Text INSIDE the circle -->
+      <div class="brand-text">
+        <div class="brand-name">WEB VTEC</div>
+        <div class="brand-tagline">AUTOMATE NOW!</div>
+      </div>
     </div>
   </div>
-</div>
 
-  <!-- Right side: Button -->
+  <!-- CTA button BELOW the logo -->
   <a href="#" class="cta-button">REQUEST WEBSITE NOW</a>
 </main>
+
 
 
     <div class="divider-line"></div>
