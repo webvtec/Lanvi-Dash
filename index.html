@@ -144,36 +144,43 @@
         }
 
         @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-                gap: 30px;
-                text-align: center;
-            }
+    .main-content {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
 
-            .nav-menu {
-                flex-wrap: wrap;
-                gap: 5px;
-            }
+    .nav-menu {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        gap: 10px;
+        overflow: hidden;
+    }
 
-            .nav-item {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
+    .nav-item {
+        flex-shrink: 1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
 
-            .brand-name {
-                font-size: 28px;
-            }
+    .brand-name {
+        font-size: 28px;
+    }
 
-            .logo-container {
-                width: 100px;
-                height: 100px;
-            }
+    .logo-container {
+        width: 100px;
+        height: 100px;
+    }
 
-            .logo-svg {
-                width: 60px;
-                height: 60px;
-            }
-        }
+    .logo-svg {
+        width: 60px;
+        height: 60px;
+    }
+}
+
     </style>
 </head>
 <body>
