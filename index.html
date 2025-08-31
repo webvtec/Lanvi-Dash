@@ -151,20 +151,20 @@
     }
 
     .nav-menu {
-        flex-wrap: nowrap;              /* Keep buttons in one row */
-        justify-content: flex-start;    /* Align left */
-        gap: 10px;
-        overflow-x: auto;               /* Enable horizontal scrolling */
-        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+        flex-wrap: nowrap;              /* Keep buttons in one line */
+        justify-content: space-between; /* Space them out */
+        gap: 8px;                      /* Small gaps */
+        overflow: visible;             /* No scroll, no clipping */
     }
 
     .nav-item {
-        flex-shrink: 0;        /* Prevent shrinking */
-        white-space: nowrap;   /* Keep text in one line */
-        overflow: visible;     /* Show full text */
-        text-overflow: clip;   /* No ellipsis */
-        font-size: 12px;
-        padding: 6px 10px;
+        flex-shrink: 1;                /* Allow shrinking */
+        white-space: nowrap;           /* No wrapping */
+        overflow: visible;             /* Show full text */
+        text-overflow: clip;           /* No ellipsis */
+        font-size: 11px;               /* Smaller font */
+        padding: 5px 8px;              /* Smaller padding */
+        min-width: 0;                  /* Allow shrinking */
     }
 
     .brand-name {
@@ -181,6 +181,7 @@
         height: 60px;
     }
 }
+
 
 
     </style>
