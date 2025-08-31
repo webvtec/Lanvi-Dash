@@ -1,123 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web VTEC</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #2b1055, #7597de); /* static background */
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web VTec - Automate Now!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 15px 10px;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
 
-    /* Logo */
-    .logo {
-      width: 100px; /* smaller for top-left look */
-      margin-bottom: 10px;
-    }
+        .header {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            padding: 15px 20px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
 
-    .logo svg {
-      width: 100%;
-      height: auto;
-    }
+        .nav-menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 25px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
 
-    /* Hexagon nav */
-    .hexagon {
-      position: relative;
-      width: 80vw;   /* responsive: 80% of viewport width */
-      max-width: 600px;
-      height: 90px;  /* slim height */
-    }
+        .nav-item {
+            color: #4B5563;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
 
-    .hexagon svg {
-      width: 100%;
-      height: 100%;
-    }
+        .nav-item:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8B5CF6;
+        }
 
-    .hexagon-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-    }
+        .nav-item.active {
+            background: #8B5CF6;
+            color: white;
+        }
 
-    .hexagon-content button {
-      background: transparent;
-      border: none;
-      font-size: 16px;
-      font-weight: bold;
-      color: #6a0dad;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        .main-content {
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .hexagon-content button:hover {
-      color: #f72585;
-    }
-  </style>
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        .logo-svg {
+            width: 70px;
+            height: 70px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .brand-tagline {
+            font-size: 14px;
+            color: #6B7280;
+            letter-spacing: 3px;
+            margin-top: 5px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4);
+        }
+
+        .divider-line {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #D1D5DB, transparent);
+            margin: 40px 0;
+        }
+
+        .content-area {
+            min-height: 400px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .nav-item {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .brand-name {
+                font-size: 28px;
+            }
+
+            .logo-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .logo-svg {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="header">
-    <!-- Logo (SVG) -->
-    <div class="logo">
-      <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#8A2BE2; stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#FF00FF; stop-opacity:1" />
-          </linearGradient>
-        </defs>
+    <header class="header">
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active">HOME</a>
+            <a href="#" class="nav-item">REQUEST WEBSITE NOW</a>
+            <a href="#" class="nav-item">REVIEWS</a>
+        </nav>
+    </header>
 
-        <!-- Circle Background -->
-        <circle cx="150" cy="100" r="60" fill="url(#grad)" />
+    <main class="main-content">
+        <div class="logo-section">
+            <div class="logo-container">
+                <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Laptop Screen -->
+                    <rect x="15" y="25" width="70" height="45" rx="3" ry="3" 
+                          fill="none" stroke="#1F2937" stroke-width="3"/>
+                    
+                    <!-- Laptop Screen Inner -->
+                    <rect x="20" y="30" width="60" height="35" rx="2" ry="2" 
+                          fill="#1F2937"/>
+                    
+                    <!-- Laptop Base -->
+                    <ellipse cx="50" cy="72" rx="40" ry="8" 
+                             fill="none" stroke="#1F2937" stroke-width="3"/>
+                    
+                    <!-- Laptop Base Inner -->
+                    <ellipse cx="50" cy="72" rx="35" ry="6" 
+                             fill="#A855F7"/>
+                    
+                    <!-- Trackpad -->
+                    <rect x="42" y="75" width="16" height="10" rx="2" ry="2" 
+                          fill="#1F2937"/>
+                    
+                    <!-- Connection line from screen to base -->
+                    <line x1="50" y1="70" x2="50" y2="72" 
+                          stroke="#1F2937" stroke-width="2"/>
+                </svg>
+            </div>
+            
+            <div class="brand-text">
+                <div class="brand-name">WEB VTEC</div>
+                <div class="brand-tagline">AUTOMATE NOW!</div>
+            </div>
+        </div>
 
-        <!-- Laptop Icon -->
-        <rect x="105" y="60" width="90" height="55" rx="5" ry="5"
-              stroke="black" stroke-width="5" fill="none" />
-        <rect x="105" y="115" width="90" height="12"
-              stroke="black" stroke-width="5" fill="none" />
-        <rect x="140" y="118" width="20" height="6" fill="black" rx="2" />
+        <a href="#" class="cta-button">REQUEST WEBSITE NOW</a>
+    </main>
 
-        <!-- WEB VTEC -->
-        <text x="50%" y="200" text-anchor="middle" font-size="22" font-weight="bold" fill="url(#grad)">
-          WEB VTEC
-        </text>
+    <div class="divider-line"></div>
 
-        <!-- AUTOMATE NOW! -->
-        <text x="50%" y="225" text-anchor="middle" font-size="14" letter-spacing="2" fill="#A52A2A">
-          AUTOMATE NOW!
-        </text>
-      </svg>
+    <div class="content-area">
+        <h2 style="color: #374151; margin-bottom: 20px;">Welcome to Web VTec</h2>
+        <p style="color: #6B7280; line-height: 1.6;">
+            Your trusted partner for web development and automation solutions. 
+            We create modern, responsive websites that help your business grow and automate your workflows.
+        </p>
     </div>
 
-    <!-- Hexagon Navigation -->
-    <div class="hexagon">
-      <svg viewBox="0 0 300 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Wider hexagon -->
-        <polygon points="15,50 60,10 240,10 285,50 240,90 60,90"
-          fill="white" stroke="#9370DB" stroke-width="6" />
-      </svg>
-      <div class="hexagon-content">
-        <button>Home</button>
-        <button>About</button>
-        <button>Services</button>
-        <button>Contact</button>
-      </div>
-    </div>
-  </div>
+    <script>
+        // Add smooth scrolling and interactions
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all items
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+            });
+        });
+
+        // Add click animation to CTA button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Create ripple effect
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                left: ${x}px;
+                top: ${y}px;
+                width: ${size}px;
+                height: ${size}px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // Add CSS animation for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
