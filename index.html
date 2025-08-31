@@ -4,210 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web VTec - Automate Now!</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+   <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-          font-family: Arial, sans-serif;
-          background: linear-gradient(135deg, #0A1E3F 0%, #A296E7 100%);
-          color: #A296E7; /* Soft off-white for contrast */
-      }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0A1E3F 0%, #A296E7 100%);
+      color: #A296E7; /* Soft off-white for contrast */
+    }
 
-
-        .header {
-            background: linear-gradient(135deg, #8B5CF6, #A855F7);
-            padding: 15px 20px;
-            border-radius: 0 0 30px 30px;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        }
-
-        .nav-menu {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 12px 25px;
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-item {
-            color: #4B5563;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            padding: 8px 16px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item:hover {
-            background: rgba(139, 92, 246, 0.1);
-            color: #8B5CF6;
-        }
-
-        .nav-item.active {
-            background: #8B5CF6;
-            color: white;
-        }
-
-        .main-content {
-    padding: 40px 20px;
-    display: flex;
-    align-items: center;   /* keeps things vertically centered */
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Logo + text stacked */
-.logo-section {
-    display: flex;
-    flex-direction: column;   /* stack logo and text */
-    align-items: flex-start;  /* left align */
-    gap: 10px;
-}
-
-/* Smaller laptop logo */
-.logo-container {
-    width: 90px;
-    height: 90px;
-    background: linear-gradient(135deg, #8B5CF6, #A855F7);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
-}
-
-.logo-svg {
-    width: 55px;
-    height: 55px;
-}
-
-.brand-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* left align the texts */
-}
-
-.brand-name {
-    font-size: 28px;  /* smaller brand name */
-    font-weight: bold;
-    background: linear-gradient(135deg, #8B5CF6, #A855F7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 2px;
-}
-
-.brand-tagline {
-    font-size: 12px;
-    color: #6B7280;
-    letter-spacing: 2px;
-    margin-top: 3px;
-}
-
-/* Smaller CTA button, aligned right */
-.cta-button {
-    background: linear-gradient(135deg, #8B5CF6, #A855F7);
-    color: white;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 25px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-    letter-spacing: 1px;
-}
-
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4);
-        }
-
-        .divider-line {
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #D1D5DB, transparent);
-            margin: 40px 0;
-        }
-
-        .content-area {
-            min-height: 400px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin: 20px;
-        }
-
-        @media (max-width: 768px) {
-    .main-content {
-        flex-direction: column;
-        gap: 30px;
-        text-align: center;
+    .header {
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        padding: 15px 20px;
+        border-radius: 0 0 30px 30px;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
     }
 
     .nav-menu {
-        flex-wrap: nowrap;              /* Keep buttons in one line */
-        justify-content: space-between; /* Space them out */
-        gap: 8px;                      /* Small gaps */
-        overflow: visible;             /* No scroll, no clipping */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 12px 25px;
+        border-radius: 25px;
+        backdrop-filter: blur(10px);
     }
 
     .nav-item {
-        flex-shrink: 1;                /* Allow shrinking */
-        white-space: nowrap;           /* No wrapping */
-        overflow: visible;             /* Show full text */
-        text-overflow: clip;           /* No ellipsis */
-        font-size: 11px;               /* Smaller font */
-        padding: 5px 8px;              /* Smaller padding */
-        min-width: 0;                  /* Allow shrinking */
+        color: #4B5563;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 8px 16px;
+        border-radius: 15px;
+        transition: all 0.3s ease;
     }
 
-    .brand-name {
-        font-size: 28px;
+    .nav-item:hover {
+        background: rgba(139, 92, 246, 0.1);
+        color: #8B5CF6;
+    }
+
+    .nav-item.active {
+        background: #8B5CF6;
+        color: white;
+    }
+
+    .main-content {
+        padding: 20px 20px;   /* tighter spacing */
+        display: flex;
+        align-items: center;   /* keep things level */
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Logo + text stacked and far left */
+    .logo-section {
+        display: flex;
+        flex-direction: column;   /* stack vertically */
+        align-items: flex-start;  /* keep left aligned */
+        justify-content: flex-start;
+        gap: 4px;
+        margin-left: 0;   /* pin to left */
     }
 
     .logo-container {
-        width: 100px;
-        height: 100px;
+        width: 60px;   /* much smaller */
+        height: 60px;
+        background: none; /* no circle background */
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        box-shadow: none;
     }
 
     .logo-svg {
-        width: 60px;
-        height: 60px;
+        width: 40px;   /* small laptop */
+        height: 40px;
     }
-}
 
+    .brand-name {
+        font-size: 16px;  /* smaller text */
+        font-weight: bold;
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: 1px;
+    }
 
-.navy-gradient-container {
-  background: linear-gradient(to bottom, #0A1E3F 0%, #A296E7 60%);
-  padding: 40px 20px;
-}
+    .brand-tagline {
+        font-size: 10px;
+        color: #6B7280;
+        letter-spacing: 1px;
+    }
 
-.content-area {
-  background: rgba(255, 255, 255, 0.07); /* subtle translucent white */
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  padding: 30px;
-  margin: 20px auto;
-  max-width: 1200px;
-  color: #A296E7;
-}
+    /* Smaller CTA button, aligned right */
+    .cta-button {
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        color: white;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(139, 92, 246, 0.3);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        letter-spacing: 1px;
+    }
 
+    .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+    }
 
-    </style>
+    .divider-line {
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #D1D5DB, transparent);
+        margin: 20px 0;
+    }
+
+    .content-area {
+        min-height: 400px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .main-content {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .nav-menu {
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            gap: 8px;
+            overflow: visible;
+        }
+
+        .nav-item {
+            flex-shrink: 1;
+            white-space: nowrap;
+            overflow: visible;
+            text-overflow: clip;
+            font-size: 11px;
+            padding: 5px 8px;
+            min-width: 0;
+        }
+
+        .brand-name {
+            font-size: 14px;
+        }
+
+        .logo-container {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .cta-button {
+            padding: 6px 14px;
+            font-size: 12px;
+        }
+    }
+
+    .navy-gradient-container {
+      background: linear-gradient(to bottom, #0A1E3F 0%, #A296E7 60%);
+      padding: 40px 20px;
+    }
+
+    .content-area {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 1200px;
+      color: #A296E7;
+    }
+</style>
 </head>
 <body>
     <header class="header">
