@@ -151,17 +151,18 @@
     }
 
     .nav-menu {
-        flex-wrap: nowrap;
-        justify-content: space-between;
+        flex-wrap: nowrap;              /* Keep buttons in one row */
+        justify-content: flex-start;    /* Align left */
         gap: 10px;
-        overflow: hidden;
+        overflow-x: auto;               /* Enable horizontal scrolling */
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
     }
 
     .nav-item {
-        flex-shrink: 1;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+        flex-shrink: 0;        /* Prevent shrinking */
+        white-space: nowrap;   /* Keep text in one line */
+        overflow: visible;     /* Show full text */
+        text-overflow: clip;   /* No ellipsis */
         font-size: 12px;
         padding: 6px 10px;
     }
@@ -180,6 +181,7 @@
         height: 60px;
     }
 }
+
 
     </style>
 </head>
