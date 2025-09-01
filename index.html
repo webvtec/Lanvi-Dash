@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web VTec - Request Website Form</title>
+    <title>Web VTec - Automate Now!</title>
 <style>
     * {
         margin: 0;
@@ -43,6 +43,7 @@
         padding: 8px 16px;
         border-radius: 15px;
         transition: all 0.3s ease;
+        cursor: pointer;
     }
 
     .nav-item:hover {
@@ -55,6 +56,242 @@
         color: white;
     }
 
+    /* Section Management */
+    .content-section {
+        display: none;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .content-section.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Home Section Styles */
+    .main-content {
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .logo-container {
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle at center, #C715FF 0%, #000000 100%);
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-shadow: 0 0 25px rgba(160, 32, 240, 0.6);
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .logo-svg {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+
+    .brand-name {
+        font-size: 24px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #C715FF, #8B5CF6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 2px;
+    }
+
+    .brand-tagline {
+        font-size: 12px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #FF4500, #FF6347);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 2px;
+        margin-top: 4px;
+    }
+
+    .cta-button, .client-button, .admin-button {
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        color: white;
+        padding: 16px 40px;
+        border: none;
+        border-radius: 35px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        letter-spacing: 1px;
+        margin: 10px;
+    }
+
+    .cta-button:hover, .client-button:hover, .admin-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(139, 92, 246, 0.6);
+    }
+
+    .client-button, .admin-button {
+        font-size: 16px;
+        padding: 14px 36px;
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+        margin-top: 50px;
+    }
+
+    .divider-line {
+        width: 100%;
+        height: 2.5px;
+        background: linear-gradient(90deg, transparent, #D1D5DB, transparent);
+        margin: 40px 0;
+    }
+
+    .content-area {
+        background: rgba(255, 255, 255, 0.07);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        margin: 20px auto;
+        max-width: 1200px;
+        color: #A296E7;
+    }
+
+    /* Reviews Section Styles */
+    .reviews-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    .section-title {
+        font-size: 2.5em;
+        font-weight: bold;
+        background: linear-gradient(135deg, #C715FF, #8B5CF6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .section-subtitle {
+        color: #9CA3AF;
+        font-size: 1.2em;
+        line-height: 1.6;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .review-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .review-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(139, 92, 246, 0.3);
+    }
+
+    .review-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .reviewer-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        margin-right: 15px;
+    }
+
+    .reviewer-info h4 {
+        color: #D1D5DB;
+        margin-bottom: 5px;
+    }
+
+    .reviewer-info p {
+        color: #9CA3AF;
+        font-size: 0.9em;
+    }
+
+    .stars {
+        color: #FFC107;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+    }
+
+    .review-text {
+        color: #B1B5C3;
+        line-height: 1.6;
+        font-style: italic;
+    }
+
+    .stats-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin: 50px 0;
+    }
+
+    .stat-card {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-number {
+        font-size: 2.5em;
+        font-weight: bold;
+        background: linear-gradient(135deg, #C715FF, #8B5CF6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+
+    .stat-label {
+        color: #9CA3AF;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Request Form Styles */
     .form-container {
         max-width: 800px;
         margin: 40px auto;
@@ -159,42 +396,6 @@
     .form-textarea {
         min-height: 120px;
         resize: vertical;
-    }
-
-    .checkbox-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        margin-top: 10px;
-    }
-
-    .checkbox-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        padding: 10px 15px;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .checkbox-item:hover {
-        border-color: #8B5CF6;
-        background: rgba(139, 92, 246, 0.1);
-    }
-
-    .checkbox-item input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: #8B5CF6;
-    }
-
-    .checkbox-item label {
-        color: #D1D5DB;
-        font-size: 14px;
-        cursor: pointer;
     }
 
     .budget-range {
@@ -313,32 +514,104 @@
         font-weight: 600;
     }
 
+    /* Review Form Styles */
+    .review-form-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .review-form-title {
+        color: #D1D5DB;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .review-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .review-form input,
+    .review-form textarea {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #FFFFFF;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+    .review-form input:focus,
+    .review-form textarea:focus {
+        outline: none;
+        border-color: #8B5CF6;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .review-form input::placeholder,
+    .review-form textarea::placeholder {
+        color: #9CA3AF;
+    }
+
+    .star-rating {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin: 10px 0;
+    }
+
+    .star {
+        font-size: 2em;
+        color: #6B7280;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+    }
+
+    .star:hover,
+    .star.active {
+        color: #FFC107;
+        transform: scale(1.1);
+    }
+
+    .review-submit-btn {
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .review-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+    }
+
+    /* Mobile Styles */
     @media (max-width: 768px) {
-        .form-row {
+        .main-content {
             flex-direction: column;
-            gap: 15px;
-        }
-
-        .request-form {
-            padding: 25px;
-            margin: 20px 10px;
-        }
-
-        .form-title {
-            font-size: 2em;
-        }
-
-        .budget-range {
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .budget-option {
-            margin: 5px 0;
-        }
-
-        .checkbox-group {
-            flex-direction: column;
+            gap: 20px;
         }
 
         .nav-menu {
@@ -353,189 +626,475 @@
             font-size: 11px;
             padding: 5px 8px;
         }
+
+        .logo-container {
+            width: 150px;
+            height: 150px;
+            padding: 15px;
+        }
+
+        .logo-svg {
+            width: 60px;
+            height: 60px;
+        }
+
+        .brand-name {
+            font-size: 20px;
+        }
+
+        .brand-tagline {
+            font-size: 8.5px;
+        }
+
+        .reviews-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .stats-section {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .section-title {
+            font-size: 2em;
+        }
+
+        .cta-button, .client-button, .admin-button {
+            width: 90%;
+            margin: 5px;
+        }
     }
 </style>
 </head>
 <body>
     <header class="header">
         <nav class="nav-menu">
-            <a href="index.html" class="nav-item">HOME</a>
-            <a href="#" class="nav-item active">REQUEST WEBSITE NOW</a>
-            <a href="#" class="nav-item">REVIEWS</a>
+            <a href="#" class="nav-item active" onclick="showSection('home')">HOME</a>
+            <a href="#" class="nav-item" onclick="showSection('request')">REQUEST WEBSITE NOW</a>
+            <a href="#" class="nav-item" onclick="showSection('reviews')">REVIEWS</a>
         </nav>
     </header>
 
-    <div class="form-container">
-        <div class="form-header">
-            <h1 class="form-title">Request Your Website</h1>
-            <p class="form-subtitle">Tell us about your project and we'll create the perfect website solution for your business</p>
+    <!-- HOME SECTION -->
+    <div id="home-section" class="content-section active">
+        <main class="main-content">
+            <div class="logo-section">
+                <div class="logo-container">
+                    <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="20" y="20" width="60" height="40" rx="3" ry="3"
+                              fill="none" stroke="#000" stroke-width="3" />
+                        <rect x="25" y="25" width="50" height="30" rx="2" ry="2"
+                              fill="#000" />
+                        <rect x="48" y="60" width="4" height="3"
+                              fill="#000" rx="1" ry="1" />
+                        <rect x="20" y="63" width="60" height="20" rx="3" ry="3"
+                              fill="transparent" stroke="#000" stroke-width="3" />
+                        <rect x="42" y="72" width="16" height="8" rx="1" ry="1"
+                              fill="#000" />
+                    </svg>
+
+                    <div class="brand-text">
+                        <div class="brand-name">WEB VTEC</div>
+                        <div class="brand-tagline">AUTOMATE NOW!</div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" class="cta-button" onclick="showSection('request')">REQUEST WEBSITE NOW</a>
+            <a href="#" class="client-button">CLIENT DASHBOARD</a>
+            <a href="#" class="admin-button">ADMIN</a>
+        </main>
+
+        <div class="welcome-section">
+            <div class="divider-line"></div>
+            <div class="content-area">
+                <h2 style="color: #D1D5DB; margin-bottom: 20px;">Welcome to Web VTec</h2>
+                <p style="color: #9CA3AF; line-height: 1.6;">
+                    Your trusted partner for web development and automation solutions. 
+                    We create modern, responsive websites that help your business grow and automate your workflows.
+                </p>
+            </div>
         </div>
+    </div>
 
-        <form class="request-form" id="websiteRequestForm">
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">First Name <span class="required">*</span></label>
-                    <input type="text" name="firstName" class="form-input" placeholder="Enter your first name" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Last Name <span class="required">*</span></label>
-                    <input type="text" name="lastName" class="form-input" placeholder="Enter your last name" required>
-                </div>
+    <!-- REQUEST SECTION -->
+    <div id="request-section" class="content-section">
+        <div class="form-container">
+            <div class="form-header">
+                <h1 class="form-title">Request Your Website</h1>
+                <p class="form-subtitle">Tell us about your project and we'll create the perfect website solution for your business</p>
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Email Address <span class="required">*</span></label>
-                    <input type="email" name="email" class="form-input" placeholder="your.email@example.com" required>
+            <form class="request-form" id="websiteRequestForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name <span class="required">*</span></label>
+                        <input type="text" name="firstName" class="form-input" placeholder="Enter your first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name <span class="required">*</span></label>
+                        <input type="text" name="lastName" class="form-input" placeholder="Enter your last name" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Phone Number <span class="required">*</span></label>
-                    <input type="tel" name="phone" class="form-input" placeholder="+1 (555) 123-4567" required>
-                </div>
-            </div>
 
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">Company/Organization Name</label>
-                    <input type="text" name="company" class="form-input" placeholder="Your business name (optional)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" name="email" class="form-input" placeholder="your.email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number <span class="required">*</span></label>
+                        <input type="tel" name="phone" class="form-input" placeholder="+1 (555) 123-4567" required>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">Website Type <span class="required">*</span></label>
-                    <select name="websiteType" class="form-select" required>
-                        <option value="">Select website type</option>
-                        <option value="business">Business/Corporate Website</option>
-                        <option value="ecommerce">E-commerce Store</option>
-                        <option value="portfolio">Portfolio/Personal Website</option>
-                        <option value="blog">Blog/News Website</option>
-                        <option value="restaurant">Restaurant/Food Service</option>
-                        <option value="medical">Medical/Healthcare</option>
-                        <option value="education">Educational/Training</option>
-                        <option value="nonprofit">Non-profit Organization</option>
-                        <option value="real-estate">Real Estate</option>
-                        <option value="other">Other (please specify in description)</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label class="form-label">Company/Organization Name</label>
+                        <input type="text" name="company" class="form-input" placeholder="Your business name (optional)">
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">Required Features</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="features" value="contact-form" id="contact-form">
-                            <label for="contact-form">Contact Forms</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="features" value="online-booking" id="online-booking">
-                            <label for="online-booking">Online Booking</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="features" value="payment-processing" id="payment-processing">
-                            <label for="payment-processing">Payment Processing</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="features" value="user-accounts" id="user-accounts">
-                            <label for="user-accounts">User Accounts</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="features" value="cms" id="cms">
-                            <label for="cms">Content Management</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="features" value="seo" id="seo">
-                            <label for="seo">SEO Optimization</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="features" value="analytics" id="analytics">
-                            <label for="analytics">Analytics Integration</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="features" value="social-media" id="social-media">
-                            <label for="social-media">Social Media Integration</label>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label class="form-label">Website Type <span class="required">*</span></label>
+                        <select name="websiteType" class="form-select" required>
+                            <option value="">Select website type</option>
+                            <option value="business">Business/Corporate Website</option>
+                            <option value="ecommerce">E-commerce Store</option>
+                            <option value="portfolio">Portfolio/Personal Website</option>
+                            <option value="blog">Blog/News Website</option>
+                            <option value="restaurant">Restaurant/Food Service</option>
+                            <option value="medical">Medical/Healthcare</option>
+                            <option value="education">Educational/Training</option>
+                            <option value="nonprofit">Non-profit Organization</option>
+                            <option value="real-estate">Real Estate</option>
+                            <option value="other">Other (please specify in description)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label class="form-label">Project Budget <span class="required">*</span></label>
+                        <div class="budget-range">
+                            <div class="budget-option">
+                                <input type="radio" name="budget" value="500-1000" id="budget1" required>
+                                <label for="budget1">$500 - $1,000<br><small>Basic Website</small></label>
+                            </div>
+                            <div class="budget-option">
+                                <input type="radio" name="budget" value="1000-2500" id="budget2" required>
+                                <label for="budget2">$1,000 - $2,500<br><small>Standard Website</small></label>
+                            </div>
+                            <div class="budget-option">
+                                <input type="radio" name="budget" value="2500-5000" id="budget3" required>
+                                <label for="budget3">$2,500 - $5,000<br><small>Advanced Website</small></label>
+                            </div>
+                            <div class="budget-option">
+                                <input type="radio" name="budget" value="5000+" id="budget4" required>
+                                <label for="budget4">$5,000+<br><small>Enterprise Solution</small></label>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">Project Budget <span class="required">*</span></label>
-                    <div class="budget-range">
-                        <div class="budget-option">
-                            <input type="radio" name="budget" value="500-1000" id="budget1" required>
-                            <label for="budget1">$500 - $1,000<br><small>Basic Website</small></label>
-                        </div>
-                        <div class="budget-option">
-                            <input type="radio" name="budget" value="1000-2500" id="budget2" required>
-                            <label for="budget2">$1,000 - $2,500<br><small>Standard Website</small></label>
-                        </div>
-                        <div class="budget-option">
-                            <input type="radio" name="budget" value="2500-5000" id="budget3" required>
-                            <label for="budget3">$2,500 - $5,000<br><small>Advanced Website</small></label>
-                        </div>
-                        <div class="budget-option">
-                            <input type="radio" name="budget" value="5000+" id="budget4" required>
-                            <label for="budget4">$5,000+<br><small>Enterprise Solution</small></label>
-                        </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label class="form-label">Project Timeline <span class="required">*</span></label>
+                        <select name="timeline" class="form-select" required>
+                            <option value="">Select timeline</option>
+                            <option value="asap">As soon as possible</option>
+                            <option value="1-2-weeks">1-2 weeks</option>
+                            <option value="3-4-weeks">3-4 weeks</option>
+                            <option value="1-2-months">1-2 months</option>
+                            <option value="3-6-months">3-6 months</option>
+                            <option value="flexible">I'm flexible</option>
+                        </select>
                     </div>
                 </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label class="form-label">Project Description <span class="required">*</span></label>
+                        <textarea name="description" class="form-textarea" placeholder="Please describe your project in detail. Include any specific requirements, design preferences, functionality needs, or inspiration websites you'd like us to reference." required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span class="btn-text">Submit Website Request</span>
+                    <div class="loading"></div>
+                </button>
+
+                <div class="success-message" id="successMessage">
+                    🎉 Thank you! Your website request has been submitted successfully. We'll contact you within 24 hours to discuss your project.
+                </div>
+
+                <div class="error-message" id="errorMessage">
+                    ❌ There was an error submitting your request. Please try again or contact us directly.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- REVIEWS SECTION -->
+    <div id="reviews-section" class="content-section">
+        <div class="reviews-container">
+            <h1 class="section-title">Client Reviews</h1>
+            <p class="section-subtitle">See what our clients say about working with Web VTec</p>
+
+            <!-- Add Review Form -->
+            <div class="review-form-container">
+                <h3 class="review-form-title">Share Your Experience</h3>
+                <form class="review-form" id="reviewForm">
+                    <input type="text" name="reviewerName" placeholder="Your Name" required>
+                    <div class="star-rating">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                        <span class="star" data-rating="4">★</span>
+                        <span class="star" data-rating="5">★</span>
+                    </div>
+                    <textarea name="reviewText" placeholder="Tell us about your experience with Web VTec..." required rows="4"></textarea>
+                    <button type="submit" class="review-submit-btn">Submit Review</button>
+                    <input type="hidden" name="rating" value="">
+                </form>
             </div>
 
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">Project Timeline <span class="required">*</span></label>
-                    <select name="timeline" class="form-select" required>
-                        <option value="">Select timeline</option>
-                        <option value="asap">As soon as possible</option>
-                        <option value="1-2-weeks">1-2 weeks</option>
-                        <option value="3-4-weeks">3-4 weeks</option>
-                        <option value="1-2-months">1-2 months</option>
-                        <option value="3-6-months">3-6 months</option>
-                        <option value="flexible">I'm flexible</option>
-                    </select>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">AM</div>
+                        <div class="reviewer-info">
+                            <h4>Alexander Mitchell</h4>
+                            <p>CEO, Mitchell Financial Group</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Web VTec completely revolutionized our financial services website. The new design increased our client inquiries by 200% and the automated lead management system saves us 10 hours per week. Outstanding work!"</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">SH</div>
+                        <div class="reviewer-info">
+                            <h4>Sophia Harrison</h4>
+                            <p>Owner, Harrison Real Estate</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"I needed a property listing website with virtual tour integration. Web VTec delivered beyond my expectations! The site is beautiful, fast, and the virtual tour feature has helped me close more deals remotely."</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">MR</div>
+                        <div class="reviewer-info">
+                            <h4>Marcus Rodriguez</h4>
+                            <p>Founder, FreshBite Food Delivery</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Web VTec built our entire food delivery platform from scratch. The ordering system, payment integration, and driver tracking features work flawlessly. Our business has grown 300% since launch!"</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">EB</div>
+                        <div class="reviewer-info">
+                            <h4>Emma Bennett</h4>
+                            <p>Director, Wellness Center Plus</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"The appointment booking system and client management portal Web VTec created for our wellness center is incredible. Clients love the ease of scheduling, and our admin work has been cut in half!"</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">JW</div>
+                        <div class="reviewer-info">
+                            <h4>James Wu</h4>
+                            <p>Owner, Wu's Authentic Asian Cuisine</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Web VTec transformed our family restaurant with an amazing website featuring online ordering, table reservations, and a loyalty program. Our online orders now make up 60% of our revenue!"</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">NK</div>
+                        <div class="reviewer-info">
+                            <h4>Natasha Kumar</h4>
+                            <p>Principal, Kumar Learning Academy</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"The e-learning platform Web VTec developed for our academy is phenomenal. Students and parents love the interactive features, progress tracking, and the mobile app. Enrollment increased by 150%!"</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">DT</div>
+                        <div class="reviewer-info">
+                            <h4>Dr. David Thompson</h4>
+                            <p>Pediatric Dentist</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Web VTec created a child-friendly website for my dental practice with online appointment booking and patient education videos. Parents love the convenience and kids actually get excited about dental visits now!"</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">LC</div>
+                        <div class="reviewer-info">
+                            <h4>Linda Chen</h4>
+                            <p>Founder, EcoFashion Boutique</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"My sustainable fashion e-commerce site by Web VTec is absolutely stunning! The inventory management, eco-friendly shipping calculator, and customer reviews system work perfectly. Sales tripled in 6 months!"</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">RP</div>
+                        <div class="reviewer-info">
+                            <h4>Robert Peterson</h4>
+                            <p>CEO, Peterson Law Firm</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Web VTec built us a professional law firm website with secure client portals, case tracking, and consultation booking. The site conveys trust and professionalism while being incredibly user-friendly."</p>
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">Existing Website URL (if applicable)</label>
-                    <input type="url" name="existingWebsite" class="form-input" placeholder="https://yourwebsite.com">
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">250+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">Project Description <span class="required">*</span></label>
-                    <textarea name="description" class="form-textarea" placeholder="Please describe your project in detail. Include any specific requirements, design preferences, functionality needs, or inspiration websites you'd like us to reference." required></textarea>
+            <div style="text-align: center;">
+                <a href="#" class="cta-button" onclick="showSection('request')">Start Your Project Today</a>
+            </div>
+        </div>
+    </div>⭐⭐⭐⭐</div>
+                    <p class="review-text">"From e-commerce setup to payment integration, Web VTec handled everything perfectly. Our online store is now generating more revenue than our physical location!"</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">LB</div>
+                        <div class="reviewer-info">
+                            <h4>Lisa Brown</h4>
+                            <p>Principal, Bright Minds Academy</p>
+                        </div>
+                    </div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="review-text">"Web VTec created an educational platform that both students and parents love. The user experience is intuitive and the backend management tools are fantastic."</p>
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group full-width">
-                    <label class="form-label">Additional Notes</label>
-                    <textarea name="additionalNotes" class="form-textarea" placeholder="Any additional information, questions, or special requirements you'd like to mention..."></textarea>
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
                 </div>
             </div>
 
-            <button type="submit" class="submit-btn">
-                <span class="btn-text">Submit Website Request</span>
-                <div class="loading"></div>
-            </button>
-
-            <div class="success-message" id="successMessage">
-                🎉 Thank you! Your website request has been submitted successfully. We'll contact you within 24 hours to discuss your project.
+            <div style="text-align: center;">
+                <a href="#" class="cta-button" onclick="showSection('request')">Start Your Project Today</a>
             </div>
-
-            <div class="error-message" id="errorMessage">
-                ❌ There was an error submitting your request. Please try again or contact us directly.
-            </div>
-        </form>
+        </div>
     </div>
 
     <script>
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show target section
+            document.getElementById(sectionName + '-section').classList.add('active');
+            
+            // Update nav active states
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            // Set active nav item
+            const navItems = document.querySelectorAll('.nav-item');
+            if (sectionName === 'home') navItems[0].classList.add('active');
+            if (sectionName === 'request') navItems[1].classList.add('active');
+            if (sectionName === 'reviews') navItems[2].classList.add('active');
+        }
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.cta-button, .client-button, .admin-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                }
+                
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Form submission handlers
         document.getElementById('websiteRequestForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -556,21 +1115,32 @@
             const formData = new FormData(this);
             const data = {};
             
-            // Handle regular form fields
             for (let [key, value] of formData.entries()) {
-                if (key === 'features') {
-                    if (!data.features) data.features = [];
-                    data.features.push(value);
-                } else {
-                    data[key] = value;
-                }
+                data[key] = value;
             }
             
-            // Handle checkboxes that weren't selected
-            if (!data.features) data.features = [];
-            
             // Format message for Telegram
-            const message = formatTelegramMessage(data);
+            const message = `
+🌟 NEW WEBSITE REQUEST - Web VTec 🌟
+
+👤 CLIENT INFORMATION:
+• Name: ${data.firstName} ${data.lastName}
+• Email: ${data.email}
+• Phone: ${data.phone}
+• Company: ${data.company || 'Not specified'}
+
+🎯 PROJECT DETAILS:
+• Website Type: ${data.websiteType}
+• Budget: ${data.budget}
+• Timeline: ${data.timeline}
+
+📝 PROJECT DESCRIPTION:
+${data.description}
+
+⏰ Submitted: ${new Date().toLocaleString()}
+
+🚀 Action Required: Contact client within 24 hours
+            `.trim();
             
             try {
                 // Replace with your actual Telegram Bot Token and Chat ID
@@ -608,90 +1178,123 @@
                 loading.style.display = 'none';
             }
         });
-        
-        function formatTelegramMessage(data) {
-            return `
-🌟 <b>NEW WEBSITE REQUEST - Web VTec</b> 🌟
 
-👤 <b>CLIENT INFORMATION:</b>
-• Name: ${data.firstName} ${data.lastName}
-• Email: ${data.email}
-• Phone: ${data.phone}
-• Company: ${data.company || 'Not specified'}
-
-🎯 <b>PROJECT DETAILS:</b>
-• Website Type: ${data.websiteType}
-• Budget: ${data.budget}
-• Timeline: ${data.timeline}
-• Existing Site: ${data.existingWebsite || 'None'}
-
-⚙️ <b>REQUIRED FEATURES:</b>
-${data.features && data.features.length > 0 ? 
-    data.features.map(feature => `• ${feature.replace('-', ' ').toUpperCase()}`).join('\n') : 
-    '• None specified'}
-
-📝 <b>PROJECT DESCRIPTION:</b>
-${data.description}
-
-📋 <b>ADDITIONAL NOTES:</b>
-${data.additionalNotes || 'None'}
-
-⏰ <b>Submitted:</b> ${new Date().toLocaleString()}
-
-🚀 <b>Action Required:</b> Contact client within 24 hours
-            `.trim();
-        }
-        
-        // Add smooth animations
-        document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
+        // Star rating functionality
+        let selectedRating = 0;
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.dataset.rating);
+                document.querySelector('input[name="rating"]').value = selectedRating;
+                
+                // Update visual state
+                document.querySelectorAll('.star').forEach((s, index) => {
+                    if (index < selectedRating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
             });
             
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
+            star.addEventListener('mouseover', function() {
+                const rating = parseInt(this.dataset.rating);
+                document.querySelectorAll('.star').forEach((s, index) => {
+                    if (index < rating) {
+                        s.style.color = '#FFC107';
+                        s.style.transform = 'scale(1.1)';
+                    } else {
+                        s.style.color = '#6B7280';
+                        s.style.transform = 'scale(1)';
+                    }
+                });
             });
         });
-        
-        // Add ripple effect to submit button
-        document.querySelector('.submit-btn').addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.cssText = `
-                position: absolute;
-                left: ${x}px;
-                top: ${y}px;
-                width: ${size}px;
-                height: ${size}px;
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 50%;
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                pointer-events: none;
-            `;
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-        
-        // Add CSS animation for ripple effect
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
+
+        document.querySelector('.star-rating').addEventListener('mouseleave', function() {
+            document.querySelectorAll('.star').forEach((s, index) => {
+                if (index < selectedRating) {
+                    s.style.color = '#FFC107';
+                    s.style.transform = 'scale(1.1)';
+                } else {
+                    s.style.color = '#6B7280';
+                    s.style.transform = 'scale(1)';
                 }
+            });
+        });
+
+        // Review form submission
+        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const reviewData = {
+                name: formData.get('reviewerName'),
+                rating: formData.get('rating'),
+                text: formData.get('reviewText')
+            };
+            
+            if (!reviewData.rating) {
+                alert('Please select a star rating!');
+                return;
             }
-        `;
-        document.head.appendChild(style);
+            
+            // Format review message for Telegram
+            const reviewMessage = `
+⭐ NEW REVIEW - Web VTec ⭐
+
+👤 Reviewer: ${reviewData.name}
+⭐ Rating: ${reviewData.rating}/5 stars
+📝 Review: ${reviewData.text}
+
+⏰ Submitted: ${new Date().toLocaleString()}
+            `.trim();
+            
+            try {
+                // Replace with your actual Telegram Bot Token and Chat ID
+                const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
+                const CHAT_ID = 'YOUR_CHAT_ID_HERE';
+                
+                const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                
+                const response = await fetch(telegramUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: reviewMessage,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                if (response.ok) {
+                    alert('Thank you for your review! It has been submitted successfully.');
+                    this.reset();
+                    selectedRating = 0;
+                    document.querySelectorAll('.star').forEach(s => {
+                        s.classList.remove('active');
+                        s.style.color = '#6B7280';
+                        s.style.transform = 'scale(1)';
+                    });
+                } else {
+                    throw new Error('Failed to send review');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('There was an error submitting your review. Please try again.');
+            }
+        });
+
+        // Mobile responsive adjustments
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll('.form-row').forEach(row => {
+                row.style.flexDirection = 'column';
+            });
+            
+            document.querySelector('.budget-range').style.flexDirection = 'column';
+        }
     </script>
 </body>
-</html>
+                    </html>
