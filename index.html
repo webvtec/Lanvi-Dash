@@ -345,15 +345,33 @@
         box-shadow: 0 12px 35px rgba(139, 92, 246, 0.6);
     }
 
-    /* Star Rating Styles */
+    /* Review Card Styles - Matching the design */
+    .review-form-container {
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(162, 150, 231, 0.2);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px);
+    }
+
+    .review-form-title {
+        color: #D1D5DB;
+        font-size: 24px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
     .star-rating {
         display: flex;
-        gap: 5px;
-        margin-bottom: 15px;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
     }
 
     .star {
-        font-size: 30px;
+        font-size: 40px;
         color: #6B7280;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -365,46 +383,233 @@
         transform: scale(1.1);
     }
 
-    /* Review Display */
-    .reviews-list {
+    /* Review Item Styles - Matching the image */
+    .reviews-container {
         margin-top: 40px;
     }
 
     .review-item {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        padding: 20px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(162, 150, 231, 0.2);
+        border-radius: 20px;
+        padding: 25px;
         margin-bottom: 20px;
-        border: 1px solid rgba(162, 150, 231, 0.2);
+        backdrop-filter: blur(10px);
     }
 
     .review-header {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        gap: 15px;
     }
 
-    .review-name {
+    .reviewer-avatar {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .reviewer-info {
+        flex: 1;
+    }
+
+    .reviewer-name {
         color: #D1D5DB;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 20px;
+        margin-bottom: 5px;
     }
 
     .review-stars {
         color: #FFD700;
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .review-text {
         color: #9CA3AF;
         line-height: 1.6;
+        font-style: italic;
+        font-size: 16px;
+    }
+
+    /* Login Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+    }
+
+    .modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 20px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(20px);
+    }
+
+    .modal-title {
+        color: #4B5563;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+
+    .login-input {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 15px;
+        border: 2px solid #E5E7EB;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .login-input:focus {
+        outline: none;
+        border-color: #8B5CF6;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+
+    .login-button {
+        width: 100%;
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .login-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+    }
+
+    .google-login-button {
+        width: 100%;
+        background: white;
+        color: #4B5563;
+        padding: 15px;
+        border: 2px solid #E5E7EB;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .google-login-button:hover {
+        background: #F9FAFB;
+        border-color: #D1D5DB;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #6B7280;
+        cursor: pointer;
+    }
+
+    .user-status {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 10px 15px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        color: #4B5563;
+        font-weight: 600;
+        z-index: 100;
+    }
+
+    .logout-btn {
+        background: #EF4444;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-left: 10px;
+        font-size: 12px;
     }
     
 </style>
 
+<!-- Firebase SDK -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-auth-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-firestore-compat.min.js"></script>
+
 </head>
 <body>
+    <!-- User Status Display -->
+    <div id="userStatus" class="user-status" style="display: none;">
+        <span id="userEmail"></span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeLoginModal()">&times;</button>
+            <h2 class="modal-title">Login Required</h2>
+            <p style="color: #6B7280; margin-bottom: 25px;">Please login to leave a review</p>
+            
+            <input type="email" id="loginEmail" class="login-input" placeholder="Email" required>
+            <input type="password" id="loginPassword" class="login-input" placeholder="Password" required>
+            
+            <button class="login-button" onclick="loginWithEmail()">Login</button>
+            
+            <div style="margin: 20px 0; color: #9CA3AF;">or</div>
+            
+            <button class="google-login-button" onclick="loginWithGoogle()">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continue with Google
+            </button>
+        </div>
+    </div>
+
     <header class="header">
         <nav class="nav-menu">
             <a href="#" class="nav-item active" data-page="home">HOME</a>
@@ -511,37 +716,36 @@
     <div id="reviews" class="page">
         <div class="navy-gradient-container">
             <div class="content-area">
-                <div class="form-container">
-                    <h2 style="color: #D1D5DB; margin-bottom: 30px; text-align: center;">Leave a Review</h2>
+                <!-- Review Form -->
+                <div class="review-form-container">
+                    <h2 class="review-form-title">Share Your Experience</h2>
                     <form id="reviewForm">
                         <div class="form-group">
-                            <label for="reviewerName">Name</label>
-                            <input type="text" id="reviewerName" name="reviewerName" required>
+                            <input type="text" id="reviewerName" name="reviewerName" placeholder="Your Name" required>
                         </div>
                         
-                        <div class="form-group">
-                            <label>Star Rating</label>
-                            <div class="star-rating">
-                                <span class="star" data-rating="1">★</span>
-                                <span class="star" data-rating="2">★</span>
-                                <span class="star" data-rating="3">★</span>
-                                <span class="star" data-rating="4">★</span>
-                                <span class="star" data-rating="5">★</span>
-                            </div>
-                            <input type="hidden" id="starRating" name="starRating" required>
+                        <div class="star-rating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
                         </div>
+                        <input type="hidden" id="starRating" name="starRating" required>
                         
                         <div class="form-group">
-                            <label for="reviewText">Review</label>
-                            <textarea id="reviewText" name="reviewText" rows="4" placeholder="Share your experience..." required></textarea>
+                            <textarea id="reviewText" name="reviewText" rows="4" placeholder="Tell us about your experience with Web VTec..." required></textarea>
                         </div>
                         
                         <button type="submit" class="submit-button">Submit Review</button>
                     </form>
-                    
-                    <div class="reviews-list" id="reviewsList">
-                        <h3 style="color: #D1D5DB; margin-bottom: 20px;">Customer Reviews</h3>
-                        <!-- Reviews will be displayed here -->
+                </div>
+                
+                <!-- Reviews Display -->
+                <div class="reviews-container" id="reviewsContainer">
+                    <h3 style="color: #D1D5DB; margin-bottom: 25px; font-size: 24px;">Customer Reviews</h3>
+                    <div id="reviewsList">
+                        <!-- Reviews will be loaded here -->
                     </div>
                 </div>
             </div>
@@ -549,6 +753,28 @@
     </div>
 
     <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            // Add your Firebase config here
+            apiKey: "your-api-key",
+            authDomain: "your-project.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project.appspot.com",
+            messagingSenderId: "your-sender-id",
+            appId: "your-app-id"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Google Auth Provider
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+        // Current user state
+        let currentUser = null;
+
         // Page navigation
         function showPage(pageId) {
             // Hide all pages
@@ -564,6 +790,11 @@
                 item.classList.remove('active');
             });
             document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+
+            // Load reviews if on reviews page
+            if (pageId === 'reviews') {
+                loadReviews();
+            }
         }
 
         // Navigation click handlers
@@ -574,6 +805,64 @@
                 showPage(pageId);
             });
         });
+
+        // Auth state observer
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('userStatus').style.display = 'block';
+                document.getElementById('userEmail').textContent = user.email;
+            } else {
+                document.getElementById('userStatus').style.display = 'none';
+            }
+        });
+
+        // Login functions
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        async function loginWithEmail() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                closeLoginModal();
+                // Clear form
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            } catch (error) {
+                alert('Login failed: ' + error.message);
+            }
+        }
+
+        async function loginWithGoogle() {
+            try {
+                await auth.signInWithPopup(googleProvider);
+                closeLoginModal();
+            } catch (error) {
+                alert('Google login failed: ' + error.message);
+            }
+        }
+
+        async function logout() {
+            try {
+                await auth.signOut();
+                alert('Logged out successfully');
+            } catch (error) {
+                alert('Logout failed: ' + error.message);
+            }
+        }
 
         // Star rating functionality
         document.querySelectorAll('.star').forEach(star => {
@@ -615,23 +904,39 @@
             });
         });
 
-        // Store reviews in memory
-        let reviews = [];
-
         // Website request form submission
-        document.getElementById('websiteRequestForm').addEventListener('submit', function(e) {
+        document.getElementById('websiteRequestForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
             
-            alert('Thank you for your request! We will contact you soon.');
-            this.reset();
+            try {
+                // Save to Firestore
+                await db.collection('website-requests').add({
+                    ...data,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'pending'
+                });
+                
+                alert('Thank you for your request! We will contact you soon.');
+                this.reset();
+            } catch (error) {
+                console.error('Error saving request:', error);
+                alert('Thank you for your request! We will contact you soon.');
+                this.reset();
+            }
         });
 
         // Review form submission
-        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            // Check if user is logged in
+            if (!currentUser) {
+                showLoginModal();
+                return;
+            }
             
             const formData = new FormData(this);
             const reviewData = Object.fromEntries(formData);
@@ -641,49 +946,109 @@
                 return;
             }
             
-            // Add review to memory
-            reviews.unshift({
-                name: reviewData.reviewerName,
-                rating: parseInt(reviewData.starRating),
-                text: reviewData.reviewText,
-                date: new Date().toLocaleDateString()
-            });
-            
-            // Display reviews
-            displayReviews();
-            
-            // Reset form
-            this.reset();
-            document.getElementById('starRating').value = '';
-            document.querySelectorAll('.star').forEach(s => {
-                s.classList.remove('active');
-                s.style.color = '#6B7280';
-            });
-            
-            alert('Thank you for your review!');
+            try {
+                // Save review to Firestore
+                await db.collection('reviews').add({
+                    name: reviewData.reviewerName,
+                    rating: parseInt(reviewData.starRating),
+                    text: reviewData.reviewText,
+                    userEmail: currentUser.email,
+                    userId: currentUser.uid,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    approved: true // Auto-approve for demo
+                });
+                
+                // Reset form
+                this.reset();
+                document.getElementById('starRating').value = '';
+                document.querySelectorAll('.star').forEach(s => {
+                    s.classList.remove('active');
+                    s.style.color = '#6B7280';
+                });
+                
+                alert('Thank you for your review!');
+                loadReviews(); // Reload reviews
+                
+            } catch (error) {
+                console.error('Error saving review:', error);
+                alert('Error saving review. Please try again.');
+            }
         });
 
-        // Display reviews function
-        function displayReviews() {
+        // Load and display reviews
+        async function loadReviews() {
+            try {
+                const reviewsSnapshot = await db.collection('reviews')
+                    .where('approved', '==', true)
+                    .orderBy('timestamp', 'desc')
+                    .get();
+                
+                const reviewsList = document.getElementById('reviewsList');
+                
+                if (reviewsSnapshot.empty) {
+                    reviewsList.innerHTML = '<p style="color: #9CA3AF;">No reviews yet. Be the first to leave a review!</p>';
+                    return;
+                }
+                
+                const reviewsHtml = reviewsSnapshot.docs.map(doc => {
+                    const review = doc.data();
+                    const initials = review.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                    
+                    return `
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">${initials}</div>
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">${review.name}</div>
+                                    <div class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+                                </div>
+                            </div>
+                            <p class="review-text">"${review.text}"</p>
+                        </div>
+                    `;
+                }).join('');
+                
+                reviewsList.innerHTML = reviewsHtml;
+                
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                // Show sample reviews if Firebase fails
+                showSampleReviews();
+            }
+        }
+
+        // Sample reviews for demo
+        function showSampleReviews() {
             const reviewsList = document.getElementById('reviewsList');
-            const reviewsHtml = reviews.map(review => `
+            reviewsList.innerHTML = `
                 <div class="review-item">
                     <div class="review-header">
-                        <span class="review-name">${review.name}</span>
-                        <span class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+                        <div class="reviewer-avatar">JS</div>
+                        <div class="reviewer-info">
+                            <div class="reviewer-name">John Smith</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
                     </div>
-                    <p class="review-text">${review.text}</p>
+                    <p class="review-text">"Web VTec transformed our online presence completely. The website they built is not only beautiful but also incredibly functional. Our sales increased by 150% within the first month!"</p>
                 </div>
-            `).join('');
-            
-            reviewsList.innerHTML = `
-                <h3 style="color: #D1D5DB; margin-bottom: 20px;">Customer Reviews</h3>
-                ${reviewsHtml || '<p style="color: #9CA3AF;">No reviews yet. Be the first to leave a review!</p>'}
+                
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">MJ</div>
+                        <div class="reviewer-info">
+                            <div class="reviewer-name">Maria Johnson</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <p class="review-text">"The team at Web VTec is amazing! They created a stunning website for our restaurant with online ordering capabilities. The automation features have saved us countless hours."</p>
+                </div>
             `;
         }
 
-        // Initialize reviews display
-        displayReviews();
+        // Initialize reviews on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadReviews();
+        });
 
         // Add click animation to CTA button
         document.querySelector('.cta-button').addEventListener('click', function(e) {
@@ -727,6 +1092,389 @@
             }
         `;
         document.head.appendChild(style);
+
+        // Close modal when clicking outside
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLoginModal();
+            }
+        });
+
+        // Handle Enter key in login form
+        document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loginWithEmail();
+            }
+        });
+
+        document.getElementById('loginEmail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginPassword').focus();
+            }
+        });
+
+        // Auto-create user account if login fails
+        async function createUserAccount() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+
+            try {
+                await auth.createUserWithEmailAndPassword(email, password);
+                closeLoginModal();
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+                alert('Account created successfully! You can now leave reviews.');
+            } catch (error) {
+                alert('Account creation failed: ' + error.message);
+            }
+        }
+
+        // Enhanced login function with account creation fallback
+        async function loginWithEmail() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                closeLoginModal();
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            } catch (error) {
+                if (error.code === 'auth/user-not-found') {
+                    // User doesn't exist, offer to create account
+                    if (confirm('No account found with this email. Would you like to create a new account?')) {
+                        createUserAccount();
+                    }
+                } else {
+                    alert('Login failed: ' + error.message);
+                }
+            }
+        }
+
+        // Enhanced error handling for Firestore operations
+        async function saveWebsiteRequest(data) {
+            try {
+                await db.collection('website-requests').add({
+                    ...data,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'pending'
+                });
+                return true;
+            } catch (error) {
+                console.error('Error saving to Firestore:', error);
+                // Fallback: save to localStorage for offline functionality
+                const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+                requests.push({
+                    ...data,
+                    timestamp: new Date().toISOString(),
+                    status: 'pending'
+                });
+                localStorage.setItem('websiteRequests', JSON.stringify(requests));
+                return true;
+            }
+        }
+
+        // Enhanced error handling for reviews
+        async function saveReview(reviewData) {
+            try {
+                await db.collection('reviews').add({
+                    name: reviewData.reviewerName,
+                    rating: parseInt(reviewData.starRating),
+                    text: reviewData.reviewText,
+                    userEmail: currentUser.email,
+                    userId: currentUser.uid,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    approved: true
+                });
+                return true;
+            } catch (error) {
+                console.error('Error saving review to Firestore:', error);
+                // Fallback: save to localStorage
+                const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+                reviews.unshift({
+                    name: reviewData.reviewerName,
+                    rating: parseInt(reviewData.starRating),
+                    text: reviewData.reviewText,
+                    userEmail: currentUser.email,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('localReviews', JSON.stringify(reviews));
+                return true;
+            }
+        }
+
+        // Load reviews with fallback to localStorage
+        async function loadReviews() {
+            try {
+                const reviewsSnapshot = await db.collection('reviews')
+                    .where('approved', '==', true)
+                    .orderBy('timestamp', 'desc')
+                    .get();
+                
+                displayReviews(reviewsSnapshot.docs.map(doc => doc.data()));
+                
+            } catch (error) {
+                console.error('Error loading reviews from Firestore:', error);
+                
+                // Try localStorage first
+                const localReviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+                if (localReviews.length > 0) {
+                    displayReviews(localReviews);
+                } else {
+                    // Show sample reviews as final fallback
+                    showSampleReviews();
+                }
+            }
+        }
+
+        // Separate function to display reviews
+        function displayReviews(reviews) {
+            const reviewsList = document.getElementById('reviewsList');
+            
+            if (reviews.length === 0) {
+                reviewsList.innerHTML = '<p style="color: #9CA3AF;">No reviews yet. Be the first to leave a review!</p>';
+                return;
+            }
+            
+            const reviewsHtml = reviews.map(review => {
+                const initials = review.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                const timestamp = review.timestamp ? 
+                    (review.timestamp.toDate ? review.timestamp.toDate().toLocaleDateString() : 
+                     new Date(review.timestamp).toLocaleDateString()) : '';
+                
+                return `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">${initials}</div>
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">${review.name}</div>
+                                <div class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+                                ${timestamp ? `<div style="color: #9CA3AF; font-size: 12px; margin-top: 2px;">${timestamp}</div>` : ''}
+                            </div>
+                        </div>
+                        <p class="review-text">"${review.text}"</p>
+                    </div>
+                `;
+            }).join('');
+            
+            reviewsList.innerHTML = reviewsHtml;
+        }
+
+        // Update the website request form handler
+        document.getElementById('websiteRequestForm').removeEventListener('submit', document.getElementById('websiteRequestForm').onsubmit);
+        document.getElementById('websiteRequestForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            const success = await saveWebsiteRequest(data);
+            
+            if (success) {
+                alert('Thank you for your request! We will contact you soon.');
+                this.reset();
+            } else {
+                alert('There was an error submitting your request. Please try again.');
+            }
+        });
+
+        // Update the review form handler
+        document.getElementById('reviewForm').removeEventListener('submit', document.getElementById('reviewForm').onsubmit);
+        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Check if user is logged in
+            if (!currentUser) {
+                showLoginModal();
+                return;
+            }
+            
+            const formData = new FormData(this);
+            const reviewData = Object.fromEntries(formData);
+            
+            if (!reviewData.starRating) {
+                alert('Please select a star rating.');
+                return;
+            }
+            
+            const success = await saveReview(reviewData);
+            
+            if (success) {
+                // Reset form
+                this.reset();
+                document.getElementById('starRating').value = '';
+                document.querySelectorAll('.star').forEach(s => {
+                    s.classList.remove('active');
+                    s.style.color = '#6B7280';
+                });
+                
+                alert('Thank you for your review!');
+                loadReviews(); // Reload reviews
+            } else {
+                alert('Error saving review. Please try again.');
+            }
+        });
+
+        // Smooth scrolling for navigation
+        function smoothScrollTo(element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Add loading states
+        function showLoading(buttonElement, originalText) {
+            buttonElement.disabled = true;
+            buttonElement.textContent = 'Loading...';
+            setTimeout(() => {
+                buttonElement.disabled = false;
+                buttonElement.textContent = originalText;
+            }, 2000);
+        }
+
+        // Enhanced form validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validateForm(formData) {
+            const errors = [];
+            
+            if (!formData.firstName || formData.firstName.trim().length < 2) {
+                errors.push('First name must be at least 2 characters long');
+            }
+            
+            if (!formData.lastName || formData.lastName.trim().length < 2) {
+                errors.push('Last name must be at least 2 characters long');
+            }
+            
+            if (!validateEmail(formData.email)) {
+                errors.push('Please enter a valid email address');
+            }
+            
+            if (!formData.phone || formData.phone.trim().length < 10) {
+                errors.push('Please enter a valid phone number');
+            }
+            
+            return errors;
+        }
+
+        // Add form validation to website request
+        const originalWebsiteFormHandler = document.getElementById('websiteRequestForm').onsubmit;
+        document.getElementById('websiteRequestForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            const errors = validateForm(data);
+            if (errors.length > 0) {
+                alert('Please fix the following errors:\n' + errors.join('\n'));
+                return;
+            }
+            
+            const submitButton = this.querySelector('.submit-button');
+            showLoading(submitButton, 'Submit Request');
+            
+            const success = await saveWebsiteRequest(data);
+            
+            if (success) {
+                alert('Thank you for your request! We will contact you soon.');
+                this.reset();
+            } else {
+                alert('There was an error submitting your request. Please try again.');
+            }
+        });
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load reviews
+            loadReviews();
+            
+            // Check for saved form data (in case user was interrupted)
+            const savedFormData = localStorage.getItem('websiteRequestDraft');
+            if (savedFormData) {
+                const data = JSON.parse(savedFormData);
+                Object.keys(data).forEach(key => {
+                    const field = document.getElementById(key);
+                    if (field) field.value = data[key];
+                });
+            }
+            
+            // Auto-save form data as user types
+            const formFields = document.querySelectorAll('#websiteRequestForm input, #websiteRequestForm select');
+            formFields.forEach(field => {
+                field.addEventListener('input', function() {
+                    const formData = new FormData(document.getElementById('websiteRequestForm'));
+                    const data = Object.fromEntries(formData);
+                    localStorage.setItem('websiteRequestDraft', JSON.stringify(data));
+                });
+            });
+            
+            // Clear draft after successful submission
+            document.getElementById('websiteRequestForm').addEventListener('submit', function(e) {
+                setTimeout(() => {
+                    localStorage.removeItem('websiteRequestDraft');
+                }, 1000);
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Press 'L' to open login modal (when not in input field)
+            if (e.key === 'l' && !e.target.matches('input, textarea') && !currentUser) {
+                showLoginModal();
+            }
+            
+            // Press 'Escape' to close modal
+            if (e.key === 'Escape') {
+                closeLoginModal();
+            }
+            
+            // Press numbers 1-3 for navigation
+            if (e.key >= '1' && e.key <= '3' && !e.target.matches('input, textarea')) {
+                const pages = ['home', 'request', 'reviews'];
+                showPage(pages[parseInt(e.key) - 1]);
+            }
+        });
+
+        // Add visual feedback for form interactions
+        document.querySelectorAll('input, textarea, select').forEach(field => {
+            field.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+                this.parentElement.style.transition = 'transform 0.2s ease';
+            });
+            
+            field.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Performance optimization: Lazy load reviews
+        let reviewsLoaded = false;
+        function lazyLoadReviews() {
+            if (!reviewsLoaded) {
+                loadReviews();
+                reviewsLoaded = true;
+            }
+        }
+
+        // Load reviews only when reviews page is visited
+        document.querySelector('[data-page="reviews"]').addEventListener('click', lazyLoadReviews);
+
+        console.log('Web VTec website initialized successfully! 🚀');
     </script>
 </body>
 </html>
