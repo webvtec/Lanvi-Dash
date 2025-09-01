@@ -12,10 +12,9 @@
     }
 
     body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #0A1E3F 0%, #A296E7 100%);
-        color: #A296E7;
-        min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0A1E3F 0%, #A296E7 100%);
+      color: #A296E7;
     }
 
     .header {
@@ -56,54 +55,51 @@
         color: white;
     }
 
-    /* Section Management */
-    .content-section {
+    /* Page sections */
+    .page {
         display: none;
-        animation: fadeIn 0.5s ease-in-out;
     }
 
-    .content-section.active {
+    .page.active {
         display: block;
     }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Home Section Styles */
+    /* Centered main section */
     .main-content {
         padding: 40px 20px;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;   /* stack logo + button */
+        align-items: center;      /* center horizontally */
+        justify-content: center;  /* center vertically */
         text-align: center;
         max-width: 1200px;
         margin: 0 auto;
     }
 
+    /* Circle with gradient background */
     .logo-container {
         width: 250px;
         height: 250px;
         background: radial-gradient(circle at center, #C715FF 0%, #000000 100%);
         border-radius: 50%;
         display: flex;
-        flex-direction: column;
+        flex-direction: column;   /* stack laptop + text vertically */
         align-items: center;
         justify-content: center;
         padding: 20px;
         box-shadow: 0 0 25px rgba(160, 32, 240, 0.6);
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 10px; /* space between logo and button */
     }
 
+    /* Laptop inside */
     .logo-svg {
         width: 100px;
         height: 100px;
         margin-bottom: 10px;
     }
 
+    /* Gradient text: WEB VTEC */
     .brand-name {
         font-size: 24px;
         font-weight: bold;
@@ -113,6 +109,7 @@
         letter-spacing: 2px;
     }
 
+    /* Gradient text: AUTOMATE NOW! */
     .brand-tagline {
         font-size: 12px;
         font-weight: bold;
@@ -123,10 +120,12 @@
         margin-top: 4px;
     }
 
-    .cta-button, .client-button, .admin-button {
+    /* Larger CTA button BELOW logo */
+    .cta-button {
         background: linear-gradient(135deg, #8B5CF6, #A855F7);
         color: white;
-        padding: 16px 40px;
+        margin-bottom: 1px; 
+        padding: 16px 40px;   /* bigger button */
         border: none;
         border-radius: 35px;
         font-size: 18px;
@@ -137,550 +136,290 @@
         text-decoration: none;
         display: inline-block;
         letter-spacing: 1px;
-        margin: 10px;
     }
 
-    .cta-button:hover, .client-button:hover, .admin-button:hover {
+    .cta-button:hover {
         transform: translateY(-3px);
         box-shadow: 0 12px 35px rgba(139, 92, 246, 0.6);
     }
 
-    .client-button, .admin-button {
-        font-size: 16px;
-        padding: 14px 36px;
+    @media (min-width: 769px) {
+    .cta-button {
+        margin-top: 15px; /* more breathing room under CTA */
     }
-
-    /* Welcome Section */
-    .welcome-section {
-        margin-top: 50px;
     }
 
     .divider-line {
         width: 100%;
         height: 2.5px;
         background: linear-gradient(90deg, transparent, #D1D5DB, transparent);
-        margin: 40px 0;
+        margin: 1px 0 10px 0;
     }
 
     .content-area {
-        background: rgba(255, 255, 255, 0.07);
+        min-height: 400px;
+        background: white;
         border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         padding: 30px;
-        margin: 20px auto;
-        max-width: 1200px;
-        color: #A296E7;
+        margin: 20px;
     }
 
-    /* Reviews Section Styles */
-    .reviews-container {
-        max-width: 1200px;
+    @media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .nav-menu {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        gap: 8px;
+        overflow: visible;
+    }
+
+    .nav-item {
+        flex-shrink: 1;
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: clip;
+        font-size: 11px;
+        padding: 5px 8px;
+        min-width: 0;
+    }
+
+    /* Smaller logo on mobile */
+    .logo-container {
+        width: 150px;
+        height: 150px;
+        padding: 15px;
+    }
+
+    .logo-svg {
+        width: 60px;
+        height: 60px;
+    }
+
+    .brand-name {
+        font-size: 20px;
+    }
+
+    .brand-tagline {
+        font-size: 8.5px;
+    }
+}
+
+    .navy-gradient-container {
+      background: linear-gradient(to bottom, #0A1E3F 0%, #A296E7 60%);
+      padding: 40px 20px;
+    }
+
+    .content-area {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 1200px;
+      color: #A296E7;
+    }
+
+    .client-button {
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        color: white;
+        padding: 14px 36px;
+        border: none;
+        border-radius: 35px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(75, 85, 99, 0.3);
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-bottom: 1px;
+        margin-top: 1px; /* mobile spacing */
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+
+    .client-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(75, 85, 99, 0.5);
+    }
+
+    /* Add more space only on desktop */
+    @media (min-width: 769px) {
+        .client-button {
+            margin-top: 15px; /* more breathing room under CTA */
+        }
+    }
+
+    .admin-button {
+        background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        color: white;
+        padding: 14px 36px;
+        border: none;
+        border-radius: 35px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(75, 85, 99, 0.3);
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-bottom: 1px;
+        margin-top: 1px; /* mobile spacing */
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+
+    .admin-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(75, 85, 99, 0.5);
+    }
+
+    /* Add more space only on desktop */
+    @media (min-width: 769px) {
+        .admin-button {
+            margin-top: 15px; /* more breathing room under CTA */
+        }
+    }
+
+    /* Form Styles */
+    .form-container {
+        max-width: 600px;
         margin: 0 auto;
         padding: 40px 20px;
     }
 
-    .section-title {
-        font-size: 2.5em;
-        font-weight: bold;
-        background: linear-gradient(135deg, #C715FF, #8B5CF6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-
-    .section-subtitle {
-        color: #9CA3AF;
-        font-size: 1.2em;
-        line-height: 1.6;
-        text-align: center;
-        margin-bottom: 50px;
-    }
-
-    .reviews-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 30px;
-        margin-bottom: 40px;
-    }
-
-    .review-card {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.3s ease;
-    }
-
-    .review-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 40px rgba(139, 92, 246, 0.3);
-    }
-
-    .review-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .reviewer-avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #8B5CF6, #A855F7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-        margin-right: 15px;
-    }
-
-    .reviewer-info h4 {
-        color: #D1D5DB;
-        margin-bottom: 5px;
-    }
-
-    .reviewer-info p {
-        color: #9CA3AF;
-        font-size: 0.9em;
-    }
-
-    .stars {
-        color: #FFC107;
-        margin-bottom: 15px;
-        font-size: 1.2em;
-    }
-
-    .review-text {
-        color: #B1B5C3;
-        line-height: 1.6;
-        font-style: italic;
-    }
-
-    .stats-section {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 30px;
-        margin: 50px 0;
-    }
-
-    .stat-card {
-        text-align: center;
-        background: rgba(255, 255, 255, 0.05);
-        padding: 30px;
-        border-radius: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .stat-number {
-        font-size: 2.5em;
-        font-weight: bold;
-        background: linear-gradient(135deg, #C715FF, #8B5CF6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 10px;
-    }
-
-    .stat-label {
-        color: #9CA3AF;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    /* Request Form Styles */
-    .form-container {
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 20px;
-    }
-
-    .form-header {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .form-title {
-        font-size: 2.5em;
-        font-weight: bold;
-        background: linear-gradient(135deg, #C715FF, #8B5CF6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 10px;
-    }
-
-    .form-subtitle {
-        color: #9CA3AF;
-        font-size: 1.1em;
-        line-height: 1.6;
-    }
-
-    .request-form {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .form-row {
-        display: flex;
-        gap: 20px;
+    .form-group {
         margin-bottom: 25px;
     }
 
-    .form-group {
-        flex: 1;
-    }
-
-    .form-group.full-width {
-        flex: none;
-        width: 100%;
-    }
-
-    .form-label {
+    .form-group label {
         display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
         color: #D1D5DB;
-        font-size: 14px;
-        letter-spacing: 0.5px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 16px;
     }
 
-    .required {
-        color: #EF4444;
-    }
-
-    .form-input,
-    .form-select,
-    .form-textarea {
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
         width: 100%;
-        padding: 15px 20px;
-        border: 2px solid rgba(255, 255, 255, 0.2);
+        padding: 15px;
+        border: 2px solid rgba(162, 150, 231, 0.3);
         border-radius: 12px;
         background: rgba(255, 255, 255, 0.1);
-        color: #FFFFFF;
+        color: #D1D5DB;
         font-size: 16px;
         transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
     }
 
-    .form-input:focus,
-    .form-select:focus,
-    .form-textarea:focus {
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
         outline: none;
         border-color: #8B5CF6;
-        background: rgba(255, 255, 255, 0.15);
         box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
     }
 
-    .form-input::placeholder,
-    .form-textarea::placeholder {
-        color: #9CA3AF;
-    }
-
-    .form-select {
-        cursor: pointer;
-    }
-
-    .form-select option {
-        background: #1F2937;
-        color: #FFFFFF;
-        padding: 10px;
-    }
-
-    .form-textarea {
-        min-height: 120px;
-        resize: vertical;
-    }
-
-    .budget-range {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 20px;
-        border-radius: 12px;
-        margin-top: 10px;
-    }
-
-    .budget-option {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        cursor: pointer;
-        padding: 15px;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-        flex: 1;
-        margin: 0 5px;
-    }
-
-    .budget-option:hover {
-        background: rgba(139, 92, 246, 0.1);
-    }
-
-    .budget-option input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        margin-bottom: 8px;
-        accent-color: #8B5CF6;
-    }
-
-    .budget-option label {
-        color: #D1D5DB;
-        font-size: 14px;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    .submit-btn {
-        width: 100%;
+    .submit-button {
         background: linear-gradient(135deg, #8B5CF6, #A855F7);
         color: white;
-        padding: 18px 40px;
+        padding: 16px 40px;
         border: none;
-        border-radius: 15px;
+        border-radius: 35px;
         font-size: 18px;
         font-weight: 700;
         cursor: pointer;
         box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
         transition: all 0.3s ease;
+        width: 100%;
         letter-spacing: 1px;
-        margin-top: 30px;
-        position: relative;
-        overflow: hidden;
     }
 
-    .submit-btn:hover {
-        transform: translateY(-2px);
+    .submit-button:hover {
+        transform: translateY(-3px);
         box-shadow: 0 12px 35px rgba(139, 92, 246, 0.6);
     }
 
-    .submit-btn:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    .loading {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .loading::after {
-        content: '';
-        width: 20px;
-        height: 20px;
-        border: 2px solid #ffffff;
-        border-top: 2px solid transparent;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    .success-message {
-        display: none;
-        background: rgba(34, 197, 94, 0.1);
-        border: 2px solid #22C55E;
-        color: #22C55E;
-        padding: 20px;
-        border-radius: 12px;
-        margin-top: 20px;
-        text-align: center;
-        font-weight: 600;
-    }
-
-    .error-message {
-        display: none;
-        background: rgba(239, 68, 68, 0.1);
-        border: 2px solid #EF4444;
-        color: #EF4444;
-        padding: 20px;
-        border-radius: 12px;
-        margin-top: 20px;
-        text-align: center;
-        font-weight: 600;
-    }
-
-    /* Review Form Styles */
-    .review-form-container {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .review-form-title {
-        color: #D1D5DB;
-        font-size: 1.5em;
-        margin-bottom: 20px;
-        font-weight: 600;
-    }
-
-    .review-form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        max-width: 500px;
-        margin: 0 auto;
-    }
-
-    .review-form input,
-    .review-form textarea {
-        width: 100%;
-        padding: 15px 20px;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.1);
-        color: #FFFFFF;
-        font-size: 16px;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-    }
-
-    .review-form input:focus,
-    .review-form textarea:focus {
-        outline: none;
-        border-color: #8B5CF6;
-        background: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
-    }
-
-    .review-form input::placeholder,
-    .review-form textarea::placeholder {
-        color: #9CA3AF;
-    }
-
+    /* Star Rating Styles */
     .star-rating {
         display: flex;
-        justify-content: center;
         gap: 5px;
-        margin: 10px 0;
+        margin-bottom: 15px;
     }
 
     .star {
-        font-size: 2em;
+        font-size: 30px;
         color: #6B7280;
         cursor: pointer;
         transition: all 0.2s ease;
-        user-select: none;
     }
 
     .star:hover,
     .star.active {
-        color: #FFC107;
+        color: #FFD700;
         transform: scale(1.1);
     }
 
-    .review-submit-btn {
-        background: linear-gradient(135deg, #8B5CF6, #A855F7);
-        color: white;
-        padding: 12px 30px;
-        border: none;
+    /* Review Display */
+    .reviews-list {
+        margin-top: 40px;
+    }
+
+    .review-item {
+        background: rgba(255, 255, 255, 0.05);
         border-radius: 12px;
-        font-size: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(162, 150, 231, 0.2);
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .review-name {
+        color: #D1D5DB;
         font-weight: 600;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-        transition: all 0.3s ease;
-        margin-top: 10px;
+        font-size: 18px;
     }
 
-    .review-submit-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+    .review-stars {
+        color: #FFD700;
+        font-size: 16px;
     }
 
-    /* Mobile Styles */
-    @media (max-width: 768px) {
-        .main-content {
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .nav-menu {
-            flex-wrap: nowrap;
-            justify-content: space-between;
-            gap: 8px;
-        }
-
-        .nav-item {
-            flex-shrink: 1;
-            white-space: nowrap;
-            font-size: 11px;
-            padding: 5px 8px;
-        }
-
-        .logo-container {
-            width: 150px;
-            height: 150px;
-            padding: 15px;
-        }
-
-        .logo-svg {
-            width: 60px;
-            height: 60px;
-        }
-
-        .brand-name {
-            font-size: 20px;
-        }
-
-        .brand-tagline {
-            font-size: 8.5px;
-        }
-
-        .reviews-grid {
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        .stats-section {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .section-title {
-            font-size: 2em;
-        }
-
-        .cta-button, .client-button, .admin-button {
-            width: 90%;
-            margin: 5px;
-        }
+    .review-text {
+        color: #9CA3AF;
+        line-height: 1.6;
     }
+    
 </style>
+
 </head>
 <body>
     <header class="header">
         <nav class="nav-menu">
-            <a href="#" class="nav-item active" onclick="showSection('home')">HOME</a>
-            <a href="#" class="nav-item" onclick="showSection('request')">REQUEST WEBSITE NOW</a>
-            <a href="#" class="nav-item" onclick="showSection('reviews')">REVIEWS</a>
+            <a href="#" class="nav-item active" data-page="home">HOME</a>
+            <a href="#" class="nav-item" data-page="request">REQUEST WEBSITE NOW</a>
+            <a href="#" class="nav-item" data-page="reviews">REVIEWS</a>
         </nav>
     </header>
 
-    <!-- HOME SECTION -->
-    <div id="home-section" class="content-section active">
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
         <main class="main-content">
+            <!-- Centered Logo -->
             <div class="logo-section">
                 <div class="logo-container">
+                    <!-- Laptop -->
                     <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <rect x="20" y="20" width="60" height="40" rx="3" ry="3"
                               fill="none" stroke="#000" stroke-width="3" />
@@ -694,6 +433,7 @@
                               fill="#000" />
                     </svg>
 
+                    <!-- Text INSIDE the circle -->
                     <div class="brand-text">
                         <div class="brand-name">WEB VTEC</div>
                         <div class="brand-tagline">AUTOMATE NOW!</div>
@@ -701,13 +441,15 @@
                 </div>
             </div>
 
-            <a href="#" class="cta-button" onclick="showSection('request')">REQUEST WEBSITE NOW</a>
+            <!-- CTA button BELOW the logo -->
+            <button class="cta-button" onclick="showPage('request')">REQUEST WEBSITE NOW</button>
             <a href="#" class="client-button">CLIENT DASHBOARD</a>
             <a href="#" class="admin-button">ADMIN</a>
         </main>
 
-        <div class="welcome-section">
-            <div class="divider-line"></div>
+        <div class="divider-line"></div>
+
+        <div class="navy-gradient-container">
             <div class="content-area">
                 <h2 style="color: #D1D5DB; margin-bottom: 20px;">Welcome to Web VTec</h2>
                 <p style="color: #9CA3AF; line-height: 1.6;">
@@ -718,477 +460,130 @@
         </div>
     </div>
 
-    <!-- REQUEST SECTION -->
-    <div id="request-section" class="content-section">
-        <div class="form-container">
-            <div class="form-header">
-                <h1 class="form-title">Request Your Website</h1>
-                <p class="form-subtitle">Tell us about your project and we'll create the perfect website solution for your business</p>
-            </div>
-
-            <form class="request-form" id="websiteRequestForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">First Name <span class="required">*</span></label>
-                        <input type="text" name="firstName" class="form-input" placeholder="Enter your first name" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Last Name <span class="required">*</span></label>
-                        <input type="text" name="lastName" class="form-input" placeholder="Enter your last name" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Email Address <span class="required">*</span></label>
-                        <input type="email" name="email" class="form-input" placeholder="your.email@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone Number <span class="required">*</span></label>
-                        <input type="tel" name="phone" class="form-input" placeholder="+1 (555) 123-4567" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label class="form-label">Company/Organization Name</label>
-                        <input type="text" name="company" class="form-input" placeholder="Your business name (optional)">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label class="form-label">Website Type <span class="required">*</span></label>
-                        <select name="websiteType" class="form-select" required>
-                            <option value="">Select website type</option>
-                            <option value="business">Business/Corporate Website</option>
-                            <option value="ecommerce">E-commerce Store</option>
-                            <option value="portfolio">Portfolio/Personal Website</option>
-                            <option value="blog">Blog/News Website</option>
-                            <option value="restaurant">Restaurant/Food Service</option>
-                            <option value="medical">Medical/Healthcare</option>
-                            <option value="education">Educational/Training</option>
-                            <option value="nonprofit">Non-profit Organization</option>
-                            <option value="real-estate">Real Estate</option>
-                            <option value="other">Other (please specify in description)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label class="form-label">Project Budget <span class="required">*</span></label>
-                        <div class="budget-range">
-                            <div class="budget-option">
-                                <input type="radio" name="budget" value="500-1000" id="budget1" required>
-                                <label for="budget1">$500 - $1,000<br><small>Basic Website</small></label>
-                            </div>
-                            <div class="budget-option">
-                                <input type="radio" name="budget" value="1000-2500" id="budget2" required>
-                                <label for="budget2">$1,000 - $2,500<br><small>Standard Website</small></label>
-                            </div>
-                            <div class="budget-option">
-                                <input type="radio" name="budget" value="2500-5000" id="budget3" required>
-                                <label for="budget3">$2,500 - $5,000<br><small>Advanced Website</small></label>
-                            </div>
-                            <div class="budget-option">
-                                <input type="radio" name="budget" value="5000+" id="budget4" required>
-                                <label for="budget4">$5,000+<br><small>Enterprise Solution</small></label>
-                            </div>
+    <!-- REQUEST WEBSITE PAGE -->
+    <div id="request" class="page">
+        <div class="navy-gradient-container">
+            <div class="content-area">
+                <div class="form-container">
+                    <h2 style="color: #D1D5DB; margin-bottom: 30px; text-align: center;">Request Your Website</h2>
+                    <form id="websiteRequestForm">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required>
                         </div>
-                    </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="websiteType">Website Type</label>
+                            <select id="websiteType" name="websiteType" required>
+                                <option value="">Select Website Type</option>
+                                <option value="business">Business Website</option>
+                                <option value="ecommerce">E-commerce</option>
+                                <option value="portfolio">Portfolio</option>
+                                <option value="blog">Blog</option>
+                                <option value="landing">Landing Page</option>
+                                <option value="custom">Custom Solution</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="submit-button">Submit Request</button>
+                    </form>
                 </div>
-
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label class="form-label">Project Timeline <span class="required">*</span></label>
-                        <select name="timeline" class="form-select" required>
-                            <option value="">Select timeline</option>
-                            <option value="asap">As soon as possible</option>
-                            <option value="1-2-weeks">1-2 weeks</option>
-                            <option value="3-4-weeks">3-4 weeks</option>
-                            <option value="1-2-months">1-2 months</option>
-                            <option value="3-6-months">3-6 months</option>
-                            <option value="flexible">I'm flexible</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group full-width">
-                        <label class="form-label">Project Description <span class="required">*</span></label>
-                        <textarea name="description" class="form-textarea" placeholder="Please describe your project in detail. Include any specific requirements, design preferences, functionality needs, or inspiration websites you'd like us to reference." required></textarea>
-                    </div>
-                </div>
-
-                <button type="submit" class="submit-btn">
-                    <span class="btn-text">Submit Website Request</span>
-                    <div class="loading"></div>
-                </button>
-
-                <div class="success-message" id="successMessage">
-                    🎉 Thank you! Your website request has been submitted successfully. We'll contact you within 24 hours to discuss your project.
-                </div>
-
-                <div class="error-message" id="errorMessage">
-                    ❌ There was an error submitting your request. Please try again or contact us directly.
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
-    <!-- REVIEWS SECTION -->
-    <div id="reviews-section" class="content-section">
-        <div class="reviews-container">
-            <h1 class="section-title">Client Reviews</h1>
-            <p class="section-subtitle">See what our clients say about working with Web VTec</p>
-
-            <!-- Add Review Form -->
-            <div class="review-form-container">
-                <h3 class="review-form-title">Share Your Experience</h3>
-                <form class="review-form" id="reviewForm">
-                    <input type="text" name="reviewerName" placeholder="Your Name" required>
-                    <div class="star-rating">
-                        <span class="star" data-rating="1">★</span>
-                        <span class="star" data-rating="2">★</span>
-                        <span class="star" data-rating="3">★</span>
-                        <span class="star" data-rating="4">★</span>
-                        <span class="star" data-rating="5">★</span>
-                    </div>
-                    <textarea name="reviewText" placeholder="Tell us about your experience with Web VTec..." required rows="4"></textarea>
-                    <button type="submit" class="review-submit-btn">Submit Review</button>
-                    <input type="hidden" name="rating" value="">
-                </form>
-            </div>
-
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">AM</div>
-                        <div class="reviewer-info">
-                            <h4>Alexander Mitchell</h4>
-                            <p>CEO, Mitchell Financial Group</p>
+    <!-- REVIEWS PAGE -->
+    <div id="reviews" class="page">
+        <div class="navy-gradient-container">
+            <div class="content-area">
+                <div class="form-container">
+                    <h2 style="color: #D1D5DB; margin-bottom: 30px; text-align: center;">Leave a Review</h2>
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label for="reviewerName">Name</label>
+                            <input type="text" id="reviewerName" name="reviewerName" required>
                         </div>
-                    </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"Web VTec completely revolutionized our financial services website. The new design increased our client inquiries by 200% and the automated lead management system saves us 10 hours per week. Outstanding work!"</p>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">SH</div>
-                        <div class="reviewer-info">
-                            <h4>Sophia Harrison</h4>
-                            <p>Owner, Harrison Real Estate</p>
+                        
+                        <div class="form-group">
+                            <label>Star Rating</label>
+                            <div class="star-rating">
+                                <span class="star" data-rating="1">★</span>
+                                <span class="star" data-rating="2">★</span>
+                                <span class="star" data-rating="3">★</span>
+                                <span class="star" data-rating="4">★</span>
+                                <span class="star" data-rating="5">★</span>
+                            </div>
+                            <input type="hidden" id="starRating" name="starRating" required>
                         </div>
-                    </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"I needed a property listing website with virtual tour integration. Web VTec delivered beyond my expectations! The site is beautiful, fast, and the virtual tour feature has helped me close more deals remotely."</p>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">MR</div>
-                        <div class="reviewer-info">
-                            <h4>Marcus Rodriguez</h4>
-                            <p>Founder, FreshBite Food Delivery</p>
+                        
+                        <div class="form-group">
+                            <label for="reviewText">Review</label>
+                            <textarea id="reviewText" name="reviewText" rows="4" placeholder="Share your experience..." required></textarea>
                         </div>
+                        
+                        <button type="submit" class="submit-button">Submit Review</button>
+                    </form>
+                    
+                    <div class="reviews-list" id="reviewsList">
+                        <h3 style="color: #D1D5DB; margin-bottom: 20px;">Customer Reviews</h3>
+                        <!-- Reviews will be displayed here -->
                     </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"Web VTec built our entire food delivery platform from scratch. The ordering system, payment integration, and driver tracking features work flawlessly. Our business has grown 300% since launch!"</p>
                 </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">EB</div>
-                        <div class="reviewer-info">
-                            <h4>Emma Bennett</h4>
-                            <p>Director, Wellness Center Plus</p>
-                        </div>
-                    </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"The appointment booking system and client management portal Web VTec created for our wellness center is incredible. Clients love the ease of scheduling, and our admin work has been cut in half!"</p>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">JW</div>
-                        <div class="reviewer-info">
-                            <h4>James Wu</h4>
-                            <p>Owner, Wu's Authentic Asian Cuisine</p>
-                        </div>
-                    </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"Web VTec transformed our family restaurant with an amazing website featuring online ordering, table reservations, and a loyalty program. Our online orders now make up 60% of our revenue!"</p>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">NK</div>
-                        <div class="reviewer-info">
-                            <h4>Natasha Kumar</h4>
-                            <p>Principal, Kumar Learning Academy</p>
-                        </div>
-                    </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"The e-learning platform Web VTec developed for our academy is phenomenal. Students and parents love the interactive features, progress tracking, and the mobile app. Enrollment increased by 150%!"</p>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">DT</div>
-                        <div class="reviewer-info">
-                            <h4>Dr. David Thompson</h4>
-                            <p>Pediatric Dentist</p>
-                        </div>
-                    </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"Web VTec created a child-friendly website for my dental practice with online appointment booking and patient education videos. Parents love the convenience and kids actually get excited about dental visits now!"</p>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">LC</div>
-                        <div class="reviewer-info">
-                            <h4>Linda Chen</h4>
-                            <p>Founder, EcoFashion Boutique</p>
-                        </div>
-                    </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"My sustainable fashion e-commerce site by Web VTec is absolutely stunning! The inventory management, eco-friendly shipping calculator, and customer reviews system work perfectly. Sales tripled in 6 months!"</p>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">RP</div>
-                        <div class="reviewer-info">
-                            <h4>Robert Peterson</h4>
-                            <p>CEO, Peterson Law Firm</p>
-                        </div>
-                    </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"Web VTec built us a professional law firm website with secure client portals, case tracking, and consultation booking. The site conveys trust and professionalism while being incredibly user-friendly."</p>
-                </div>
-            </div>
-
-            <div class="stats-section">
-                <div class="stat-card">
-                    <div class="stat-number">150+</div>
-                    <div class="stat-label">Happy Clients</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">250+</div>
-                    <div class="stat-label">Projects Completed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">99%</div>
-                    <div class="stat-label">Client Satisfaction</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Support Available</div>
-                </div>
-            </div>
-
-            <div style="text-align: center;">
-                <a href="#" class="cta-button" onclick="showSection('request')">Start Your Project Today</a>
-            </div>
-        </div>
-    </div>⭐⭐⭐⭐</div>
-                    <p class="review-text">"From e-commerce setup to payment integration, Web VTec handled everything perfectly. Our online store is now generating more revenue than our physical location!"</p>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">LB</div>
-                        <div class="reviewer-info">
-                            <h4>Lisa Brown</h4>
-                            <p>Principal, Bright Minds Academy</p>
-                        </div>
-                    </div>
-                    <div class="stars">⭐⭐⭐⭐⭐</div>
-                    <p class="review-text">"Web VTec created an educational platform that both students and parents love. The user experience is intuitive and the backend management tools are fantastic."</p>
-                </div>
-            </div>
-
-            <div class="stats-section">
-                <div class="stat-card">
-                    <div class="stat-number">50+</div>
-                    <div class="stat-label">Happy Clients</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">100+</div>
-                    <div class="stat-label">Projects Completed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">98%</div>
-                    <div class="stat-label">Client Satisfaction</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Support Available</div>
-                </div>
-            </div>
-
-            <div style="text-align: center;">
-                <a href="#" class="cta-button" onclick="showSection('request')">Start Your Project Today</a>
             </div>
         </div>
     </div>
 
     <script>
-        function showSection(sectionName) {
-            // Hide all sections
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
             });
             
-            // Show target section
-            document.getElementById(sectionName + '-section').classList.add('active');
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
             
-            // Update nav active states
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
             });
-            
-            // Set active nav item
-            const navItems = document.querySelectorAll('.nav-item');
-            if (sectionName === 'home') navItems[0].classList.add('active');
-            if (sectionName === 'request') navItems[1].classList.add('active');
-            if (sectionName === 'reviews') navItems[2].classList.add('active');
+            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
         }
 
-        // Add ripple effect to buttons
-        document.querySelectorAll('.cta-button, .client-button, .admin-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                if (this.getAttribute('href') === '#') {
-                    e.preventDefault();
-                }
-                
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.cssText = `
-                    position: absolute;
-                    left: ${x}px;
-                    top: ${y}px;
-                    width: ${size}px;
-                    height: ${size}px;
-                    background: rgba(255, 255, 255, 0.3);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s linear;
-                    pointer-events: none;
-                `;
-                
-                this.style.position = 'relative';
-                this.style.overflow = 'hidden';
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+        // Navigation click handlers
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
             });
-        });
-
-        // Form submission handlers
-        document.getElementById('websiteRequestForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.querySelector('.submit-btn');
-            const btnText = document.querySelector('.btn-text');
-            const loading = document.querySelector('.loading');
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
-            
-            // Show loading state
-            submitBtn.disabled = true;
-            btnText.style.visibility = 'hidden';
-            loading.style.display = 'block';
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
-            
-            // Collect form data
-            const formData = new FormData(this);
-            const data = {};
-            
-            for (let [key, value] of formData.entries()) {
-                data[key] = value;
-            }
-            
-            // Format message for Telegram
-            const message = `
-🌟 NEW WEBSITE REQUEST - Web VTec 🌟
-
-👤 CLIENT INFORMATION:
-• Name: ${data.firstName} ${data.lastName}
-• Email: ${data.email}
-• Phone: ${data.phone}
-• Company: ${data.company || 'Not specified'}
-
-🎯 PROJECT DETAILS:
-• Website Type: ${data.websiteType}
-• Budget: ${data.budget}
-• Timeline: ${data.timeline}
-
-📝 PROJECT DESCRIPTION:
-${data.description}
-
-⏰ Submitted: ${new Date().toLocaleString()}
-
-🚀 Action Required: Contact client within 24 hours
-            `.trim();
-            
-            try {
-                // Replace with your actual Telegram Bot Token and Chat ID
-                const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
-                const CHAT_ID = 'YOUR_CHAT_ID_HERE';
-                
-                const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-                
-                const response = await fetch(telegramUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
-                });
-                
-                if (response.ok) {
-                    successMessage.style.display = 'block';
-                    this.reset();
-                } else {
-                    throw new Error('Failed to send message');
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
-                errorMessage.style.display = 'block';
-            } finally {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.style.visibility = 'visible';
-                loading.style.display = 'none';
-            }
         });
 
         // Star rating functionality
-        let selectedRating = 0;
         document.querySelectorAll('.star').forEach(star => {
             star.addEventListener('click', function() {
-                selectedRating = parseInt(this.dataset.rating);
-                document.querySelector('input[name="rating"]').value = selectedRating;
+                const rating = parseInt(this.getAttribute('data-rating'));
+                document.getElementById('starRating').value = rating;
                 
-                // Update visual state
+                // Update star display
                 document.querySelectorAll('.star').forEach((s, index) => {
-                    if (index < selectedRating) {
+                    if (index < rating) {
                         s.classList.add('active');
                     } else {
                         s.classList.remove('active');
@@ -1197,104 +592,141 @@ ${data.description}
             });
             
             star.addEventListener('mouseover', function() {
-                const rating = parseInt(this.dataset.rating);
+                const rating = parseInt(this.getAttribute('data-rating'));
                 document.querySelectorAll('.star').forEach((s, index) => {
                     if (index < rating) {
-                        s.style.color = '#FFC107';
-                        s.style.transform = 'scale(1.1)';
+                        s.style.color = '#FFD700';
                     } else {
                         s.style.color = '#6B7280';
-                        s.style.transform = 'scale(1)';
                     }
                 });
             });
         });
 
+        // Reset star colors on mouse leave
         document.querySelector('.star-rating').addEventListener('mouseleave', function() {
+            const currentRating = parseInt(document.getElementById('starRating').value) || 0;
             document.querySelectorAll('.star').forEach((s, index) => {
-                if (index < selectedRating) {
-                    s.style.color = '#FFC107';
-                    s.style.transform = 'scale(1.1)';
+                if (index < currentRating) {
+                    s.style.color = '#FFD700';
                 } else {
                     s.style.color = '#6B7280';
-                    s.style.transform = 'scale(1)';
                 }
             });
         });
 
-        // Review form submission
-        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
+        // Store reviews in memory
+        let reviews = [];
+
+        // Website request form submission
+        document.getElementById('websiteRequestForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
-            const reviewData = {
-                name: formData.get('reviewerName'),
-                rating: formData.get('rating'),
-                text: formData.get('reviewText')
-            };
+            const data = Object.fromEntries(formData);
             
-            if (!reviewData.rating) {
-                alert('Please select a star rating!');
+            alert('Thank you for your request! We will contact you soon.');
+            this.reset();
+        });
+
+        // Review form submission
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const reviewData = Object.fromEntries(formData);
+            
+            if (!reviewData.starRating) {
+                alert('Please select a star rating.');
                 return;
             }
             
-            // Format review message for Telegram
-            const reviewMessage = `
-⭐ NEW REVIEW - Web VTec ⭐
-
-👤 Reviewer: ${reviewData.name}
-⭐ Rating: ${reviewData.rating}/5 stars
-📝 Review: ${reviewData.text}
-
-⏰ Submitted: ${new Date().toLocaleString()}
-            `.trim();
-            
-            try {
-                // Replace with your actual Telegram Bot Token and Chat ID
-                const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
-                const CHAT_ID = 'YOUR_CHAT_ID_HERE';
-                
-                const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-                
-                const response = await fetch(telegramUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: reviewMessage,
-                        parse_mode: 'HTML'
-                    })
-                });
-                
-                if (response.ok) {
-                    alert('Thank you for your review! It has been submitted successfully.');
-                    this.reset();
-                    selectedRating = 0;
-                    document.querySelectorAll('.star').forEach(s => {
-                        s.classList.remove('active');
-                        s.style.color = '#6B7280';
-                        s.style.transform = 'scale(1)';
-                    });
-                } else {
-                    throw new Error('Failed to send review');
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
-                alert('There was an error submitting your review. Please try again.');
-            }
-        });
-
-        // Mobile responsive adjustments
-        if (window.innerWidth <= 768) {
-            document.querySelectorAll('.form-row').forEach(row => {
-                row.style.flexDirection = 'column';
+            // Add review to memory
+            reviews.unshift({
+                name: reviewData.reviewerName,
+                rating: parseInt(reviewData.starRating),
+                text: reviewData.reviewText,
+                date: new Date().toLocaleDateString()
             });
             
-            document.querySelector('.budget-range').style.flexDirection = 'column';
+            // Display reviews
+            displayReviews();
+            
+            // Reset form
+            this.reset();
+            document.getElementById('starRating').value = '';
+            document.querySelectorAll('.star').forEach(s => {
+                s.classList.remove('active');
+                s.style.color = '#6B7280';
+            });
+            
+            alert('Thank you for your review!');
+        });
+
+        // Display reviews function
+        function displayReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            const reviewsHtml = reviews.map(review => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="review-name">${review.name}</span>
+                        <span class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+                    </div>
+                    <p class="review-text">${review.text}</p>
+                </div>
+            `).join('');
+            
+            reviewsList.innerHTML = `
+                <h3 style="color: #D1D5DB; margin-bottom: 20px;">Customer Reviews</h3>
+                ${reviewsHtml || '<p style="color: #9CA3AF;">No reviews yet. Be the first to leave a review!</p>'}
+            `;
         }
+
+        // Initialize reviews display
+        displayReviews();
+
+        // Add click animation to CTA button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            // Create ripple effect
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                left: ${x}px;
+                top: ${y}px;
+                width: ${size}px;
+                height: ${size}px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // Add CSS animation for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
-                    </html>
+</html>
