@@ -853,14 +853,27 @@ button,
 
         // Auth state observer
         auth.onAuthStateChanged((user) => {
-            currentUser = user;
-            if (user) {
-                document.getElementById('userStatus').style.display = 'block';
-                document.getElementById('userEmail').textContent = user.email;
-            } else {
-                document.getElementById('userStatus').style.display = 'none';
-            }
-        });
+    currentUser = user;
+    if (user) {
+        document.getElementById('userStatus').style.display = 'block';
+        document.getElementById('userEmail').textContent = user.email;
+        
+        // Show/hide admin button based on user email
+        const adminButton = document.querySelector('.admin-button');
+        if (isAdminUser(user.email)) {
+            adminButton.style.display = 'inline-block';
+        } else {
+            adminButton.style.display = 'none';
+        }
+    } else {
+        document.getElementById('userStatus').style.display = 'none';
+        const adminButton = document.querySelector('.admin-button');
+        if (adminButton) {
+            adminButton.style.display = 'none';
+        }
+        isAdminLoggedIn = false;
+    }
+});
 
 
         // Add these variables at the top of your script section
@@ -877,53 +890,85 @@ function isAdminUser(email) {
     return ADMIN_EMAILS.includes(email);
 }
 
-// Update the auth state observer (replace the existing one)
-auth.onAuthStateChanged((user) => {
-    currentUser = user;
-    if (user) {
-        document.getElementById('userStatus').style.display = 'block';
-        document.getElementById('userEmail').textContent = user.email;
-        
-        // Show admin button only for admin users
-        const adminButton = document.querySelector('.admin-button');
-        if (isAdminUser(user.email)) {
-            adminButton.style.display = 'inline-block';
-        } else {
-            adminButton.style.display = 'none';
-        }
-    } else {
-        document.getElementById('userStatus').style.display = 'none';
-        document.querySelector('.admin-button').style.display = 'none';
-        isAdminLoggedIn = false;
-    }
-});
 
-// Admin login function
 function adminLogin() {
     if (!currentUser) {
         alert('Please login first');
+        showLoginModal();
         return;
     }
     
     if (!isAdminUser(currentUser.email)) {
-        alert('Access denied');
+        alert('Access denied - Admin privileges required');
         return;
     }
     
     const password = prompt('Enter admin password:');
     if (password === ADMIN_PASSWORD) {
         isAdminLoggedIn = true;
-        showPage('admin');
-        loadAdminData();
+        window.open('admin.html', '_blank');
     } else {
-        alert('Incorrect password');
+        alert('Incorrect admin password');
     }
 }
 
-// Update the admin button click handler (replace the existing admin button)
-document.querySelector('.admin-button').addEventListener('click', function(e) {
-    e.preventDefault();
-    adminLogin();
+function loadAndApplyHomepageData() {
+    const saved = localStorage.getItem('webvtec_homepage_data');
+    if (saved) {
+        const data = JSON.parse(saved);
+        
+        const brandNameElement = document.querySelector('.brand-name');
+        if (brandNameElement && data.brandName) {
+            brandNameElement.textContent = data.brandName;
+        }
+        
+        const brandTaglineElement = document.querySelector('.brand-tagline');
+        if (brandTaglineElement && data.brandTagline) {
+            brandTaglineElement.textContent = data.brandTagline;
+        }
+        
+        const ctaButton = document.querySelector('.cta-button');
+        if (ctaButton && data.ctaButtonText) {
+            ctaButton.textContent = data.ctaButtonText;
+        }
+        
+        const welcomeTitleElement = document.querySelector('.content-area h2');
+        if (welcomeTitleElement && data.welcomeTitle) {
+            welcomeTitleElement.textContent = data.welcomeTitle;
+        }
+        
+        const welcomeTextElement = document.querySelector('.content-area p');
+        if (welcomeTextElement && data.welcomeText) {
+            welcomeTextElement.textContent = data.welcomeText;
+        }
+        
+        const joinButton = document.querySelector('.join-button');
+        if (joinButton && data.joinButtonText) {
+            joinButton.textContent = data.joinButtonText;
+        }
+        
+        if (data.navHome) {
+            const homeNav = document.querySelector('[data-page="home"]');
+            if (homeNav) homeNav.textContent = data.navHome;
+        }
+        
+        if (data.navRequest) {
+            const requestNav = document.querySelector('[data-page="request"]');
+            if (requestNav) requestNav.textContent = data.navRequest;
+        }
+        
+        if (data.navReviews) {
+            const reviewsNav = document.querySelector('[data-page="reviews"]');
+            if (reviewsNav) reviewsNav.textContent = data.navReviews;
+        }
+    }
+}
+
+// Listen for admin changes
+window.addEventListener('storage', function(e) {
+    if (e.key === 'webvtec_homepage_data') {
+        loadAndApplyHomepageData();
+    }
 });
 
         // Login functions
@@ -1156,71 +1201,85 @@ document.querySelector('.admin-button').addEventListener('click', function(e) {
 
         // Initialize reviews on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadReviews();
-        });
+    // Existing functionality
+    loadReviews();
 
-        // Add click animation to CTA button
-        document.querySelector('.cta-button').addEventListener('click', function(e) {
-            // Create ripple effect
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.cssText = `
-                position: absolute;
-                left: ${x}px;
-                top: ${y}px;
-                width: ${size}px;
-                height: ${size}px;
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 50%;
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                pointer-events: none;
-            `;
-            
-            this.style.position = 'relative';
-            this.style.overflow = 'hidden';
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
+    // Add admin button functionality
+    const adminButton = document.querySelector('.admin-button');
+    if (adminButton) {
+        adminButton.style.display = 'none'; // Hide by default
+        adminButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            adminLogin();
         });
+    }
 
-        // Add CSS animation for ripple effect
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
+    loadAndApplyHomepageData(); // Load saved admin settings
+
+    // Add click animation to CTA button
+    document.querySelector('.cta-button').addEventListener('click', function(e) {
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+
+        ripple.style.cssText = `
+            position: absolute;
+            left: ${x}px;
+            top: ${y}px;
+            width: ${size}px;
+            height: ${size}px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
         `;
-        document.head.appendChild(style);
 
-        // Close modal when clicking outside
-        document.getElementById('loginModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeLoginModal();
-            }
-        });
+        this.style.position = 'relative';
+        this.style.overflow = 'hidden';
+        this.appendChild(ripple);
 
-        // Handle Enter key in login form
-        document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                loginWithEmail();
-            }
-        });
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    });
 
-        document.getElementById('loginEmail').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('loginPassword').focus();
+    // Add CSS animation for ripple effect
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
             }
-        });
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Close modal when clicking outside
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeLoginModal();
+        }
+    });
+
+    // Handle Enter key in login form
+    document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            loginWithEmail();
+        }
+    });
+
+    document.getElementById('loginEmail').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('loginPassword').focus();
+        }
+    });
+});
+
 
         // Auto-create user account if login fails
         async function createUserAccount() {
