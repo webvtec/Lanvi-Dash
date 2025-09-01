@@ -786,35 +786,6 @@
     </div>
 
 
-    <!-- ADMIN DASHBOARD -->
-<div id="admin" class="page">
-  <div class="navy-gradient-container">
-    <div class="content-area">
-      <h2 style="color:#D1D5DB; margin-bottom:20px; text-align:center;">Admin Dashboard</h2>
-      
-      <form id="adminForm">
-        <div class="form-group">
-          <label for="sectionTitle">Section Title</label>
-          <input type="text" id="sectionTitle" name="sectionTitle" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="sectionText">Section Content</label>
-          <textarea id="sectionText" name="sectionText" rows="4" required></textarea>
-        </div>
-        
-        <button type="submit" class="submit-button">Add Section to Homepage</button>
-      </form>
-      
-      <div id="adminPreview" style="margin-top:30px;">
-        <h3 style="color:#D1D5DB;">Preview</h3>
-        <div id="previewContent"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
     <script>
         // Firebase Configuration
         const firebaseConfig = {
@@ -1538,31 +1509,6 @@
 
         console.log('Web VTec website initialized successfully! 🚀');
 
-
-        // Handle admin form submission
-document.getElementById('adminForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const title = document.getElementById('sectionTitle').value;
-    const text = document.getElementById('sectionText').value;
-
-    // Create new section dynamically
-    const newSection = document.createElement('div');
-    newSection.className = 'content-area';
-    newSection.innerHTML = `
-        <h2 style="color:#D1D5DB; margin-bottom:15px;">${title}</h2>
-        <p style="color:#9CA3AF; line-height:1.6;">${text}</p>
-    `;
-
-    // Add to homepage after divider
-    document.querySelector('#home .navy-gradient-container').appendChild(newSection);
-
-    // Show preview
-    document.getElementById('previewContent').appendChild(newSection.cloneNode(true));
-
-    // Reset form
-    this.reset();
-});
 
     </script>
 </body>
