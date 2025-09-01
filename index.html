@@ -1215,14 +1215,14 @@ button,
             try {
                 // Save review to Firestore
                 await db.collection('reviews').add({
-                    name: reviewData.reviewerName,
-                    rating: parseInt(reviewData.starRating),
-                    text: reviewData.reviewText,
-                    userEmail: currentUser.email,
-                    userId: currentUser.uid,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    approved: true // Auto-approve for demo
-                });
+    name: reviewData.reviewerName,
+    rating: parseInt(reviewData.starRating),
+    text: reviewData.reviewText,
+    userEmail: currentUser.email,
+    userId: currentUser.uid,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+});
+
                 
                 // Reset form
                 this.reset();
@@ -1248,9 +1248,9 @@ button,
         async function loadReviews() {
             try {
                 const reviewsSnapshot = await db.collection('reviews')
-                    .where('approved', '==', true)
-                    .orderBy('timestamp', 'desc')
-                    .get();
+    .orderBy('timestamp', 'desc')
+    .get();
+
                 
                 displayReviews(reviewsSnapshot.docs.map(doc => doc.data()));
                 
