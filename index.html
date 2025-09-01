@@ -862,6 +862,70 @@ button,
             }
         });
 
+
+        // Add these variables at the top of your script section
+const ADMIN_EMAILS = [
+    'admin@webvtec.com', 
+    'owner@webvtec.com'  // Replace with your actual admin emails
+];
+const ADMIN_PASSWORD = 'WebVtec2024!'; // Change this to your secure password
+
+let isAdminLoggedIn = false;
+
+// Add this function to check if user is admin
+function isAdminUser(email) {
+    return ADMIN_EMAILS.includes(email);
+}
+
+// Update the auth state observer (replace the existing one)
+auth.onAuthStateChanged((user) => {
+    currentUser = user;
+    if (user) {
+        document.getElementById('userStatus').style.display = 'block';
+        document.getElementById('userEmail').textContent = user.email;
+        
+        // Show admin button only for admin users
+        const adminButton = document.querySelector('.admin-button');
+        if (isAdminUser(user.email)) {
+            adminButton.style.display = 'inline-block';
+        } else {
+            adminButton.style.display = 'none';
+        }
+    } else {
+        document.getElementById('userStatus').style.display = 'none';
+        document.querySelector('.admin-button').style.display = 'none';
+        isAdminLoggedIn = false;
+    }
+});
+
+// Admin login function
+function adminLogin() {
+    if (!currentUser) {
+        alert('Please login first');
+        return;
+    }
+    
+    if (!isAdminUser(currentUser.email)) {
+        alert('Access denied');
+        return;
+    }
+    
+    const password = prompt('Enter admin password:');
+    if (password === ADMIN_PASSWORD) {
+        isAdminLoggedIn = true;
+        showPage('admin');
+        loadAdminData();
+    } else {
+        alert('Incorrect password');
+    }
+}
+
+// Update the admin button click handler (replace the existing admin button)
+document.querySelector('.admin-button').addEventListener('click', function(e) {
+    e.preventDefault();
+    adminLogin();
+});
+
         // Login functions
         function showLoginModal() {
             document.getElementById('loginModal').classList.add('active');
