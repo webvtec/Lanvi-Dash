@@ -310,19 +310,6 @@
             color: white;
         }
 
-        .color-picker-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .color-preview {
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
         .container-manager {
             border: 2px dashed rgba(162, 150, 231, 0.3);
             padding: 20px;
@@ -357,20 +344,6 @@
             position: absolute;
             right: 15px;
             top: 15px;
-        }
-
-        .logout-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #EF4444;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            z-index: 1000;
         }
 
         @media (max-width: 768px) {
@@ -412,8 +385,6 @@
     </style>
 </head>
 <body>
-    <button class="logout-btn" onclick="goBackToSite()">← Back to Site</button>
-
     <div class="admin-panel">
         <div class="admin-header">
             <h1>Web VTec Admin Dashboard</h1>
@@ -423,7 +394,6 @@
         <div class="admin-tabs">
             <button class="admin-tab active" onclick="showAdminSection('dashboard')">Dashboard</button>
             <button class="admin-tab" onclick="showAdminSection('homepage')">Home Page</button>
-            <button class="admin-tab" onclick="showAdminSection('containers')">Content Blocks</button>
             <button class="admin-tab" onclick="showAdminSection('requests')">Requests</button>
             <button class="admin-tab" onclick="showAdminSection('reviews')">Reviews</button>
             <button class="admin-tab" onclick="showAdminSection('settings')">Settings</button>
@@ -464,42 +434,6 @@
             <div class="admin-content">
                 <h2 style="color: #FFFFFF; margin-bottom: 25px;">Home Page Management</h2>
                 
-                <!-- Main Header Settings -->
-                <div class="container-item">
-                    <h3>Main Header & Branding</h3>
-                    <div class="form-grid">
-                        <div class="admin-form-group">
-                            <label for="brandName">Brand Name</label>
-                            <input type="text" id="brandName" placeholder="WEB VTEC" value="WEB VTEC">
-                        </div>
-                        <div class="admin-form-group">
-                            <label for="brandTagline">Brand Tagline</label>
-                            <input type="text" id="brandTagline" placeholder="AUTOMATE NOW!" value="AUTOMATE NOW!">
-                        </div>
-                        <div class="admin-form-group">
-                            <label for="ctaButtonText">Main CTA Button Text</label>
-                            <input type="text" id="ctaButtonText" placeholder="REQUEST WEBSITE NOW" value="REQUEST WEBSITE NOW">
-                        </div>
-                    </div>
-                    
-                    <div class="form-grid">
-                        <div class="admin-form-group">
-                            <label for="logoGradientStart">Logo Gradient Start Color</label>
-                            <div class="color-picker-group">
-                                <input type="color" id="logoGradientStart" value="#C715FF">
-                                <span class="color-preview" style="background: #C715FF;"></span>
-                            </div>
-                        </div>
-                        <div class="admin-form-group">
-                            <label for="logoGradientEnd">Logo Gradient End Color</label>
-                            <div class="color-picker-group">
-                                <input type="color" id="logoGradientEnd" value="#000000">
-                                <span class="color-preview" style="background: #000000;"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Welcome Section -->
                 <div class="container-item">
                     <h3>Welcome Section</h3>
@@ -517,21 +451,43 @@
                     </div>
                 </div>
 
-                <!-- Navigation Settings -->
+                <!-- Additional Content Containers -->
                 <div class="container-item">
-                    <h3>Navigation Menu</h3>
-                    <div class="form-grid">
-                        <div class="admin-form-group">
-                            <label for="navHome">Home Menu Text</label>
-                            <input type="text" id="navHome" placeholder="HOME" value="HOME">
+                    <h3>Homepage Content Containers</h3>
+                    <p style="color: #A296E7; margin-bottom: 15px;">These containers will appear below the Welcome section on your homepage</p>
+                    
+                    <!-- Add New Container Form -->
+                    <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <h4 style="color: #FFFFFF; margin-bottom: 15px;">Add New Container</h4>
+                        <div class="form-grid">
+                            <div class="admin-form-group">
+                                <label for="containerType">Container Type</label>
+                                <select id="containerType">
+                                    <option value="text">Text Block</option>
+                                    <option value="features">Features List</option>
+                                    <option value="services">Services</option>
+                                    <option value="testimonial">Testimonial</option>
+                                    <option value="cta">Call to Action</option>
+                                </select>
+                            </div>
+                            <div class="admin-form-group">
+                                <label for="containerTitle">Container Title</label>
+                                <input type="text" id="containerTitle" placeholder="Enter container title">
+                            </div>
                         </div>
                         <div class="admin-form-group">
-                            <label for="navRequest">Request Menu Text</label>
-                            <input type="text" id="navRequest" placeholder="REQUEST WEBSITE NOW" value="REQUEST WEBSITE NOW">
+                            <label for="containerContent">Container Content</label>
+                            <textarea id="containerContent" rows="3" placeholder="Enter container content or features (separate multiple items with line breaks)"></textarea>
                         </div>
-                        <div class="admin-form-group">
-                            <label for="navReviews">Reviews Menu Text</label>
-                            <input type="text" id="navReviews" placeholder="REVIEWS" value="REVIEWS">
+                        <div class="admin-button-group">
+                            <button class="admin-btn primary" onclick="addHomepageContainer()">Add Container</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Existing Containers -->
+                    <div id="homepageContainersList" class="container-manager">
+                        <div class="container-list" id="homepageContainers">
+                            <!-- Homepage containers will be loaded here -->
                         </div>
                     </div>
                 </div>
@@ -545,50 +501,6 @@
                 <div id="homepage-preview" class="live-preview" style="display: none;">
                     <h4 style="color: #FFFFFF; margin-bottom: 15px;">Live Preview</h4>
                     <div id="previewContent"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Content Blocks Section -->
-        <div id="admin-containers" class="admin-section">
-            <div class="admin-content">
-                <h2 style="color: #FFFFFF; margin-bottom: 25px;">Content Block Manager</h2>
-                
-                <div class="container-item">
-                    <h3>Add New Content Block</h3>
-                    <div class="form-grid">
-                        <div class="admin-form-group">
-                            <label for="blockType">Block Type</label>
-                            <select id="blockType">
-                                <option value="text">Text Block</option>
-                                <option value="image">Image Block</option>
-                                <option value="button">Button Block</option>
-                                <option value="features">Features List</option>
-                                <option value="testimonial">Testimonial</option>
-                            </select>
-                        </div>
-                        <div class="admin-form-group">
-                            <label for="blockTitle">Block Title</label>
-                            <input type="text" id="blockTitle" placeholder="Enter block title">
-                        </div>
-                        <div class="admin-form-group">
-                            <label for="blockContent">Block Content</label>
-                            <textarea id="blockContent" rows="3" placeholder="Enter block content"></textarea>
-                        </div>
-                    </div>
-                    <div class="admin-button-group">
-                        <button class="admin-btn primary" onclick="addContentBlock()">Add Block</button>
-                    </div>
-                </div>
-
-                <div class="container-item">
-                    <h3>Existing Content Blocks</h3>
-                    <p style="color: #A296E7; margin-bottom: 15px;">Drag and drop to reorder blocks</p>
-                    <div class="container-manager" id="contentBlocksList">
-                        <div class="container-list" id="blocksList">
-                            <!-- Content blocks will be loaded here -->
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -686,18 +598,6 @@
                     </div>
                 </div>
 
-                <div class="container-item">
-                    <h3>Admin Settings</h3>
-                    <div class="admin-form-group">
-                        <label for="adminEmails">Admin Email Addresses (comma-separated)</label>
-                        <textarea id="adminEmails" rows="2" placeholder="admin@webvtec.com, owner@webvtec.com">admin@webvtec.com, owner@webvtec.com</textarea>
-                    </div>
-                    <div class="admin-form-group">
-                        <label for="adminPassword">Admin Password</label>
-                        <input type="password" id="adminPassword" placeholder="Enter new admin password">
-                    </div>
-                </div>
-
                 <div class="admin-button-group">
                     <button class="admin-btn primary" onclick="saveSettings()">Save Settings</button>
                     <button class="admin-btn danger" onclick="clearAllData()">Clear All Data</button>
@@ -708,17 +608,11 @@
 
     <script>
         // Admin functionality
-        let contentBlocks = [];
+        let homepageContainers = [];
         let websiteData = {
-            brandName: 'WEB VTEC',
-            brandTagline: 'AUTOMATE NOW!',
-            ctaButtonText: 'REQUEST WEBSITE NOW',
             welcomeTitle: 'Welcome to Web VTec',
             welcomeText: 'Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.',
-            joinButtonText: 'JOIN US NOW',
-            navHome: 'HOME',
-            navRequest: 'REQUEST WEBSITE NOW',
-            navReviews: 'REVIEWS'
+            joinButtonText: 'JOIN US NOW'
         };
 
         // Tab switching functionality
@@ -729,222 +623,6 @@
             });
             
             // Show selected section
-            document.getElementById('admin-' + sectionId).classList.add('active');
-            
-            // Update tab styling
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Load section-specific data
-            if (sectionId === 'requests') {
-                loadRequests();
-            } else if (sectionId === 'reviews') {
-                loadReviews();
-            } else if (sectionId === 'dashboard') {
-                loadDashboard();
-            } else if (sectionId === 'containers') {
-                loadContentBlocks();
-            }
-        }
-
-        // Homepage management functions
-        function saveHomepageChanges() {
-            // Collect all form data
-            websiteData.brandName = document.getElementById('brandName').value;
-            websiteData.brandTagline = document.getElementById('brandTagline').value;
-            websiteData.ctaButtonText = document.getElementById('ctaButtonText').value;
-            websiteData.welcomeTitle = document.getElementById('welcomeTitle').value;
-            websiteData.welcomeText = document.getElementById('welcomeText').value;
-            websiteData.joinButtonText = document.getElementById('joinButtonText').value;
-            websiteData.navHome = document.getElementById('navHome').value;
-            websiteData.navRequest = document.getElementById('navRequest').value;
-            websiteData.navReviews = document.getElementById('navReviews').value;
-
-            // Save to localStorage (in a real app, this would go to a database)
-            localStorage.setItem('webvtec_homepage_data', JSON.stringify(websiteData));
-            
-            alert('Homepage changes saved successfully!');
-        }
-
-        function previewChanges() {
-            const preview = document.getElementById('homepage-preview');
-            const previewContent = document.getElementById('previewContent');
-            
-            previewContent.innerHTML = `
-                <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #8B5CF6, #A855F7); border-radius: 10px; color: white;">
-                    <h2>${document.getElementById('brandName').value}</h2>
-                    <p>${document.getElementById('brandTagline').value}</p>
-                    <button style="background: white; color: #8B5CF6; padding: 10px 20px; border: none; border-radius: 5px; margin: 10px;">
-                        ${document.getElementById('ctaButtonText').value}
-                    </button>
-                </div>
-                <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-                    <h3 style="color: white;">${document.getElementById('welcomeTitle').value}</h3>
-                    <p style="color: #A296E7;">${document.getElementById('welcomeText').value}</p>
-                    <button style="background: #8B5CF6; color: white; padding: 8px 16px; border: none; border-radius: 5px; margin-top: 10px;">
-                        ${document.getElementById('joinButtonText').value}
-                    </button>
-                </div>
-            `;
-            
-            preview.style.display = 'block';
-        }
-
-        function resetToDefaults() {
-            if (confirm('Are you sure you want to reset to default values?')) {
-                document.getElementById('brandName').value = 'WEB VTEC';
-                document.getElementById('brandTagline').value = 'AUTOMATE NOW!';
-                document.getElementById('ctaButtonText').value = 'REQUEST WEBSITE NOW';
-                document.getElementById('welcomeTitle').value = 'Welcome to Web VTec';
-                document.getElementById('welcomeText').value = 'Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.';
-                document.getElementById('joinButtonText').value = 'JOIN US NOW';
-                document.getElementById('navHome').value = 'HOME';
-                document.getElementById('navRequest').value = 'REQUEST WEBSITE NOW';
-                document.getElementById('navReviews').value = 'REVIEWS';
-            }
-        }
-
-        // Content blocks management
-        function addContentBlock() {
-            const type = document.getElementById('blockType').value;
-            const title = document.getElementById('blockTitle').value;
-            const content = document.getElementById('blockContent').value;
-
-            if (!title || !content) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            const newBlock = {
-                id: Date.now(),
-                type: type,
-                title: title,
-                content: content,
-                order: contentBlocks.length
-            };
-
-            contentBlocks.push(newBlock);
-            saveContentBlocks();
-            renderContentBlocks();
-            
-            // Clear form
-            document.getElementById('blockTitle').value = '';
-            document.getElementById('blockContent').value = '';
-        }
-
-        function renderContentBlocks() {
-            const blocksList = document.getElementById('blocksList');
-            
-            if (contentBlocks.length === 0) {
-                blocksList.innerHTML = '<p style="color: #A296E7; text-align: center; padding: 20px;">No content blocks yet. Add your first block above.</p>';
-                return;
-            }
-
-            blocksList.innerHTML = contentBlocks.map(block => `
-                <div class="draggable-item" draggable="true" data-id="${block.id}">
-                    <div style="color: white; font-weight: 600; margin-bottom: 5px;">
-                        ${block.type.toUpperCase()}: ${block.title}
-                    </div>
-                    <div style="color: #A296E7; font-size: 14px; margin-bottom: 10px;">
-                        ${block.content.substring(0, 100)}${block.content.length > 100 ? '...' : ''}
-                    </div>
-                    <div class="item-controls">
-                        <button class="action-btn btn-edit" onclick="editBlock(${block.id})">Edit</button>
-                        <button class="action-btn btn-delete" onclick="deleteBlock(${block.id})">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-
-            // Add drag and drop functionality
-            addDragDropListeners();
-        }
-
-        function editBlock(id) {
-            const block = contentBlocks.find(b => b.id === id);
-            if (block) {
-                document.getElementById('blockType').value = block.type;
-                document.getElementById('blockTitle').value = block.title;
-                document.getElementById('blockContent').value = block.content;
-                
-                // Remove the block so it can be re-added with new content
-                deleteBlock(id);
-            }
-        }
-
-        function deleteBlock(id) {
-            if (confirm('Are you sure you want to delete this content block?')) {
-                contentBlocks = contentBlocks.filter(b => b.id !== id);
-                saveContentBlocks();
-                renderContentBlocks();
-            }
-        }
-
-        function saveContentBlocks() {
-            localStorage.setItem('webvtec_content_blocks', JSON.stringify(contentBlocks));
-        }
-
-        function loadContentBlocks() {
-            const saved = localStorage.getItem('webvtec_content_blocks');
-            if (saved) {
-                contentBlocks = JSON.parse(saved);
-            }
-            renderContentBlocks();
-        }
-
-        function addDragDropListeners() {
-            const draggableItems = document.querySelectorAll('.draggable-item');
-            const container = document.getElementById('blocksList');
-
-            draggableItems.forEach(item => {
-                item.addEventListener('dragstart', handleDragStart);
-                item.addEventListener('dragover', handleDragOver);
-                item.addEventListener('drop', handleDrop);
-                item.addEventListener('dragend', handleDragEnd);
-            });
-        }
-
-        let draggedElement = null;
-
-        function handleDragStart(e) {
-            draggedElement = this;
-            this.style.opacity = '0.5';
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            if (this !== draggedElement) {
-                // Swap elements
-                const draggedId = draggedElement.dataset.id;
-                const targetId = this.dataset.id;
-                
-                const draggedIndex = contentBlocks.findIndex(b => b.id == draggedId);
-                const targetIndex = contentBlocks.findIndex(b => b.id == targetId);
-                
-                // Swap in array
-                [contentBlocks[draggedIndex], contentBlocks[targetIndex]] = [contentBlocks[targetIndex], contentBlocks[draggedIndex]];
-                
-                saveContentBlocks();
-                renderContentBlocks();
-            }
-        }
-
-        function handleDragEnd(e) {
-            this.style.opacity = '1';
-            draggedElement = null;
-        }
-
-        // Dashboard functions
-        function loadDashboard() {
-            // Load statistics
-            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
-            const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
-            
             document.getElementById('totalRequests').textContent = requests.length;
             document.getElementById('totalReviews').textContent = reviews.length;
             document.getElementById('pendingRequests').textContent = requests.filter(r => r.status === 'pending').length;
@@ -1115,9 +793,7 @@
                 siteTitle: document.getElementById('siteTitle').value,
                 siteDescription: document.getElementById('siteDescription').value,
                 contactEmail: document.getElementById('contactEmail').value,
-                contactPhone: document.getElementById('contactPhone').value,
-                adminEmails: document.getElementById('adminEmails').value,
-                adminPassword: document.getElementById('adminPassword').value
+                contactPhone: document.getElementById('contactPhone').value
             };
 
             localStorage.setItem('webvtec_settings', JSON.stringify(settings));
@@ -1126,22 +802,15 @@
 
         function clearAllData() {
             if (confirm('Are you sure you want to clear ALL website data? This action cannot be undone!')) {
-                if (confirm('This will delete all requests, reviews, content blocks, and settings. Are you absolutely sure?')) {
+                if (confirm('This will delete all requests, reviews, containers, and settings. Are you absolutely sure?')) {
                     localStorage.removeItem('websiteRequests');
                     localStorage.removeItem('localReviews');
-                    localStorage.removeItem('webvtec_content_blocks');
+                    localStorage.removeItem('webvtec_homepage_containers');
                     localStorage.removeItem('webvtec_homepage_data');
                     localStorage.removeItem('webvtec_settings');
                     alert('All data has been cleared!');
                     location.reload();
                 }
-            }
-        }
-
-        function goBackToSite() {
-            // In a real implementation, this would navigate back to the main site
-            if (confirm('Return to main website?')) {
-                window.history.back();
             }
         }
 
@@ -1154,7 +823,6 @@
                 document.getElementById('siteDescription').value = settings.siteDescription || '';
                 document.getElementById('contactEmail').value = settings.contactEmail || '';
                 document.getElementById('contactPhone').value = settings.contactPhone || '';
-                document.getElementById('adminEmails').value = settings.adminEmails || '';
             }
         }
 
@@ -1176,7 +844,7 @@
             loadDashboard();
             loadSettings();
             loadHomepageData();
-            loadContentBlocks();
+            loadHomepageContainers();
             
             // Add keyboard shortcuts
             document.addEventListener('keydown', function(e) {
@@ -1196,7 +864,7 @@
                             break;
                         case '3':
                             e.preventDefault();
-                            showAdminSection('containers');
+                            showAdminSection('requests');
                             break;
                     }
                 }
@@ -1204,6 +872,231 @@
 
             console.log('Admin panel loaded successfully!');
         });
-    </script>
+
+        // Export function for homepage containers (for main site to use)
+        function getHomepageContainers() {
+            return JSON.parse(localStorage.getItem('webvtec_homepage_containers') || '[]');
+        }
+
+        function getHomepageData() {
+            return JSON.parse(localStorage.getItem('webvtec_homepage_data') || '{}');
+        }
+
+        // Make functions globally available
+        window.webVtecAdmin = {
+            getHomepageContainers,
+            getHomepageData
+        };
+        
+    d('admin-' + sectionId).classList.add('active');
+            
+            // Update tab styling
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Load section-specific data
+            if (sectionId === 'requests') {
+                loadRequests();
+            } else if (sectionId === 'reviews') {
+                loadReviews();
+            } else if (sectionId === 'dashboard') {
+                loadDashboard();
+            } else if (sectionId === 'homepage') {
+                loadHomepageContainers();
+            }
+        }
+
+        // Homepage management functions
+        function saveHomepageChanges() {
+            // Collect all form data
+            websiteData.welcomeTitle = document.getElementById('welcomeTitle').value;
+            websiteData.welcomeText = document.getElementById('welcomeText').value;
+            websiteData.joinButtonText = document.getElementById('joinButtonText').value;
+
+            // Save to localStorage
+            localStorage.setItem('webvtec_homepage_data', JSON.stringify(websiteData));
+            localStorage.setItem('webvtec_homepage_containers', JSON.stringify(homepageContainers));
+            
+            alert('Homepage changes saved successfully!');
+        }
+
+        function previewChanges() {
+            const preview = document.getElementById('homepage-preview');
+            const previewContent = document.getElementById('previewContent');
+            
+            let containersHtml = '';
+            homepageContainers.forEach(container => {
+                containersHtml += `
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                        <h4 style="color: white; margin-bottom: 10px;">${container.title}</h4>
+                        <div style="color: #A296E7;">${container.content.replace(/\n/g, '<br>')}</div>
+                    </div>
+                `;
+            });
+            
+            previewContent.innerHTML = `
+                <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #8B5CF6, #A855F7); border-radius: 10px; color: white;">
+                    <h3>${document.getElementById('welcomeTitle').value}</h3>
+                    <p style="margin: 15px 0;">${document.getElementById('welcomeText').value}</p>
+                    <button style="background: white; color: #8B5CF6; padding: 10px 20px; border: none; border-radius: 5px; margin: 10px;">
+                        ${document.getElementById('joinButtonText').value}
+                    </button>
+                </div>
+                ${containersHtml}
+            `;
+            
+            preview.style.display = 'block';
+        }
+
+        function resetToDefaults() {
+            if (confirm('Are you sure you want to reset to default values?')) {
+                document.getElementById('welcomeTitle').value = 'Welcome to Web VTec';
+                document.getElementById('welcomeText').value = 'Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.';
+                document.getElementById('joinButtonText').value = 'JOIN US NOW';
+            }
+        }
+
+        // Homepage containers management
+        function addHomepageContainer() {
+            const type = document.getElementById('containerType').value;
+            const title = document.getElementById('containerTitle').value;
+            const content = document.getElementById('containerContent').value;
+
+            if (!title || !content) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const newContainer = {
+                id: Date.now(),
+                type: type,
+                title: title,
+                content: content,
+                order: homepageContainers.length
+            };
+
+            homepageContainers.push(newContainer);
+            saveHomepageContainers();
+            renderHomepageContainers();
+            
+            // Clear form
+            document.getElementById('containerTitle').value = '';
+            document.getElementById('containerContent').value = '';
+        }
+
+        function renderHomepageContainers() {
+            const containersList = document.getElementById('homepageContainers');
+            
+            if (homepageContainers.length === 0) {
+                containersList.innerHTML = '<p style="color: #A296E7; text-align: center; padding: 20px;">No containers yet. Add your first container above.</p>';
+                return;
+            }
+
+            containersList.innerHTML = homepageContainers.map(container => `
+                <div class="draggable-item" draggable="true" data-id="${container.id}">
+                    <div style="color: white; font-weight: 600; margin-bottom: 5px;">
+                        ${container.type.toUpperCase()}: ${container.title}
+                    </div>
+                    <div style="color: #A296E7; font-size: 14px; margin-bottom: 10px;">
+                        ${container.content.substring(0, 100)}${container.content.length > 100 ? '...' : ''}
+                    </div>
+                    <div class="item-controls">
+                        <button class="action-btn btn-edit" onclick="editContainer(${container.id})">Edit</button>
+                        <button class="action-btn btn-delete" onclick="deleteContainer(${container.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add drag and drop functionality
+            addDragDropListeners();
+        }
+
+        function editContainer(id) {
+            const container = homepageContainers.find(c => c.id === id);
+            if (container) {
+                document.getElementById('containerType').value = container.type;
+                document.getElementById('containerTitle').value = container.title;
+                document.getElementById('containerContent').value = container.content;
+                
+                // Remove the container so it can be re-added with new content
+                deleteContainer(id);
+            }
+        }
+
+        function deleteContainer(id) {
+            if (confirm('Are you sure you want to delete this container?')) {
+                homepageContainers = homepageContainers.filter(c => c.id !== id);
+                saveHomepageContainers();
+                renderHomepageContainers();
+            }
+        }
+
+        function saveHomepageContainers() {
+            localStorage.setItem('webvtec_homepage_containers', JSON.stringify(homepageContainers));
+        }
+
+        function loadHomepageContainers() {
+            const saved = localStorage.getItem('webvtec_homepage_containers');
+            if (saved) {
+                homepageContainers = JSON.parse(saved);
+            }
+            renderHomepageContainers();
+        }
+
+        function addDragDropListeners() {
+            const draggableItems = document.querySelectorAll('.draggable-item');
+
+            draggableItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.style.opacity = '0.5';
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (this !== draggedElement) {
+                // Swap elements
+                const draggedId = draggedElement.dataset.id;
+                const targetId = this.dataset.id;
+                
+                const draggedIndex = homepageContainers.findIndex(c => c.id == draggedId);
+                const targetIndex = homepageContainers.findIndex(c => c.id == targetId);
+                
+                // Swap in array
+                [homepageContainers[draggedIndex], homepageContainers[targetIndex]] = [homepageContainers[targetIndex], homepageContainers[draggedIndex]];
+                
+                saveHomepageContainers();
+                renderHomepageContainers();
+            }
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+            draggedElement = null;
+        }
+
+        // Dashboard functions
+        function loadDashboard() {
+            // Load statistics
+            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+            const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+            
+            document.getElementByI
+        </script>
 </body>
 </html>
