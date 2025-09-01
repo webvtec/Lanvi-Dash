@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevCraft Studio - Admin Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <title>Web VTec - Admin Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -13,857 +11,1199 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #3b82f6;
-            --primary-dark: #1d4ed8;
-            --secondary: #10b981;
-            --accent: #f59e0b;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #22c55e;
-            --dark: #0f172a;
-            --gray-50: #f8fafc;
-            --gray-100: #f1f5f9;
-            --gray-200: #e2e8f0;
-            --gray-300: #cbd5e1;
-            --gray-400: #94a3b8;
-            --gray-500: #64748b;
-            --gray-600: #475569;
-            --gray-700: #334155;
-            --gray-800: #1e293b;
-            --gray-900: #0f172a;
-            --white: #ffffff;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--gray-50);
-            color: var(--gray-800);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 280px;
-            height: 100vh;
-            background: var(--white);
-            border-right: 1px solid var(--gray-200);
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 1rem 0;
-        }
-
-        .sidebar-menu li {
-            margin: 0.25rem 0;
-        }
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            text-decoration: none;
-            color: var(--gray-600);
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .sidebar-menu i {
-            width: 20px;
-            text-align: center;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: 280px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0A1E3F 50%, #A296E7 100%);
+            color: #A296E7;
             min-height: 100vh;
         }
 
-        .top-bar {
-            background: var(--white);
-            padding: 1rem 2rem;
-            border-bottom: 1px solid var(--gray-200);
+        /* Admin Page Styles */
+        .admin-panel {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .admin-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .admin-tabs {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--gray-900);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-weight: 600;
-        }
-
-        .content-area {
-            padding: 2rem;
-        }
-
-        /* Cards */
-        .card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--gray-200);
-            margin-bottom: 1.5rem;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--gray-900);
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--white);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--gray-200);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            color: var(--white);
-        }
-
-        .stat-icon.primary { background: var(--primary); }
-        .stat-icon.success { background: var(--success); }
-        .stat-icon.warning { background: var(--warning); }
-        .stat-icon.danger { background: var(--danger); }
-
-        .stat-info h3 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-info p {
-            color: var(--gray-600);
-            font-size: 0.9rem;
-        }
-
-        /* Table */
-        .table-container {
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(162, 150, 231, 0.3);
             overflow-x: auto;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        th {
-            background: var(--gray-50);
-            font-weight: 600;
-            color: var(--gray-900);
-        }
-
-        tr:hover {
-            background: var(--gray-50);
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 0.5rem 1rem;
+        .admin-tab {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #A296E7;
             border: none;
-            border-radius: 6px;
-            font-weight: 500;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
+            border-radius: 10px 10px 0 0;
+            margin-right: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .admin-tab.active {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+        }
+
+        .admin-tab:hover {
+            background: rgba(139, 92, 246, 0.3);
+        }
+
+        .admin-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .admin-form-group {
+            margin-bottom: 20px;
+        }
+
+        .admin-form-group label {
+            display: block;
+            color: #FFFFFF;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .admin-form-group input,
+        .admin-form-group textarea,
+        .admin-form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(162, 150, 231, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
+            font-size: 14px;
             transition: all 0.3s ease;
         }
 
-        .btn-primary {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: var(--white);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: var(--white);
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: var(--white);
-        }
-
-        .btn-secondary {
-            background: var(--gray-200);
-            color: var(--gray-700);
-        }
-
-        .btn-sm {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.8125rem;
-        }
-
-        /* Status Badges */
-        .badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8125rem;
-            font-weight: 500;
-        }
-
-        .badge.new {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .badge.in-progress {
-            background: var(--warning);
-            color: var(--white);
-        }
-
-        .badge.completed {
-            background: var(--success);
-            color: var(--white);
-        }
-
-        .badge.cancelled {
-            background: var(--danger);
-            color: var(--white);
-        }
-
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--gray-700);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--gray-300);
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .admin-form-group input:focus,
+        .admin-form-group textarea:focus,
+        .admin-form-group select:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
         }
 
-        /* Grid */
-        .grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .grid-2 {
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        }
-
-        .grid-3 {
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        }
-
-        /* Chart Container */
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin-top: 1rem;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-        }
-
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
-            max-width: 600px;
-            width: 90%;
-            max-height: 90%;
-            overflow-y: auto;
-        }
-
-        .modal-header {
+        .admin-button-group {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
 
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--gray-900);
-        }
-
-        .close-btn {
-            background: none;
+        .admin-btn {
+            padding: 12px 24px;
             border: none;
-            font-size: 1.5rem;
-            color: var(--gray-500);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        /* Mobile Responsive */
+        .admin-btn.primary {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+        }
+
+        .admin-btn.secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #A296E7;
+            border: 1px solid rgba(162, 150, 231, 0.3);
+        }
+
+        .admin-btn.danger {
+            background: #EF4444;
+            color: white;
+        }
+
+        .admin-btn.success {
+            background: #10B981;
+            color: white;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .container-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(162, 150, 231, 0.2);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .container-item h3 {
+            color: #FFFFFF;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .container-preview {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 14px;
+            margin-top: 15px;
+            border: 1px solid rgba(162, 150, 231, 0.2);
+        }
+
+        .live-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(162, 150, 231, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(162, 150, 231, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #8B5CF6;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #A296E7;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(162, 150, 231, 0.2);
+            color: #FFFFFF;
+        }
+
+        .data-table th {
+            background: rgba(139, 92, 246, 0.3);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .data-table td {
+            font-size: 13px;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #FCD34D;
+            color: #92400E;
+        }
+
+        .status-completed {
+            background: #34D399;
+            color: #065F46;
+        }
+
+        .status-in-progress {
+            background: #60A5FA;
+            color: #1E40AF;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .btn-edit {
+            background: #3B82F6;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #EF4444;
+            color: white;
+        }
+
+        .btn-approve {
+            background: #10B981;
+            color: white;
+        }
+
+        .color-picker-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .container-manager {
+            border: 2px dashed rgba(162, 150, 231, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .container-manager.dragover {
+            border-color: #8B5CF6;
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .container-list {
+            min-height: 100px;
+        }
+
+        .draggable-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: move;
+            border-left: 4px solid #8B5CF6;
+            position: relative;
+        }
+
+        .draggable-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .item-controls {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #EF4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            z-index: 1000;
+        }
+
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
+            .admin-panel {
+                padding: 10px;
             }
-
-            .sidebar.active {
-                transform: translateX(0);
+            
+            .admin-tabs {
+                flex-wrap: wrap;
             }
-
-            .main-content {
-                margin-left: 0;
+            
+            .admin-tab {
+                flex: 1;
+                min-width: 120px;
+                font-size: 12px;
+                padding: 10px 15px;
             }
-
-            .mobile-menu-btn {
-                display: block;
-                background: none;
-                border: none;
-                font-size: 1.25rem;
-                color: var(--gray-700);
-                cursor: pointer;
-            }
-
-            .stats-grid {
+            
+            .form-grid {
                 grid-template-columns: 1fr;
             }
-
-            .content-area {
-                padding: 1rem;
+            
+            .admin-button-group {
+                flex-direction: column;
             }
-        }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
 
-        /* Hide elements by default */
-        .content-section {
-            display: none;
-        }
+            .admin-header h1 {
+                font-size: 1.8rem;
+            }
 
-        .content-section.active {
-            display: block;
-        }
-
-        /* Loading animation */
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top: 2px solid var(--white);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            .stat-number {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">DevCraft Studio</div>
+    <button class="logout-btn" onclick="goBackToSite()">← Back to Site</button>
+
+    <div class="admin-panel">
+        <div class="admin-header">
+            <h1>Web VTec Admin Dashboard</h1>
+            <p>Manage your website content and monitor performance</p>
         </div>
-        <ul class="sidebar-menu">
-            <li><a href="#dashboard" class="menu-link active" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="#requests" class="menu-link" data-section="requests"><i class="fas fa-inbox"></i> Client Requests</a></li>
-            <li><a href="#projects" class="menu-link" data-section="projects"><i class="fas fa-briefcase"></i> Projects</a></li>
-            <li><a href="#content" class="menu-link" data-section="content"><i class="fas fa-edit"></i> Content Management</a></li>
-            <li><a href="#pricing" class="menu-link" data-section="pricing"><i class="fas fa-dollar-sign"></i> Pricing</a></li>
-            <li><a href="#testimonials" class="menu-link" data-section="testimonials"><i class="fas fa-star"></i> Testimonials</a></li>
-            <li><a href="#analytics" class="menu-link" data-section="analytics"><i class="fas fa-chart-bar"></i> Analytics</a></li>
-            <li><a href="#settings" class="menu-link" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
-        </ul>
+
+        <div class="admin-tabs">
+            <button class="admin-tab active" onclick="showAdminSection('dashboard')">Dashboard</button>
+            <button class="admin-tab" onclick="showAdminSection('homepage')">Home Page</button>
+            <button class="admin-tab" onclick="showAdminSection('containers')">Content Blocks</button>
+            <button class="admin-tab" onclick="showAdminSection('requests')">Requests</button>
+            <button class="admin-tab" onclick="showAdminSection('reviews')">Reviews</button>
+            <button class="admin-tab" onclick="showAdminSection('settings')">Settings</button>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="admin-dashboard" class="admin-section active">
+            <div class="admin-content">
+                <h2 style="color: #FFFFFF; margin-bottom: 25px;">Website Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalRequests">0</div>
+                        <div class="stat-label">Total Requests</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalReviews">0</div>
+                        <div class="stat-label">Total Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgRating">5.0</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="pendingRequests">0</div>
+                        <div class="stat-label">Pending Requests</div>
+                    </div>
+                </div>
+
+                <h3 style="color: #FFFFFF; margin-bottom: 15px;">Recent Activity</h3>
+                <div id="recentActivity" class="container-preview">
+                    <p>Loading recent activity...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Homepage Management Section -->
+        <div id="admin-homepage" class="admin-section">
+            <div class="admin-content">
+                <h2 style="color: #FFFFFF; margin-bottom: 25px;">Home Page Management</h2>
+                
+                <!-- Main Header Settings -->
+                <div class="container-item">
+                    <h3>Main Header & Branding</h3>
+                    <div class="form-grid">
+                        <div class="admin-form-group">
+                            <label for="brandName">Brand Name</label>
+                            <input type="text" id="brandName" placeholder="WEB VTEC" value="WEB VTEC">
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="brandTagline">Brand Tagline</label>
+                            <input type="text" id="brandTagline" placeholder="AUTOMATE NOW!" value="AUTOMATE NOW!">
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="ctaButtonText">Main CTA Button Text</label>
+                            <input type="text" id="ctaButtonText" placeholder="REQUEST WEBSITE NOW" value="REQUEST WEBSITE NOW">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="admin-form-group">
+                            <label for="logoGradientStart">Logo Gradient Start Color</label>
+                            <div class="color-picker-group">
+                                <input type="color" id="logoGradientStart" value="#C715FF">
+                                <span class="color-preview" style="background: #C715FF;"></span>
+                            </div>
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="logoGradientEnd">Logo Gradient End Color</label>
+                            <div class="color-picker-group">
+                                <input type="color" id="logoGradientEnd" value="#000000">
+                                <span class="color-preview" style="background: #000000;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Welcome Section -->
+                <div class="container-item">
+                    <h3>Welcome Section</h3>
+                    <div class="admin-form-group">
+                        <label for="welcomeTitle">Welcome Title</label>
+                        <input type="text" id="welcomeTitle" placeholder="Welcome to Web VTec" value="Welcome to Web VTec">
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="welcomeText">Welcome Text</label>
+                        <textarea id="welcomeText" rows="4" placeholder="Your trusted partner for web development...">Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.</textarea>
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="joinButtonText">Join Button Text</label>
+                        <input type="text" id="joinButtonText" placeholder="JOIN US NOW" value="JOIN US NOW">
+                    </div>
+                </div>
+
+                <!-- Navigation Settings -->
+                <div class="container-item">
+                    <h3>Navigation Menu</h3>
+                    <div class="form-grid">
+                        <div class="admin-form-group">
+                            <label for="navHome">Home Menu Text</label>
+                            <input type="text" id="navHome" placeholder="HOME" value="HOME">
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="navRequest">Request Menu Text</label>
+                            <input type="text" id="navRequest" placeholder="REQUEST WEBSITE NOW" value="REQUEST WEBSITE NOW">
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="navReviews">Reviews Menu Text</label>
+                            <input type="text" id="navReviews" placeholder="REVIEWS" value="REVIEWS">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-button-group">
+                    <button class="admin-btn primary" onclick="saveHomepageChanges()">Save Changes</button>
+                    <button class="admin-btn secondary" onclick="previewChanges()">Preview Changes</button>
+                    <button class="admin-btn secondary" onclick="resetToDefaults()">Reset to Defaults</button>
+                </div>
+
+                <div id="homepage-preview" class="live-preview" style="display: none;">
+                    <h4 style="color: #FFFFFF; margin-bottom: 15px;">Live Preview</h4>
+                    <div id="previewContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Blocks Section -->
+        <div id="admin-containers" class="admin-section">
+            <div class="admin-content">
+                <h2 style="color: #FFFFFF; margin-bottom: 25px;">Content Block Manager</h2>
+                
+                <div class="container-item">
+                    <h3>Add New Content Block</h3>
+                    <div class="form-grid">
+                        <div class="admin-form-group">
+                            <label for="blockType">Block Type</label>
+                            <select id="blockType">
+                                <option value="text">Text Block</option>
+                                <option value="image">Image Block</option>
+                                <option value="button">Button Block</option>
+                                <option value="features">Features List</option>
+                                <option value="testimonial">Testimonial</option>
+                            </select>
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="blockTitle">Block Title</label>
+                            <input type="text" id="blockTitle" placeholder="Enter block title">
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="blockContent">Block Content</label>
+                            <textarea id="blockContent" rows="3" placeholder="Enter block content"></textarea>
+                        </div>
+                    </div>
+                    <div class="admin-button-group">
+                        <button class="admin-btn primary" onclick="addContentBlock()">Add Block</button>
+                    </div>
+                </div>
+
+                <div class="container-item">
+                    <h3>Existing Content Blocks</h3>
+                    <p style="color: #A296E7; margin-bottom: 15px;">Drag and drop to reorder blocks</p>
+                    <div class="container-manager" id="contentBlocksList">
+                        <div class="container-list" id="blocksList">
+                            <!-- Content blocks will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requests Management Section -->
+        <div id="admin-requests" class="admin-section">
+            <div class="admin-content">
+                <h2 style="color: #FFFFFF; margin-bottom: 25px;">Website Requests Management</h2>
+                
+                <div class="admin-button-group" style="margin-bottom: 20px;">
+                    <button class="admin-btn secondary" onclick="refreshRequests()">Refresh Data</button>
+                    <button class="admin-btn secondary" onclick="exportRequests()">Export CSV</button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Website Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: #A296E7;">Loading requests...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Management Section -->
+        <div id="admin-reviews" class="admin-section">
+            <div class="admin-content">
+                <h2 style="color: #FFFFFF; margin-bottom: 25px;">Reviews Management</h2>
+                
+                <div class="admin-button-group" style="margin-bottom: 20px;">
+                    <button class="admin-btn secondary" onclick="refreshReviews()">Refresh Data</button>
+                    <button class="admin-btn secondary" onclick="exportReviews()">Export CSV</button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Rating</th>
+                                <th>Review</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewsTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: #A296E7;">Loading reviews...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="admin-settings" class="admin-section">
+            <div class="admin-content">
+                <h2 style="color: #FFFFFF; margin-bottom: 25px;">Website Settings</h2>
+                
+                <div class="container-item">
+                    <h3>Site Configuration</h3>
+                    <div class="form-grid">
+                        <div class="admin-form-group">
+                            <label for="siteTitle">Site Title</label>
+                            <input type="text" id="siteTitle" placeholder="Web VTec - Automate Now!" value="Web VTec - Automate Now!">
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="siteDescription">Site Description</label>
+                            <textarea id="siteDescription" rows="2" placeholder="Site meta description">Web development and automation solutions for modern businesses</textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="contactEmail">Contact Email</label>
+                            <input type="email" id="contactEmail" placeholder="contact@webvtec.com" value="contact@webvtec.com">
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="contactPhone">Contact Phone</label>
+                            <input type="tel" id="contactPhone" placeholder="+1 (555) 123-4567">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-item">
+                    <h3>Admin Settings</h3>
+                    <div class="admin-form-group">
+                        <label for="adminEmails">Admin Email Addresses (comma-separated)</label>
+                        <textarea id="adminEmails" rows="2" placeholder="admin@webvtec.com, owner@webvtec.com">admin@webvtec.com, owner@webvtec.com</textarea>
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="adminPassword">Admin Password</label>
+                        <input type="password" id="adminPassword" placeholder="Enter new admin password">
+                    </div>
+                </div>
+
+                <div class="admin-button-group">
+                    <button class="admin-btn primary" onclick="saveSettings()">Save Settings</button>
+                    <button class="admin-btn danger" onclick="clearAllData()">Clear All Data</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <button class="mobile-menu-btn" id="mobileMenuBtn" style="display: none;">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h1 class="page-title" id="pageTitle">Dashboard</h1>
-            </div>
-            <div class="user-info">
-                <div class="user-avatar">AD</div>
-                <span>Admin</span>
-            </div>
-        </div>
+    <script>
+        // Admin functionality
+        let contentBlocks = [];
+        let websiteData = {
+            brandName: 'WEB VTEC',
+            brandTagline: 'AUTOMATE NOW!',
+            ctaButtonText: 'REQUEST WEBSITE NOW',
+            welcomeTitle: 'Welcome to Web VTec',
+            welcomeText: 'Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.',
+            joinButtonText: 'JOIN US NOW',
+            navHome: 'HOME',
+            navRequest: 'REQUEST WEBSITE NOW',
+            navReviews: 'REVIEWS'
+        };
 
-        <!-- Content Area -->
-        <div class="content-area">
-            <!-- Dashboard Section -->
-            <div class="content-section active" id="dashboard">
-                <!-- Stats Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon primary">
-                            <i class="fas fa-inbox"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="totalRequests">24</h3>
-                            <p>Total Requests</p>
-                        </div>
+        // Tab switching functionality
+        function showAdminSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById('admin-' + sectionId).classList.add('active');
+            
+            // Update tab styling
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Load section-specific data
+            if (sectionId === 'requests') {
+                loadRequests();
+            } else if (sectionId === 'reviews') {
+                loadReviews();
+            } else if (sectionId === 'dashboard') {
+                loadDashboard();
+            } else if (sectionId === 'containers') {
+                loadContentBlocks();
+            }
+        }
+
+        // Homepage management functions
+        function saveHomepageChanges() {
+            // Collect all form data
+            websiteData.brandName = document.getElementById('brandName').value;
+            websiteData.brandTagline = document.getElementById('brandTagline').value;
+            websiteData.ctaButtonText = document.getElementById('ctaButtonText').value;
+            websiteData.welcomeTitle = document.getElementById('welcomeTitle').value;
+            websiteData.welcomeText = document.getElementById('welcomeText').value;
+            websiteData.joinButtonText = document.getElementById('joinButtonText').value;
+            websiteData.navHome = document.getElementById('navHome').value;
+            websiteData.navRequest = document.getElementById('navRequest').value;
+            websiteData.navReviews = document.getElementById('navReviews').value;
+
+            // Save to localStorage (in a real app, this would go to a database)
+            localStorage.setItem('webvtec_homepage_data', JSON.stringify(websiteData));
+            
+            alert('Homepage changes saved successfully!');
+        }
+
+        function previewChanges() {
+            const preview = document.getElementById('homepage-preview');
+            const previewContent = document.getElementById('previewContent');
+            
+            previewContent.innerHTML = `
+                <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #8B5CF6, #A855F7); border-radius: 10px; color: white;">
+                    <h2>${document.getElementById('brandName').value}</h2>
+                    <p>${document.getElementById('brandTagline').value}</p>
+                    <button style="background: white; color: #8B5CF6; padding: 10px 20px; border: none; border-radius: 5px; margin: 10px;">
+                        ${document.getElementById('ctaButtonText').value}
+                    </button>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    <h3 style="color: white;">${document.getElementById('welcomeTitle').value}</h3>
+                    <p style="color: #A296E7;">${document.getElementById('welcomeText').value}</p>
+                    <button style="background: #8B5CF6; color: white; padding: 8px 16px; border: none; border-radius: 5px; margin-top: 10px;">
+                        ${document.getElementById('joinButtonText').value}
+                    </button>
+                </div>
+            `;
+            
+            preview.style.display = 'block';
+        }
+
+        function resetToDefaults() {
+            if (confirm('Are you sure you want to reset to default values?')) {
+                document.getElementById('brandName').value = 'WEB VTEC';
+                document.getElementById('brandTagline').value = 'AUTOMATE NOW!';
+                document.getElementById('ctaButtonText').value = 'REQUEST WEBSITE NOW';
+                document.getElementById('welcomeTitle').value = 'Welcome to Web VTec';
+                document.getElementById('welcomeText').value = 'Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.';
+                document.getElementById('joinButtonText').value = 'JOIN US NOW';
+                document.getElementById('navHome').value = 'HOME';
+                document.getElementById('navRequest').value = 'REQUEST WEBSITE NOW';
+                document.getElementById('navReviews').value = 'REVIEWS';
+            }
+        }
+
+        // Content blocks management
+        function addContentBlock() {
+            const type = document.getElementById('blockType').value;
+            const title = document.getElementById('blockTitle').value;
+            const content = document.getElementById('blockContent').value;
+
+            if (!title || !content) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const newBlock = {
+                id: Date.now(),
+                type: type,
+                title: title,
+                content: content,
+                order: contentBlocks.length
+            };
+
+            contentBlocks.push(newBlock);
+            saveContentBlocks();
+            renderContentBlocks();
+            
+            // Clear form
+            document.getElementById('blockTitle').value = '';
+            document.getElementById('blockContent').value = '';
+        }
+
+        function renderContentBlocks() {
+            const blocksList = document.getElementById('blocksList');
+            
+            if (contentBlocks.length === 0) {
+                blocksList.innerHTML = '<p style="color: #A296E7; text-align: center; padding: 20px;">No content blocks yet. Add your first block above.</p>';
+                return;
+            }
+
+            blocksList.innerHTML = contentBlocks.map(block => `
+                <div class="draggable-item" draggable="true" data-id="${block.id}">
+                    <div style="color: white; font-weight: 600; margin-bottom: 5px;">
+                        ${block.type.toUpperCase()}: ${block.title}
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon success">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="completedProjects">12</h3>
-                            <p>Completed Projects</p>
-                        </div>
+                    <div style="color: #A296E7; font-size: 14px; margin-bottom: 10px;">
+                        ${block.content.substring(0, 100)}${block.content.length > 100 ? '...' : ''}
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon warning">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="pendingProjects">8</h3>
-                            <p>Pending Projects</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon danger">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="monthlyRevenue">$12,450</h3>
-                            <p>Monthly Revenue</p>
-                        </div>
+                    <div class="item-controls">
+                        <button class="action-btn btn-edit" onclick="editBlock(${block.id})">Edit</button>
+                        <button class="action-btn btn-delete" onclick="deleteBlock(${block.id})">Delete</button>
                     </div>
                 </div>
+            `).join('');
 
-                <!-- Charts -->
-                <div class="grid grid-2">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Request Trends</h3>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="requestChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Project Status</h3>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="statusChart"></canvas>
-                        </div>
-                    </div>
-                </div>
+            // Add drag and drop functionality
+            addDragDropListeners();
+        }
 
-                <!-- Recent Activity -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Recent Activity</h3>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Client</th>
-                                    <th>Action</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="recentActivity">
-                                <tr>
-                                    <td>2024-01-15</td>
-                                    <td>John Smith</td>
-                                    <td>New website request</td>
-                                    <td><span class="badge new">New</span></td>
-                                </tr>
-                                <tr>
-                                    <td>2024-01-14</td>
-                                    <td>Sarah Johnson</td>
-                                    <td>Project completed</td>
-                                    <td><span class="badge completed">Completed</span></td>
-                                </tr>
-                                <tr>
-                                    <td>2024-01-13</td>
-                                    <td>Mike Davis</td>
-                                    <td>Payment received</td>
-                                    <td><span class="badge completed">Completed</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        function editBlock(id) {
+            const block = contentBlocks.find(b => b.id === id);
+            if (block) {
+                document.getElementById('blockType').value = block.type;
+                document.getElementById('blockTitle').value = block.title;
+                document.getElementById('blockContent').value = block.content;
+                
+                // Remove the block so it can be re-added with new content
+                deleteBlock(id);
+            }
+        }
 
-            <!-- Client Requests Section -->
-            <div class="content-section" id="requests">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Client Requests</h3>
-                        <button class="btn btn-primary" onclick="refreshRequests()">
-                            <i class="fas fa-sync-alt"></i> Refresh
-                        </button>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Type</th>
-                                    <th>Budget</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="requestsTable">
-                                <!-- Sample data -->
-                                <tr>
-                                    <td>2024-01-15</td>
-                                    <td>John Smith</td>
-                                    <td>john@example.com</td>
-                                    <td>(555) 123-4567</td>
-                                    <td>E-commerce</td>
-                                    <td>$5,000-$10,000</td>
-                                    <td><span class="badge new">New</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary" onclick="viewRequest(1)">View</button>
-                                        <button class="btn btn-sm btn-success" onclick="updateStatus(1, 'in-progress')">Accept</button>
-                                        <button class="btn btn-sm btn-danger" onclick="updateStatus(1, 'cancelled')">Decline</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2024-01-14</td>
-                                    <td>Sarah Johnson</td>
-                                    <td>sarah@company.com</td>
-                                    <td>(555) 987-6543</td>
-                                    <td>Business</td>
-                                    <td>$2,500-$5,000</td>
-                                    <td><span class="badge in-progress">In Progress</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary" onclick="viewRequest(2)">View</button>
-                                        <button class="btn btn-sm btn-success" onclick="updateStatus(2, 'completed')">Complete</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        function deleteBlock(id) {
+            if (confirm('Are you sure you want to delete this content block?')) {
+                contentBlocks = contentBlocks.filter(b => b.id !== id);
+                saveContentBlocks();
+                renderContentBlocks();
+            }
+        }
 
-            <!-- Projects Section -->
-            <div class="content-section" id="projects">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Active Projects</h3>
-                        <button class="btn btn-primary" onclick="addProject()">
-                            <i class="fas fa-plus"></i> Add Project
-                        </button>
-                    </div>
-                    <div class="grid grid-3">
-                        <div class="card">
-                            <h4>TechFlow Solutions</h4>
-                            <p>Corporate website with custom CMS</p>
-                            <div style="margin: 1rem 0;">
-                                <span class="badge in-progress">In Progress</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span>Progress: 75%</span>
-                                <button class="btn btn-sm btn-primary">Manage</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h4>Bella Vista Restaurant</h4>
-                            <p>Restaurant website with online ordering</p>
-                            <div style="margin: 1rem 0;">
-                                <span class="badge completed">Completed</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span>Progress: 100%</span>
-                                <button class="btn btn-sm btn-success">View</button>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h4>Eco Lifestyle Store</h4>
-                            <p>E-commerce platform with inventory management</p>
-                            <div style="margin: 1rem 0;">
-                                <span class="badge new">Planning</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span>Progress: 25%</span>
-                                <button class="btn btn-sm btn-primary">Start</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        function saveContentBlocks() {
+            localStorage.setItem('webvtec_content_blocks', JSON.stringify(contentBlocks));
+        }
 
-            <!-- Content Management Section -->
-            <div class="content-section" id="content">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Website Content</h3>
-                        <button class="btn btn-primary" onclick="saveContent()">
-                            <i class="fas fa-save"></i> Save Changes
-                        </button>
-                    </div>
-                    <div class="grid grid-2">
-                        <div class="form-group">
-                            <label>Hero Title</label>
-                            <input type="text" id="heroTitle" value="Custom Websites Built From Scratch">
-                        </div>
-                        <div class="form-group">
-                            <label>Hero Subtitle</label>
-                            <textarea id="heroSubtitle" rows="3">Transform your business with a professionally crafted website tailored to your unique needs.</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Contact Email</label>
-                            <input type="email" id="contactEmail" value="hello@devcraftstudio.com">
-                        </div>
-                        <div class="form-group">
-                            <label>Contact Phone</label>
-                            <input type="tel" id="contactPhone" value="+1 (555) 123-4567">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        function loadContentBlocks() {
+            const saved = localStorage.getItem('webvtec_content_blocks');
+            if (saved) {
+                contentBlocks = JSON.parse(saved);
+            }
+            renderContentBlocks();
+        }
 
-            <!-- Pricing Section -->
-            <div class="content-section" id="pricing">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Pricing Management</h3>
-                        <button class="btn btn-primary" onclick="savePricing()">
-                            <i class="fas fa-save"></i> Update Pricing
-                        </button>
-                    </div>
-                    <div class="grid grid-3">
-                        <div class="card">
-                            <h4>Starter Website</h4>
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="number" id="starterPrice" value="2499">
-                            </div>
-                            <div class="form-group">
-                                <label>Features (one per line)</label>
-                                <textarea id="starterFeatures" rows="5">Up to 5 pages
-Responsive design
-SEO optimization
-Contact forms
-30 days free support</textarea>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h4>Professional Website</h4>
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="number" id="professionalPrice" value="4999">
-                            </div>
-                            <div class="form-group">
-                                <label>Features (one per line)</label>
-                                <textarea id="professionalFeatures" rows="5">Up to 15 pages
-Custom CMS
-Advanced SEO
-E-commerce ready
-Analytics integration
-60 days free support</textarea>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <h4>Monthly Support</h4>
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="number" id="supportPrice" value="199">
-                            </div>
-                            <div class="form-group">
-                                <label>Features (one per line)</label>
-                                <textarea id="supportFeatures" rows="5">Unlimited updates
-Security monitoring
-Performance optimization
-Content updates
-Priority support
-Monthly reports</textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        function addDragDropListeners() {
+            const draggableItems = document.querySelectorAll('.draggable-item');
+            const container = document.getElementById('blocksList');
 
-            <!-- Testimonials Section -->
-            <div class="content-section" id="testimonials">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Testimonials</h3>
-                        <button class="btn btn-primary" onclick="addTestimonial()">
-                            <i class="fas fa-plus"></i> Add Testimonial
-                        </button>
-                    </div>
-                    <div class="grid grid-2">
-                        <div class="card">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                                <div>
-                                    <h4>Maria Rodriguez</h4>
-                                    <p>Owner, Bella Vista Restaurant</p>
-                                </div>
-                                <button class="btn btn-sm btn-danger" onclick="deleteTestimonial(1)">Delete</button>
-                            </div>
-                            <p style="font-style: italic; color: var(--gray-600);">
-                                "DevCraft Studio transformed our online presence completely. The custom website they built for our restaurant increased our online orders by 300% in just two months."
-                            </p>
-                        </div>
-                        <div class="card">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                                <div>
-                                    <h4>James Smith</h4>
-                                    <p>CEO, TechFlow Solutions</p>
-                                </div>
-                                <button class="btn btn-sm btn-danger" onclick="deleteTestimonial(2)">Delete</button>
-                            </div>
-                            <p style="font-style: italic; color: var(--gray-600);">
-                                "Working with DevCraft Studio was a game-changer for our tech startup. They created a modern, fast-loading website that perfectly represents our brand."
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            draggableItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        }
 
-            <!-- Analytics Section -->
-            <div class="content-section" id="analytics">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon primary">
-                            <i class="fas fa-eye"></i>
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.style.opacity = '0.5';
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (this !== draggedElement) {
+                // Swap elements
+                const draggedId = draggedElement.dataset.id;
+                const targetId = this.dataset.id;
+                
+                const draggedIndex = contentBlocks.findIndex(b => b.id == draggedId);
+                const targetIndex = contentBlocks.findIndex(b => b.id == targetId);
+                
+                // Swap in array
+                [contentBlocks[draggedIndex], contentBlocks[targetIndex]] = [contentBlocks[targetIndex], contentBlocks[draggedIndex]];
+                
+                saveContentBlocks();
+                renderContentBlocks();
+            }
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+            draggedElement = null;
+        }
+
+        // Dashboard functions
+        function loadDashboard() {
+            // Load statistics
+            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+            const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+            
+            document.getElementById('totalRequests').textContent = requests.length;
+            document.getElementById('totalReviews').textContent = reviews.length;
+            document.getElementById('pendingRequests').textContent = requests.filter(r => r.status === 'pending').length;
+            
+            if (reviews.length > 0) {
+                const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
+                document.getElementById('avgRating').textContent = avgRating;
+            }
+
+            // Load recent activity
+            const recentActivity = document.getElementById('recentActivity');
+            const recentRequests = requests.slice(-3);
+            const recentReviews = reviews.slice(-3);
+            
+            let activityHtml = '<h4 style="color: #FFFFFF; margin-bottom: 10px;">Recent Requests:</h4>';
+            if (recentRequests.length > 0) {
+                activityHtml += recentRequests.map(req => 
+                    `<p style="margin-bottom: 5px;">• ${req.firstName} ${req.lastName} - ${req.websiteType}</p>`
+                ).join('');
+            } else {
+                activityHtml += '<p>No recent requests</p>';
+            }
+
+            activityHtml += '<h4 style="color: #FFFFFF; margin: 15px 0 10px 0;">Recent Reviews:</h4>';
+            if (recentReviews.length > 0) {
+                activityHtml += recentReviews.map(review => 
+                    `<p style="margin-bottom: 5px;">• ${review.name} - ${'★'.repeat(review.rating)} stars</p>`
+                ).join('');
+            } else {
+                activityHtml += '<p>No recent reviews</p>';
+            }
+
+            recentActivity.innerHTML = activityHtml;
+        }
+
+        // Requests management
+        function loadRequests() {
+            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+            const tableBody = document.getElementById('requestsTableBody');
+            
+            if (requests.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #A296E7;">No requests found</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = requests.map(req => `
+                <tr>
+                    <td>${new Date(req.timestamp).toLocaleDateString()}</td>
+                    <td>${req.firstName} ${req.lastName}</td>
+                    <td>${req.email}</td>
+                    <td>${req.phone}</td>
+                    <td>${req.websiteType}</td>
+                    <td><span class="status-badge status-${req.status || 'pending'}">${req.status || 'pending'}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn btn-edit" onclick="updateRequestStatus('${req.email}', 'in-progress')">In Progress</button>
+                            <button class="action-btn btn-approve" onclick="updateRequestStatus('${req.email}', 'completed')">Complete</button>
                         </div>
-                        <div class="stat-info">
-                            <h3>1,247</h3>
-                            <p>Page Views (30 days)</p>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateRequestStatus(email, status) {
+            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+            const requestIndex = requests.findIndex(r => r.email === email);
+            
+            if (requestIndex !== -1) {
+                requests[requestIndex].status = status;
+                localStorage.setItem('websiteRequests', JSON.stringify(requests));
+                loadRequests();
+                loadDashboard(); // Update dashboard stats
+                alert('Request status updated successfully!');
+            }
+        }
+
+        function refreshRequests() {
+            loadRequests();
+            alert('Requests data refreshed!');
+        }
+
+        function exportRequests() {
+            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+            if (requests.length === 0) {
+                alert('No requests to export');
+                return;
+            }
+
+            let csvContent = "Date,First Name,Last Name,Email,Phone,Website Type,Status\n";
+            requests.forEach(req => {
+                csvContent += `${new Date(req.timestamp).toLocaleDateString()},"${req.firstName}","${req.lastName}","${req.email}","${req.phone}","${req.websiteType}","${req.status || 'pending'}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'website-requests.csv';
+            a.click();
+        }
+
+        // Reviews management
+        function loadReviews() {
+            const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+            const tableBody = document.getElementById('reviewsTableBody');
+            
+            if (reviews.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #A296E7;">No reviews found</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = reviews.map((review, index) => `
+                <tr>
+                    <td>${new Date(review.timestamp).toLocaleDateString()}</td>
+                    <td>${review.name}</td>
+                    <td>${review.userEmail || 'N/A'}</td>
+                    <td>${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${review.text}</td>
+                    <td><span class="status-badge status-completed">Approved</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn btn-delete" onclick="deleteReview(${index})">Delete</button>
                         </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon success">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>456</h3>
-                            <p>Unique Visitors</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon warning">
-                            <i class="fas fa-percentage"></i
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteReview(index) {
+            if (confirm('Are you sure you want to delete this review?')) {
+                const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+                reviews.splice(index, 1);
+                localStorage.setItem('localReviews', JSON.stringify(reviews));
+                loadReviews();
+                loadDashboard();
+                alert('Review deleted successfully!');
+            }
+        }
+
+        function refreshReviews() {
+            loadReviews();
+            alert('Reviews data refreshed!');
+        }
+
+        function exportReviews() {
+            const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+            if (reviews.length === 0) {
+                alert('No reviews to export');
+                return;
+            }
+
+            let csvContent = "Date,Name,Email,Rating,Review Text\n";
+            reviews.forEach(review => {
+                csvContent += `${new Date(review.timestamp).toLocaleDateString()},"${review.name}","${review.userEmail || 'N/A'}",${review.rating},"${review.text.replace(/"/g, '""')}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'reviews.csv';
+            a.click();
+        }
+
+        // Settings functions
+        function saveSettings() {
+            const settings = {
+                siteTitle: document.getElementById('siteTitle').value,
+                siteDescription: document.getElementById('siteDescription').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                contactPhone: document.getElementById('contactPhone').value,
+                adminEmails: document.getElementById('adminEmails').value,
+                adminPassword: document.getElementById('adminPassword').value
+            };
+
+            localStorage.setItem('webvtec_settings', JSON.stringify(settings));
+            alert('Settings saved successfully!');
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear ALL website data? This action cannot be undone!')) {
+                if (confirm('This will delete all requests, reviews, content blocks, and settings. Are you absolutely sure?')) {
+                    localStorage.removeItem('websiteRequests');
+                    localStorage.removeItem('localReviews');
+                    localStorage.removeItem('webvtec_content_blocks');
+                    localStorage.removeItem('webvtec_homepage_data');
+                    localStorage.removeItem('webvtec_settings');
+                    alert('All data has been cleared!');
+                    location.reload();
+                }
+            }
+        }
+
+        function goBackToSite() {
+            // In a real implementation, this would navigate back to the main site
+            if (confirm('Return to main website?')) {
+                window.history.back();
+            }
+        }
+
+        // Load saved settings on page load
+        function loadSettings() {
+            const saved = localStorage.getItem('webvtec_settings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('siteTitle').value = settings.siteTitle || '';
+                document.getElementById('siteDescription').value = settings.siteDescription || '';
+                document.getElementById('contactEmail').value = settings.contactEmail || '';
+                document.getElementById('contactPhone').value = settings.contactPhone || '';
+                document.getElementById('adminEmails').value = settings.adminEmails || '';
+            }
+        }
+
+        function loadHomepageData() {
+            const saved = localStorage.getItem('webvtec_homepage_data');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = data[key];
+                    }
+                });
+            }
+        }
+
+        // Initialize admin panel
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+            loadSettings();
+            loadHomepageData();
+            loadContentBlocks();
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    switch(e.key) {
+                        case 's':
+                            e.preventDefault();
+                            saveHomepageChanges();
+                            break;
+                        case '1':
+                            e.preventDefault();
+                            showAdminSection('dashboard');
+                            break;
+                        case '2':
+                            e.preventDefault();
+                            showAdminSection('homepage');
+                            break;
+                        case '3':
+                            e.preventDefault();
+                            showAdminSection('containers');
+                            break;
+                    }
+                }
+            });
+
+            console.log('Admin panel loaded successfully!');
+        });
+    </script>
+</body>
+</html>
