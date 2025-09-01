@@ -826,7 +826,8 @@
             }
         }
 
-        function loadHomepageData() {
+        
+      function loadHomepageData() {
             const saved = localStorage.getItem('webvtec_homepage_data');
             if (saved) {
                 const data = JSON.parse(saved);
@@ -836,6 +837,215 @@
                         element.value = data[key];
                     }
                 });
+            }
+        }
+
+        // Dashboard functions
+        function loadDashboard() {
+            // Load statistics
+            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+            const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+            
+            document.getElementById('totalRequests').textContent = requests.length;
+            document.getElementById('totalReviews').textContent = reviews.length;
+            document.getElementById('pendingRequests').textContent = requests.filter(r => r.status === 'pending').length;
+            
+            if (reviews.length > 0) {
+                const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
+                document.getElementById('avgRating').textContent = avgRating;
+            }
+
+            // Load recent activity
+            const recentActivity = document.getElementById('recentActivity');
+            const recentRequests = requests.slice(-3);
+            const recentReviews = reviews.slice(-3);
+            
+            let activityHtml = '<h4 style="color: #FFFFFF; margin-bottom: 10px;">Recent Requests:</h4>';
+            if (recentRequests.length > 0) {
+                activityHtml += recentRequests.map(req => 
+                    `<p style="margin-bottom: 5px;">• ${req.firstName} ${req.lastName} - ${req.websiteType}</p>`
+                ).join('');
+            } else {
+                activityHtml += '<p>No recent requests</p>';
+            }
+
+            activityHtml += '<h4 style="color: #FFFFFF; margin: 15px 0 10px 0;">Recent Reviews:</h4>';
+            if (recentReviews.length > 0) {
+                activityHtml += recentReviews.map(review => 
+                    `<p style="margin-bottom: 5px;">• ${review.name} - ${'★'.repeat(review.rating)} stars</p>`
+                ).join('');
+            } else {
+                activityHtml += '<p>No recent reviews</p>';
+            }
+
+            recentActivity.innerHTML = activityHtml;
+        }
+
+        // Requests management
+        function loadRequests() {
+            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+            const tableBody = document.getElementById('requestsTableBody');
+            
+            if (requests.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #A296E7;">No requests found</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = requests.map(req => `
+                <tr>
+                    <td>${new Date(req.timestamp).toLocaleDateString()}</td>
+                    <td>${req.firstName} ${req.lastName}</td>
+                    <td>${req.email}</td>
+                    <td>${req.phone}</td>
+                    <td>${req.websiteType}</td>
+                    <td><span class="status-badge status-${req.status || 'pending'}">${req.status || 'pending'}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn btn-edit" onclick="updateRequestStatus('${req.email}', 'in-progress')">In Progress</button>
+                            <button class="action-btn btn-approve" onclick="updateRequestStatus('${req.email}', 'completed')">Complete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateRequestStatus(email, status) {
+            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+            const requestIndex = requests.findIndex(r => r.email === email);
+            
+            if (requestIndex !== -1) {
+                requests[requestIndex].status = status;
+                localStorage.setItem('websiteRequests', JSON.stringify(requests));
+                loadRequests();
+                loadDashboard(); // Update dashboard stats
+                alert('Request status updated successfully!');
+            }
+        }
+
+        function refreshRequests() {
+            loadRequests();
+            alert('Requests data refreshed!');
+        }
+
+        function exportRequests() {
+            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
+            if (requests.length === 0) {
+                alert('No requests to export');
+                return;
+            }
+
+            let csvContent = "Date,First Name,Last Name,Email,Phone,Website Type,Status\n";
+            requests.forEach(req => {
+                csvContent += `${new Date(req.timestamp).toLocaleDateString()},"${req.firstName}","${req.lastName}","${req.email}","${req.phone}","${req.websiteType}","${req.status || 'pending'}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'website-requests.csv';
+            a.click();
+        }
+
+        // Reviews management
+        function loadReviews() {
+            const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+            const tableBody = document.getElementById('reviewsTableBody');
+            
+            if (reviews.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #A296E7;">No reviews found</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = reviews.map((review, index) => `
+                <tr>
+                    <td>${new Date(review.timestamp).toLocaleDateString()}</td>
+                    <td>${review.name}</td>
+                    <td>${review.userEmail || 'N/A'}</td>
+                    <td>${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${review.text}</td>
+                    <td><span class="status-badge status-completed">Approved</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn btn-delete" onclick="deleteReview(${index})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteReview(index) {
+            if (confirm('Are you sure you want to delete this review?')) {
+                const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+                reviews.splice(index, 1);
+                localStorage.setItem('localReviews', JSON.stringify(reviews));
+                loadReviews();
+                loadDashboard();
+                alert('Review deleted successfully!');
+            }
+        }
+
+        function refreshReviews() {
+            loadReviews();
+            alert('Reviews data refreshed!');
+        }
+
+        function exportReviews() {
+            const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
+            if (reviews.length === 0) {
+                alert('No reviews to export');
+                return;
+            }
+
+            let csvContent = "Date,Name,Email,Rating,Review Text\n";
+            reviews.forEach(review => {
+                csvContent += `${new Date(review.timestamp).toLocaleDateString()},"${review.name}","${review.userEmail || 'N/A'}",${review.rating},"${review.text.replace(/"/g, '""')}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'reviews.csv';
+            a.click();
+        }
+
+        // Settings functions
+        function saveSettings() {
+            const settings = {
+                siteTitle: document.getElementById('siteTitle').value,
+                siteDescription: document.getElementById('siteDescription').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                contactPhone: document.getElementById('contactPhone').value
+            };
+
+            localStorage.setItem('webvtec_settings', JSON.stringify(settings));
+            alert('Settings saved successfully!');
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear ALL website data? This action cannot be undone!')) {
+                if (confirm('This will delete all requests, reviews, containers, and settings. Are you absolutely sure?')) {
+                    localStorage.removeItem('websiteRequests');
+                    localStorage.removeItem('localReviews');
+                    localStorage.removeItem('webvtec_homepage_containers');
+                    localStorage.removeItem('webvtec_homepage_data');
+                    localStorage.removeItem('webvtec_settings');
+                    alert('All data has been cleared!');
+                    location.reload();
+                }
+            }
+        }
+
+        // Load saved settings on page load
+        function loadSettings() {
+            const saved = localStorage.getItem('webvtec_settings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('siteTitle').value = settings.siteTitle || '';
+                document.getElementById('siteDescription').value = settings.siteDescription || '';
+                document.getElementById('contactEmail').value = settings.contactEmail || '';
+                document.getElementById('contactPhone').value = settings.contactPhone || '';
             }
         }
 
@@ -887,216 +1097,6 @@
             getHomepageContainers,
             getHomepageData
         };
-        
-    d('admin-' + sectionId).classList.add('active');
-            
-            // Update tab styling
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Load section-specific data
-            if (sectionId === 'requests') {
-                loadRequests();
-            } else if (sectionId === 'reviews') {
-                loadReviews();
-            } else if (sectionId === 'dashboard') {
-                loadDashboard();
-            } else if (sectionId === 'homepage') {
-                loadHomepageContainers();
-            }
-        }
-
-        // Homepage management functions
-        function saveHomepageChanges() {
-            // Collect all form data
-            websiteData.welcomeTitle = document.getElementById('welcomeTitle').value;
-            websiteData.welcomeText = document.getElementById('welcomeText').value;
-            websiteData.joinButtonText = document.getElementById('joinButtonText').value;
-
-            // Save to localStorage
-            localStorage.setItem('webvtec_homepage_data', JSON.stringify(websiteData));
-            localStorage.setItem('webvtec_homepage_containers', JSON.stringify(homepageContainers));
-            
-            alert('Homepage changes saved successfully!');
-        }
-
-        function previewChanges() {
-            const preview = document.getElementById('homepage-preview');
-            const previewContent = document.getElementById('previewContent');
-            
-            let containersHtml = '';
-            homepageContainers.forEach(container => {
-                containersHtml += `
-                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-                        <h4 style="color: white; margin-bottom: 10px;">${container.title}</h4>
-                        <div style="color: #A296E7;">${container.content.replace(/\n/g, '<br>')}</div>
-                    </div>
-                `;
-            });
-            
-            previewContent.innerHTML = `
-                <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #8B5CF6, #A855F7); border-radius: 10px; color: white;">
-                    <h3>${document.getElementById('welcomeTitle').value}</h3>
-                    <p style="margin: 15px 0;">${document.getElementById('welcomeText').value}</p>
-                    <button style="background: white; color: #8B5CF6; padding: 10px 20px; border: none; border-radius: 5px; margin: 10px;">
-                        ${document.getElementById('joinButtonText').value}
-                    </button>
-                </div>
-                ${containersHtml}
-            `;
-            
-            preview.style.display = 'block';
-        }
-
-        function resetToDefaults() {
-            if (confirm('Are you sure you want to reset to default values?')) {
-                document.getElementById('welcomeTitle').value = 'Welcome to Web VTec';
-                document.getElementById('welcomeText').value = 'Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.';
-                document.getElementById('joinButtonText').value = 'JOIN US NOW';
-            }
-        }
-
-        // Homepage containers management
-        function addHomepageContainer() {
-            const type = document.getElementById('containerType').value;
-            const title = document.getElementById('containerTitle').value;
-            const content = document.getElementById('containerContent').value;
-
-            if (!title || !content) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            const newContainer = {
-                id: Date.now(),
-                type: type,
-                title: title,
-                content: content,
-                order: homepageContainers.length
-            };
-
-            homepageContainers.push(newContainer);
-            saveHomepageContainers();
-            renderHomepageContainers();
-            
-            // Clear form
-            document.getElementById('containerTitle').value = '';
-            document.getElementById('containerContent').value = '';
-        }
-
-        function renderHomepageContainers() {
-            const containersList = document.getElementById('homepageContainers');
-            
-            if (homepageContainers.length === 0) {
-                containersList.innerHTML = '<p style="color: #A296E7; text-align: center; padding: 20px;">No containers yet. Add your first container above.</p>';
-                return;
-            }
-
-            containersList.innerHTML = homepageContainers.map(container => `
-                <div class="draggable-item" draggable="true" data-id="${container.id}">
-                    <div style="color: white; font-weight: 600; margin-bottom: 5px;">
-                        ${container.type.toUpperCase()}: ${container.title}
-                    </div>
-                    <div style="color: #A296E7; font-size: 14px; margin-bottom: 10px;">
-                        ${container.content.substring(0, 100)}${container.content.length > 100 ? '...' : ''}
-                    </div>
-                    <div class="item-controls">
-                        <button class="action-btn btn-edit" onclick="editContainer(${container.id})">Edit</button>
-                        <button class="action-btn btn-delete" onclick="deleteContainer(${container.id})">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-
-            // Add drag and drop functionality
-            addDragDropListeners();
-        }
-
-        function editContainer(id) {
-            const container = homepageContainers.find(c => c.id === id);
-            if (container) {
-                document.getElementById('containerType').value = container.type;
-                document.getElementById('containerTitle').value = container.title;
-                document.getElementById('containerContent').value = container.content;
-                
-                // Remove the container so it can be re-added with new content
-                deleteContainer(id);
-            }
-        }
-
-        function deleteContainer(id) {
-            if (confirm('Are you sure you want to delete this container?')) {
-                homepageContainers = homepageContainers.filter(c => c.id !== id);
-                saveHomepageContainers();
-                renderHomepageContainers();
-            }
-        }
-
-        function saveHomepageContainers() {
-            localStorage.setItem('webvtec_homepage_containers', JSON.stringify(homepageContainers));
-        }
-
-        function loadHomepageContainers() {
-            const saved = localStorage.getItem('webvtec_homepage_containers');
-            if (saved) {
-                homepageContainers = JSON.parse(saved);
-            }
-            renderHomepageContainers();
-        }
-
-        function addDragDropListeners() {
-            const draggableItems = document.querySelectorAll('.draggable-item');
-
-            draggableItems.forEach(item => {
-                item.addEventListener('dragstart', handleDragStart);
-                item.addEventListener('dragover', handleDragOver);
-                item.addEventListener('drop', handleDrop);
-                item.addEventListener('dragend', handleDragEnd);
-            });
-        }
-
-        let draggedElement = null;
-
-        function handleDragStart(e) {
-            draggedElement = this;
-            this.style.opacity = '0.5';
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            if (this !== draggedElement) {
-                // Swap elements
-                const draggedId = draggedElement.dataset.id;
-                const targetId = this.dataset.id;
-                
-                const draggedIndex = homepageContainers.findIndex(c => c.id == draggedId);
-                const targetIndex = homepageContainers.findIndex(c => c.id == targetId);
-                
-                // Swap in array
-                [homepageContainers[draggedIndex], homepageContainers[targetIndex]] = [homepageContainers[targetIndex], homepageContainers[draggedIndex]];
-                
-                saveHomepageContainers();
-                renderHomepageContainers();
-            }
-        }
-
-        function handleDragEnd(e) {
-            this.style.opacity = '1';
-            draggedElement = null;
-        }
-
-        // Dashboard functions
-        function loadDashboard() {
-            // Load statistics
-            const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
-            const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
-            
-            document.getElementByI
-        </script>
+    </script>
 </body>
 </html>
