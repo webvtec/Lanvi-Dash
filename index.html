@@ -853,123 +853,131 @@ button,
 
         // Auth state observer
         auth.onAuthStateChanged((user) => {
-    currentUser = user;
-    if (user) {
-        document.getElementById('userStatus').style.display = 'block';
-        document.getElementById('userEmail').textContent = user.email;
-        
-        // Show/hide admin button based on user email
-        const adminButton = document.querySelector('.admin-button');
-        if (isAdminUser(user.email)) {
-            adminButton.style.display = 'inline-block';
-        } else {
-            adminButton.style.display = 'none';
-        }
-    } else {
-        document.getElementById('userStatus').style.display = 'none';
-        const adminButton = document.querySelector('.admin-button');
-        if (adminButton) {
-            adminButton.style.display = 'none';
-        }
-        isAdminLoggedIn = false;
-    }
-});
+            currentUser = user;
+            if (user) {
+                document.getElementById('userStatus').style.display = 'block';
+                document.getElementById('userEmail').textContent = user.email;
+                
+                // Show/hide admin button based on user email
+                const adminButton = document.querySelector('.admin-button');
+                if (isAdminUser(user.email)) {
+                    adminButton.style.display = 'inline-block';
+                } else {
+                    adminButton.style.display = 'none';
+                }
+                
+                // Load user's draft form data from Firebase
+                loadFormDraftFromFirebase(user.uid);
+            } else {
+                document.getElementById('userStatus').style.display = 'none';
+                const adminButton = document.querySelector('.admin-button');
+                if (adminButton) {
+                    adminButton.style.display = 'none';
+                }
+                isAdminLoggedIn = false;
+            }
+        });
 
+        // Admin configuration - now stored in Firebase
+        const ADMIN_EMAILS = [
+            'carlanviroberts@gmail.com', 
+            'owner@webvtec.com'
+        ];
+        const ADMIN_PASSWORD = '12345678';
 
-        // Add these variables at the top of your script section
-const ADMIN_EMAILS = [
-    'carlanviroberts@gmail.com', 
-    'owner@webvtec.com'  // Replace with your actual admin emails
-];
-const ADMIN_PASSWORD = '12345678'; // Change this to your secure password
+        let isAdminLoggedIn = false;
 
-let isAdminLoggedIn = false;
+        function isAdminUser(email) {
+            return ADMIN_EMAILS.includes(email);
+        }
 
-// Add this function to check if user is admin
-function isAdminUser(email) {
-    return ADMIN_EMAILS.includes(email);
-}
+        function adminLogin() {
+            if (!currentUser) {
+                alert('Please login first');
+                showLoginModal();
+                return;
+            }
+            
+            if (!isAdminUser(currentUser.email)) {
+                alert('Access denied - Admin privileges required');
+                return;
+            }
+            
+            const password = prompt('Enter admin password:');
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                window.open('admin.html', '_blank');
+            } else {
+                alert('Incorrect admin password');
+            }
+        }
 
+        // Load and apply homepage data from Firebase
+        async function loadAndApplyHomepageData() {
+            try {
+                const doc = await db.collection('site-settings').doc('homepage').get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    
+                    const brandNameElement = document.querySelector('.brand-name');
+                    if (brandNameElement && data.brandName) {
+                        brandNameElement.textContent = data.brandName;
+                    }
+                    
+                    const brandTaglineElement = document.querySelector('.brand-tagline');
+                    if (brandTaglineElement && data.brandTagline) {
+                        brandTaglineElement.textContent = data.brandTagline;
+                    }
+                    
+                    const ctaButton = document.querySelector('.cta-button');
+                    if (ctaButton && data.ctaButtonText) {
+                        ctaButton.textContent = data.ctaButtonText;
+                    }
+                    
+                    const welcomeTitleElement = document.querySelector('.content-area h2');
+                    if (welcomeTitleElement && data.welcomeTitle) {
+                        welcomeTitleElement.textContent = data.welcomeTitle;
+                    }
+                    
+                    const welcomeTextElement = document.querySelector('.content-area p');
+                    if (welcomeTextElement && data.welcomeText) {
+                        welcomeTextElement.textContent = data.welcomeText;
+                    }
+                    
+                    const joinButton = document.querySelector('.join-button');
+                    if (joinButton && data.joinButtonText) {
+                        joinButton.textContent = data.joinButtonText;
+                    }
+                    
+                    if (data.navHome) {
+                        const homeNav = document.querySelector('[data-page="home"]');
+                        if (homeNav) homeNav.textContent = data.navHome;
+                    }
+                    
+                    if (data.navRequest) {
+                        const requestNav = document.querySelector('[data-page="request"]');
+                        if (requestNav) requestNav.textContent = data.navRequest;
+                    }
+                    
+                    if (data.navReviews) {
+                        const reviewsNav = document.querySelector('[data-page="reviews"]');
+                        if (reviewsNav) reviewsNav.textContent = data.navReviews;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading homepage data:', error);
+            }
+        }
 
-function adminLogin() {
-    if (!currentUser) {
-        alert('Please login first');
-        showLoginModal();
-        return;
-    }
-    
-    if (!isAdminUser(currentUser.email)) {
-        alert('Access denied - Admin privileges required');
-        return;
-    }
-    
-    const password = prompt('Enter admin password:');
-    if (password === ADMIN_PASSWORD) {
-        isAdminLoggedIn = true;
-        window.open('admin.html', '_blank');
-    } else {
-        alert('Incorrect admin password');
-    }
-}
-
-function loadAndApplyHomepageData() {
-    const saved = localStorage.getItem('webvtec_homepage_data');
-    if (saved) {
-        const data = JSON.parse(saved);
-        
-        const brandNameElement = document.querySelector('.brand-name');
-        if (brandNameElement && data.brandName) {
-            brandNameElement.textContent = data.brandName;
+        // Listen for real-time updates to site settings
+        function listenForSiteSettingsUpdates() {
+            db.collection('site-settings').doc('homepage')
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        loadAndApplyHomepageData();
+                    }
+                });
         }
-        
-        const brandTaglineElement = document.querySelector('.brand-tagline');
-        if (brandTaglineElement && data.brandTagline) {
-            brandTaglineElement.textContent = data.brandTagline;
-        }
-        
-        const ctaButton = document.querySelector('.cta-button');
-        if (ctaButton && data.ctaButtonText) {
-            ctaButton.textContent = data.ctaButtonText;
-        }
-        
-        const welcomeTitleElement = document.querySelector('.content-area h2');
-        if (welcomeTitleElement && data.welcomeTitle) {
-            welcomeTitleElement.textContent = data.welcomeTitle;
-        }
-        
-        const welcomeTextElement = document.querySelector('.content-area p');
-        if (welcomeTextElement && data.welcomeText) {
-            welcomeTextElement.textContent = data.welcomeText;
-        }
-        
-        const joinButton = document.querySelector('.join-button');
-        if (joinButton && data.joinButtonText) {
-            joinButton.textContent = data.joinButtonText;
-        }
-        
-        if (data.navHome) {
-            const homeNav = document.querySelector('[data-page="home"]');
-            if (homeNav) homeNav.textContent = data.navHome;
-        }
-        
-        if (data.navRequest) {
-            const requestNav = document.querySelector('[data-page="request"]');
-            if (requestNav) requestNav.textContent = data.navRequest;
-        }
-        
-        if (data.navReviews) {
-            const reviewsNav = document.querySelector('[data-page="reviews"]');
-            if (reviewsNav) reviewsNav.textContent = data.navReviews;
-        }
-    }
-}
-
-// Listen for admin changes
-window.addEventListener('storage', function(e) {
-    if (e.key === 'webvtec_homepage_data') {
-        loadAndApplyHomepageData();
-    }
-});
 
         // Login functions
         function showLoginModal() {
@@ -992,11 +1000,36 @@ window.addEventListener('storage', function(e) {
             try {
                 await auth.signInWithEmailAndPassword(email, password);
                 closeLoginModal();
-                // Clear form
                 document.getElementById('loginEmail').value = '';
                 document.getElementById('loginPassword').value = '';
             } catch (error) {
-                alert('Login failed: ' + error.message);
+                if (error.code === 'auth/user-not-found') {
+                    if (confirm('No account found with this email. Would you like to create a new account?')) {
+                        createUserAccount();
+                    }
+                } else {
+                    alert('Login failed: ' + error.message);
+                }
+            }
+        }
+
+        async function createUserAccount() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+
+            try {
+                await auth.createUserWithEmailAndPassword(email, password);
+                closeLoginModal();
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+                alert('Account created successfully! You can now leave reviews.');
+            } catch (error) {
+                alert('Account creation failed: ' + error.message);
             }
         }
 
@@ -1058,12 +1091,56 @@ window.addEventListener('storage', function(e) {
             });
         });
 
-        // Website request form submission
+        // Save form draft to Firebase
+        async function saveFormDraftToFirebase(userId, formData) {
+            if (!userId) return;
+            
+            try {
+                await db.collection('user-drafts').doc(userId).set({
+                    websiteRequestDraft: formData,
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+            } catch (error) {
+                console.error('Error saving form draft:', error);
+            }
+        }
+
+        // Load form draft from Firebase
+        async function loadFormDraftFromFirebase(userId) {
+            if (!userId) return;
+            
+            try {
+                const doc = await db.collection('user-drafts').doc(userId).get();
+                if (doc.exists && doc.data().websiteRequestDraft) {
+                    const data = doc.data().websiteRequestDraft;
+                    Object.keys(data).forEach(key => {
+                        const field = document.getElementById(key);
+                        if (field && data[key]) field.value = data[key];
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading form draft:', error);
+            }
+        }
+
+        // Website request form submission - Firebase only
         document.getElementById('websiteRequestForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
+            
+            // Validate form
+            const errors = validateForm(data);
+            if (errors.length > 0) {
+                alert('Please fix the following errors:\n' + errors.join('\n'));
+                return;
+            }
+
+            const submitButton = this.querySelector('.submit-button');
+            const originalText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
             
             try {
                 // Save to Firestore
@@ -1073,16 +1150,46 @@ window.addEventListener('storage', function(e) {
                     status: 'pending'
                 });
                 
+                // Clear draft after successful submission
+                if (currentUser) {
+                    await db.collection('user-drafts').doc(currentUser.uid).update({
+                        websiteRequestDraft: firebase.firestore.FieldValue.delete()
+                    });
+                }
+                
                 alert('Thank you for your request! We will contact you soon.');
                 this.reset();
+                
             } catch (error) {
                 console.error('Error saving request:', error);
-                alert('Thank you for your request! We will contact you soon.');
-                this.reset();
+                alert('There was an error submitting your request. Please try again.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
             }
         });
 
-        // Review form submission
+        // Auto-save form data to Firebase as user types
+        function setupFormAutoSave() {
+            const formFields = document.querySelectorAll('#websiteRequestForm input, #websiteRequestForm select');
+            let saveTimeout;
+            
+            formFields.forEach(field => {
+                field.addEventListener('input', function() {
+                    if (!currentUser) return;
+                    
+                    // Debounce saves to avoid too many Firebase writes
+                    clearTimeout(saveTimeout);
+                    saveTimeout = setTimeout(() => {
+                        const formData = new FormData(document.getElementById('websiteRequestForm'));
+                        const data = Object.fromEntries(formData);
+                        saveFormDraftToFirebase(currentUser.uid, data);
+                    }, 1000); // Save 1 second after user stops typing
+                });
+            });
+        }
+
+        // Review form submission - Firebase only
         document.getElementById('reviewForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -1099,6 +1206,11 @@ window.addEventListener('storage', function(e) {
                 alert('Please select a star rating.');
                 return;
             }
+
+            const submitButton = this.querySelector('.submit-button');
+            const originalText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
             
             try {
                 // Save review to Firestore
@@ -1126,262 +1238,13 @@ window.addEventListener('storage', function(e) {
             } catch (error) {
                 console.error('Error saving review:', error);
                 alert('Error saving review. Please try again.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
             }
         });
 
-        // Load and display reviews
-        async function loadReviews() {
-            try {
-                const reviewsSnapshot = await db.collection('reviews')
-                    .where('approved', '==', true)
-                    .orderBy('timestamp', 'desc')
-                    .get();
-                
-                const reviewsList = document.getElementById('reviewsList');
-                
-                if (reviewsSnapshot.empty) {
-                    reviewsList.innerHTML = '<p style="color: #9CA3AF;">No reviews yet. Be the first to leave a review!</p>';
-                    return;
-                }
-                
-                const reviewsHtml = reviewsSnapshot.docs.map(doc => {
-                    const review = doc.data();
-                    const initials = review.name.split(' ').map(n => n[0]).join('').toUpperCase();
-                    
-                    return `
-                        <div class="review-item">
-                            <div class="review-header">
-                                <div class="reviewer-avatar">${initials}</div>
-                                <div class="reviewer-info">
-                                    <div class="reviewer-name">${review.name}</div>
-                                    <div class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
-                                </div>
-                            </div>
-                            <p class="review-text">"${review.text}"</p>
-                        </div>
-                    `;
-                }).join('');
-                
-                reviewsList.innerHTML = reviewsHtml;
-                
-            } catch (error) {
-                console.error('Error loading reviews:', error);
-                // Show sample reviews if Firebase fails
-                showSampleReviews();
-            }
-        }
-
-        // Sample reviews for demo
-        function showSampleReviews() {
-            const reviewsList = document.getElementById('reviewsList');
-            reviewsList.innerHTML = `
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">JS</div>
-                        <div class="reviewer-info">
-                            <div class="reviewer-name">John Smith</div>
-                            <div class="review-stars">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="review-text">"Web VTec transformed our online presence completely. The website they built is not only beautiful but also incredibly functional. Our sales increased by 150% within the first month!"</p>
-                </div>
-                
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">MJ</div>
-                        <div class="reviewer-info">
-                            <div class="reviewer-name">Maria Johnson</div>
-                            <div class="review-stars">★★★★★</div>
-                        </div>
-                    </div>
-                    <p class="review-text">"The team at Web VTec is amazing! They created a stunning website for our restaurant with online ordering capabilities. The automation features have saved us countless hours."</p>
-                </div>
-            `;
-        }
-
-        // Initialize reviews on page load
-        document.addEventListener('DOMContentLoaded', function() {
-    // Existing functionality
-    loadReviews();
-
-    // Add admin button functionality
-    const adminButton = document.querySelector('.admin-button');
-    if (adminButton) {
-        adminButton.style.display = 'none'; // Hide by default
-        adminButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            adminLogin();
-        });
-    }
-
-    loadAndApplyHomepageData(); // Load saved admin settings
-
-    // Add click animation to CTA button
-    document.querySelector('.cta-button').addEventListener('click', function(e) {
-        // Create ripple effect
-        const ripple = document.createElement('span');
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-
-        ripple.style.cssText = `
-            position: absolute;
-            left: ${x}px;
-            top: ${y}px;
-            width: ${size}px;
-            height: ${size}px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
-        `;
-
-        this.style.position = 'relative';
-        this.style.overflow = 'hidden';
-        this.appendChild(ripple);
-
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    });
-
-    // Add CSS animation for ripple effect
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-
-    // Close modal when clicking outside
-    document.getElementById('loginModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeLoginModal();
-        }
-    });
-
-    // Handle Enter key in login form
-    document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            loginWithEmail();
-        }
-    });
-
-    document.getElementById('loginEmail').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            document.getElementById('loginPassword').focus();
-        }
-    });
-});
-
-
-        // Auto-create user account if login fails
-        async function createUserAccount() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!email || !password) {
-                alert('Please enter both email and password');
-                return;
-            }
-
-            try {
-                await auth.createUserWithEmailAndPassword(email, password);
-                closeLoginModal();
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-                alert('Account created successfully! You can now leave reviews.');
-            } catch (error) {
-                alert('Account creation failed: ' + error.message);
-            }
-        }
-
-        // Enhanced login function with account creation fallback
-        async function loginWithEmail() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!email || !password) {
-                alert('Please enter both email and password');
-                return;
-            }
-
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                closeLoginModal();
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-            } catch (error) {
-                if (error.code === 'auth/user-not-found') {
-                    // User doesn't exist, offer to create account
-                    if (confirm('No account found with this email. Would you like to create a new account?')) {
-                        createUserAccount();
-                    }
-                } else {
-                    alert('Login failed: ' + error.message);
-                }
-            }
-        }
-
-        // Enhanced error handling for Firestore operations
-        async function saveWebsiteRequest(data) {
-            try {
-                await db.collection('website-requests').add({
-                    ...data,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'pending'
-                });
-                return true;
-            } catch (error) {
-                console.error('Error saving to Firestore:', error);
-                // Fallback: save to localStorage for offline functionality
-                const requests = JSON.parse(localStorage.getItem('websiteRequests') || '[]');
-                requests.push({
-                    ...data,
-                    timestamp: new Date().toISOString(),
-                    status: 'pending'
-                });
-                localStorage.setItem('websiteRequests', JSON.stringify(requests));
-                return true;
-            }
-        }
-
-        // Enhanced error handling for reviews
-        async function saveReview(reviewData) {
-            try {
-                await db.collection('reviews').add({
-                    name: reviewData.reviewerName,
-                    rating: parseInt(reviewData.starRating),
-                    text: reviewData.reviewText,
-                    userEmail: currentUser.email,
-                    userId: currentUser.uid,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    approved: true
-                });
-                return true;
-            } catch (error) {
-                console.error('Error saving review to Firestore:', error);
-                // Fallback: save to localStorage
-                const reviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
-                reviews.unshift({
-                    name: reviewData.reviewerName,
-                    rating: parseInt(reviewData.starRating),
-                    text: reviewData.reviewText,
-                    userEmail: currentUser.email,
-                    timestamp: new Date().toISOString()
-                });
-                localStorage.setItem('localReviews', JSON.stringify(reviews));
-                return true;
-            }
-        }
-
-        // Load reviews with fallback to localStorage
+        // Load and display reviews - Firebase only
         async function loadReviews() {
             try {
                 const reviewsSnapshot = await db.collection('reviews')
@@ -1392,20 +1255,13 @@ window.addEventListener('storage', function(e) {
                 displayReviews(reviewsSnapshot.docs.map(doc => doc.data()));
                 
             } catch (error) {
-                console.error('Error loading reviews from Firestore:', error);
-                
-                // Try localStorage first
-                const localReviews = JSON.parse(localStorage.getItem('localReviews') || '[]');
-                if (localReviews.length > 0) {
-                    displayReviews(localReviews);
-                } else {
-                    // Show sample reviews as final fallback
-                    showSampleReviews();
-                }
+                console.error('Error loading reviews:', error);
+                // Show sample reviews as fallback
+                showSampleReviews();
             }
         }
 
-        // Separate function to display reviews
+        // Display reviews function
         function displayReviews(reviews) {
             const reviewsList = document.getElementById('reviewsList');
             
@@ -1438,80 +1294,35 @@ window.addEventListener('storage', function(e) {
             reviewsList.innerHTML = reviewsHtml;
         }
 
-        // Update the website request form handler
-        document.getElementById('websiteRequestForm').removeEventListener('submit', document.getElementById('websiteRequestForm').onsubmit);
-        document.getElementById('websiteRequestForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            const success = await saveWebsiteRequest(data);
-            
-            if (success) {
-                alert('Thank you for your request! We will contact you soon.');
-                this.reset();
-            } else {
-                alert('There was an error submitting your request. Please try again.');
-            }
-        });
-
-        // Update the review form handler
-        document.getElementById('reviewForm').removeEventListener('submit', document.getElementById('reviewForm').onsubmit);
-        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Check if user is logged in
-            if (!currentUser) {
-                showLoginModal();
-                return;
-            }
-            
-            const formData = new FormData(this);
-            const reviewData = Object.fromEntries(formData);
-            
-            if (!reviewData.starRating) {
-                alert('Please select a star rating.');
-                return;
-            }
-            
-            const success = await saveReview(reviewData);
-            
-            if (success) {
-                // Reset form
-                this.reset();
-                document.getElementById('starRating').value = '';
-                document.querySelectorAll('.star').forEach(s => {
-                    s.classList.remove('active');
-                    s.style.color = '#6B7280';
-                });
+        // Sample reviews for demo
+        function showSampleReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = `
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">JS</div>
+                        <div class="reviewer-info">
+                            <div class="reviewer-name">John Smith</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <p class="review-text">"Web VTec transformed our online presence completely. The website they built is not only beautiful but also incredibly functional. Our sales increased by 150% within the first month!"</p>
+                </div>
                 
-                alert('Thank you for your review!');
-                loadReviews(); // Reload reviews
-            } else {
-                alert('Error saving review. Please try again.');
-            }
-        });
-
-        // Smooth scrolling for navigation
-        function smoothScrollTo(element) {
-            element.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">MJ</div>
+                        <div class="reviewer-info">
+                            <div class="reviewer-name">Maria Johnson</div>
+                            <div class="review-stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <p class="review-text">"The team at Web VTec is amazing! They created a stunning website for our restaurant with online ordering capabilities. The automation features have saved us countless hours."</p>
+                </div>
+            `;
         }
 
-        // Add loading states
-        function showLoading(buttonElement, originalText) {
-            buttonElement.disabled = true;
-            buttonElement.textContent = 'Loading...';
-            setTimeout(() => {
-                buttonElement.disabled = false;
-                buttonElement.textContent = originalText;
-            }, 2000);
-        }
-
-        // Enhanced form validation
+        // Form validation
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(email);
@@ -1539,63 +1350,101 @@ window.addEventListener('storage', function(e) {
             return errors;
         }
 
-        // Add form validation to website request
-        const originalWebsiteFormHandler = document.getElementById('websiteRequestForm').onsubmit;
-        document.getElementById('websiteRequestForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            const errors = validateForm(data);
-            if (errors.length > 0) {
-                alert('Please fix the following errors:\n' + errors.join('\n'));
-                return;
-            }
-            
-            const submitButton = this.querySelector('.submit-button');
-            showLoading(submitButton, 'Submit Request');
-            
-            const success = await saveWebsiteRequest(data);
-            
-            if (success) {
-                alert('Thank you for your request! We will contact you soon.');
-                this.reset();
-            } else {
-                alert('There was an error submitting your request. Please try again.');
-            }
-        });
-
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            // Load reviews
+            // Load reviews and homepage data
             loadReviews();
+            loadAndApplyHomepageData();
             
-            // Check for saved form data (in case user was interrupted)
-            const savedFormData = localStorage.getItem('websiteRequestDraft');
-            if (savedFormData) {
-                const data = JSON.parse(savedFormData);
-                Object.keys(data).forEach(key => {
-                    const field = document.getElementById(key);
-                    if (field) field.value = data[key];
+            // Listen for real-time updates
+            listenForSiteSettingsUpdates();
+            
+            // Setup form auto-save
+            setupFormAutoSave();
+
+            // Add admin button functionality
+            const adminButton = document.querySelector('.admin-button');
+            if (adminButton) {
+                adminButton.style.display = 'none'; // Hide by default
+                adminButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    adminLogin();
                 });
             }
-            
-            // Auto-save form data as user types
-            const formFields = document.querySelectorAll('#websiteRequestForm input, #websiteRequestForm select');
-            formFields.forEach(field => {
-                field.addEventListener('input', function() {
-                    const formData = new FormData(document.getElementById('websiteRequestForm'));
-                    const data = Object.fromEntries(formData);
-                    localStorage.setItem('websiteRequestDraft', JSON.stringify(data));
-                });
-            });
-            
-            // Clear draft after successful submission
-            document.getElementById('websiteRequestForm').addEventListener('submit', function(e) {
+
+            // Add click animation to CTA button
+            document.querySelector('.cta-button').addEventListener('click', function(e) {
+                // Create ripple effect
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.cssText = `
+                    position: absolute;
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                `;
+
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+
                 setTimeout(() => {
-                    localStorage.removeItem('websiteRequestDraft');
-                }, 1000);
+                    ripple.remove();
+                }, 600);
+            });
+
+            // Add CSS animation for ripple effect
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Close modal when clicking outside
+            document.getElementById('loginModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeLoginModal();
+                }
+            });
+
+            // Handle Enter key in login form
+            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    loginWithEmail();
+                }
+            });
+
+            document.getElementById('loginEmail').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('loginPassword').focus();
+                }
+            });
+
+            // Add visual feedback for form interactions
+            document.querySelectorAll('input, textarea, select').forEach(field => {
+                field.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateY(-2px)';
+                    this.parentElement.style.transition = 'transform 0.2s ease';
+                });
+                
+                field.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'translateY(0)';
+                });
             });
         });
 
@@ -1618,18 +1467,6 @@ window.addEventListener('storage', function(e) {
             }
         });
 
-        // Add visual feedback for form interactions
-        document.querySelectorAll('input, textarea, select').forEach(field => {
-            field.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'translateY(-2px)';
-                this.parentElement.style.transition = 'transform 0.2s ease';
-            });
-            
-            field.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'translateY(0)';
-            });
-        });
-
         // Performance optimization: Lazy load reviews
         let reviewsLoaded = false;
         function lazyLoadReviews() {
@@ -1642,8 +1479,7 @@ window.addEventListener('storage', function(e) {
         // Load reviews only when reviews page is visited
         document.querySelector('[data-page="reviews"]').addEventListener('click', lazyLoadReviews);
 
-        console.log('Web VTec website initialized successfully! 🚀');
-
+        console.log('Web VTec website initialized with Firebase storage! 🚀');
 
     </script>
 </body>
