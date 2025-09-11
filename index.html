@@ -1589,6 +1589,38 @@ button,
 
         console.log('Web VTec website initialized with Firebase storage! 🚀');
 
+
+        // Welcome Modal Functions
+function selectNailService() {
+  // Close the welcome modal so the site is visible
+  document.getElementById("welcomeModal").style.display = "none";
+  showSection('gallerySection');
+
+  // Push state so back button reopens welcome modal
+  history.pushState({page: "hair"}, "", "");
+}
+
+function selectHairService() {
+  // Push state before redirecting
+  history.pushState({page: "nails"}, "", "");
+  window.location.href = "https://webvtec.github.io/SLAYED-BY-RISSA-HAIRCARE/index.html";
+}
+
+// Listen for back button
+window.onpopstate = function(event) {
+  // Always bring back the welcome modal
+  document.getElementById("welcomeModal").style.display = "flex";
+};
+    
+    
+// Shopping cart functionality
+let cart = [];
+
+// Set minimum date to today
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').min = today;
+});
     </script>
 </body>
 </html>
