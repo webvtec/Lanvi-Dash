@@ -1449,10 +1449,10 @@ function updateUserStatus() {
     const userEmail = document.getElementById('userEmail');
     
     if (currentUser) {
-        userStatus.style.display = 'block';
+        userStatus.style.display = 'block'; // Show it when logged in
         userEmail.textContent = currentUser.email;
     } else {
-        userStatus.style.display = 'none';
+        userStatus.style.display = 'none'; // Hide it when not logged in
     }
 }
 
