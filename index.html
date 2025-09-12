@@ -1304,7 +1304,7 @@ async function loadReviews() {
         
         reviewsSnapshot.forEach(doc => {
             const review = doc.data();
-            const reviewElement = createReviewElement(review);
+            const reviewElement = createReviewElement(review, doc.id);
             reviewsList.appendChild(reviewElement);
         });
         
