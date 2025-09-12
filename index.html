@@ -1176,14 +1176,14 @@ async function handleReviewSubmission(e) {
     }
     
     const reviewData = {
-        reviewerName: formData.get('reviewerName'),
-        reviewText: formData.get('reviewText'),
-        rating: parseInt(rating),
-        userEmail: currentUser.email,
-        userId: currentUser.uid,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        // Removed approved field - no approval needed
-    };
+    reviewerName: formData.get('reviewerName'),
+    reviewText: formData.get('reviewText'),
+    rating: parseInt(rating),
+    userEmail: currentUser.email,
+    userId: currentUser.uid,
+    userPhoto: currentUser.photoURL || null, // ✅ save profile pic if available
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+};
     
     try {
         // Show loading state
@@ -1344,20 +1344,29 @@ function createReviewElement(review, docId) {
     const reviewDiv = document.createElement('div');
     reviewDiv.className = 'review-item';
 
-    const initials = review.reviewerName.split(' ').map(name => name[0]).join('').toUpperCase();
+    const initials = review.reviewerName
+        ? review.reviewerName.split(' ').map(name => name[0]).join('').toUpperCase()
+        : "U"; // fallback
+
     const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
     const timeAgo = review.timestamp ? timeAgoFormat(review.timestamp.toDate()) : 'Recently';
 
     reviewDiv.innerHTML = `
         <div class="review-header">
-            <div class="reviewer-avatar">${initials}</div>
+            <div class="reviewer-avatar">
+                ${
+                    review.userPhoto
+                        ? `<img src="${review.userPhoto}" alt="avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`
+                        : initials
+                }
+            </div>
             <div class="reviewer-info">
                 <div class="reviewer-name">${review.reviewerName}</div>
                 <div class="review-stars">${stars}</div>
                 <div style="color: #9CA3AF; font-size: 12px;">${timeAgo}</div>
             </div>
             ${
-                currentUser && currentUser.uid === review.userId
+                currentUser && (currentUser.uid === review.userId || ADMIN_EMAILS.includes(currentUser.email))
                     ? `<button class="delete-review-btn" data-id="${docId}">🗑️</button>`
                     : ''
             }
@@ -1365,11 +1374,11 @@ function createReviewElement(review, docId) {
         <div class="review-text">"${review.reviewText}"</div>
     `;
 
-    // If delete button exists, attach event
+    // Delete button logic (same as before)
     const deleteBtn = reviewDiv.querySelector('.delete-review-btn');
     if (deleteBtn) {
         deleteBtn.addEventListener('click', async () => {
-            if (confirm('Are you sure you want to delete your review?')) {
+            if (confirm('Are you sure you want to delete this review?')) {
                 try {
                     await db.collection('reviews').doc(docId).delete();
                     alert('🗑️ Review deleted');
@@ -1383,6 +1392,7 @@ function createReviewElement(review, docId) {
 
     return reviewDiv;
 }
+
 
 function timeAgoFormat(date) {
     const now = new Date();
