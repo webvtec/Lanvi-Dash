@@ -760,7 +760,19 @@ button,
   }
 }
 
- 
+
+.nav-item[type="button"] {
+    background: none;
+    border: none;
+    font-family: inherit;
+    outline: none;
+}
+
+.nav-item[type="button"]:focus {
+    outline: 2px solid #8B5CF6;
+    outline-offset: 2px;
+}
+
 </style>
 
 <!-- Replace the existing Firebase CDN links with these updated ones -->
@@ -803,11 +815,11 @@ button,
     </div>
 
     <header class="header">
-        <nav class="nav-menu">
-            <a href="#" class="nav-item active" data-page="home">HOME</a>
-            <a href="#" class="nav-item" data-page="request">REQUEST WEBSITE NOW</a>
-            <a href="#" class="nav-item" data-page="reviews">REVIEWS</a>
-        </nav>
+    <nav class="nav-menu">
+        <button type="button" class="nav-item active" data-page="home">HOME</button>
+        <button type="button" class="nav-item" data-page="request">REQUEST WEBSITE NOW</button>
+        <button type="button" class="nav-item" data-page="reviews">REVIEWS</button>
+    </nav>
     </header>
 
     <!-- HOME PAGE -->
@@ -1098,14 +1110,20 @@ button,
             }
         }
 
-        // Navigation click handlers
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                const pageId = this.getAttribute('data-page');
-                showPage(pageId);
-            });
+        // Navigation click handlers - Fixed for button elements
+function initializeNavigation() {
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const pageId = this.getAttribute('data-page');
+            console.log('Navigation clicked:', pageId); // Debug log
+            showPage(pageId);
         });
+    });
+}
+
+// Call initialization function
+initializeNavigation();
 
         // FIXED: Star rating functionality with proper state management
         function initializeStarRating() {
@@ -1633,9 +1651,10 @@ button,
             }
             
             // Initialize all components
-            initializeStarRating();
-            initializeReviewForm();
-            initializeWebsiteRequestForm();
+initializeStarRating();
+initializeReviewForm();
+initializeWebsiteRequestForm();
+initializeNavigation(); // Add this line
             
             // Load data and setup listeners
             loadReviews();
