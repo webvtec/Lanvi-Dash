@@ -1193,8 +1193,8 @@ async function handleReviewSubmission(e) {
         rating: parseInt(rating),
         userEmail: currentUser.email,
         userId: currentUser.uid,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        approved: false // Reviews need approval
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        // Removed approved field - no approval needed
     };
     
     try {
@@ -1219,17 +1219,17 @@ async function handleReviewSubmission(e) {
 "${reviewData.reviewText}"
 
 ⏰ Submitted: ${new Date().toLocaleString()}
-🔍 Status: PENDING APPROVAL
-
-Reply with "APPROVE" or "REJECT" to moderate this review.
         `;
         
         await sendTelegramMessage(telegramMessage);
         
         // Success feedback
-        alert('✅ Review submitted successfully! It will appear after approval.');
+        alert('✅ Review submitted successfully!');
         e.target.reset();
         resetStarRating();
+        
+        // Reload reviews to show the new one immediately
+        loadReviews();
         
     } catch (error) {
         console.error('Error submitting review:', error);
