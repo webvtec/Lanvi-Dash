@@ -1002,6 +1002,8 @@ function initializeApp() {
     setupStarRating();
 }
 
+    const ADMIN_EMAILS = ["carlanviroberts@gmail.com"]; // add more if needed
+
 // Setup all event listeners
 function setupEventListeners() {
     // Form submissions
@@ -1452,28 +1454,24 @@ function logout() {
 function updateUserStatus() {
     const userStatus = document.getElementById('userStatus');
     const userEmail = document.getElementById('userEmail');
-    
+    const adminButton = document.querySelector('.admin-button');
+
     if (currentUser) {
-        userStatus.style.display = 'block'; // Show it when logged in
+        userStatus.style.display = 'block';
         userEmail.textContent = currentUser.email;
+
+        // ✅ Show admin button if email matches
+        if (ADMIN_EMAILS.includes(currentUser.email)) {
+            adminButton.style.display = 'inline-block';
+        } else {
+            adminButton.style.display = 'none';
+        }
     } else {
-        userStatus.style.display = 'none'; // Hide it when not logged in
+        userStatus.style.display = 'none';
+        adminButton.style.display = 'none';
     }
 }
 
-// Admin Functions
-function adminLogin() {
-    const adminEmail = prompt('Enter admin email:');
-    const adminPassword = prompt('Enter admin password:');
-    
-    // Simple admin check - in production, use proper role-based authentication
-    if (adminEmail === 'carlanviroberts@gmail.com' && adminPassword === 'admin123') {
-        document.querySelector('.admin-button').style.display = 'inline-block';
-        alert('✅ Admin access granted!');
-    } else {
-        alert('❌ Invalid admin credentials!');
-    }
-}
 
 // Telegram Integration
 async function sendTelegramMessage(message) {
