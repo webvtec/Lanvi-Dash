@@ -1300,10 +1300,23 @@ function resetStarRating() {
 }
 
 // Load and Display Reviews
+// Find this function and replace it with:
 async function loadReviews() {
     try {
+        // Check if Firebase is properly configured
+        if (!db || !db.collection) {
+            const reviewsList = document.getElementById('reviewsList');
+            if (reviewsList) {
+                reviewsList.innerHTML = `
+                    <div style="text-align: center; color: #9CA3AF; font-style: italic; padding: 40px;">
+                        No reviews yet. Be the first to share your experience!
+                    </div>
+                `;
+            }
+            return;
+        }
+
         const reviewsSnapshot = await db.collection('reviews')
-            .where('approved', '==', true)
             .orderBy('timestamp', 'desc')
             .limit(10)
             .get();
@@ -1333,14 +1346,14 @@ async function loadReviews() {
         const reviewsList = document.getElementById('reviewsList');
         if (reviewsList) {
             reviewsList.innerHTML = `
-                <div style="text-align: center; color: #EF4444; padding: 40px;">
-                    Error loading reviews. Please refresh the page.
+                <div style="text-align: center; color: #9CA3AF; font-style: italic; padding: 40px;">
+                    No reviews yet. Be the first to share your experience!
                 </div>
             `;
         }
     }
 }
-
+    
 function createReviewElement(review) {
     const reviewDiv = document.createElement('div');
     reviewDiv.className = 'review-item';
