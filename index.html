@@ -1045,12 +1045,21 @@ function setupEventListeners() {
 // Welcome Modal Functions
 function showWelcomeModal() {
     document.getElementById('welcomeModal').style.display = 'flex';
-    history.pushState({ page: 'welcome' }, '', '#welcome'); // ✅ add state
+    // hide all other pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+    // Only push state if not already at welcome
+    if (history.state?.page !== 'welcome') {
+        history.pushState({ page: 'welcome' }, '', '#welcome');
+    }
 }
 
 function closeWelcomeModal() {
     document.getElementById('welcomeModal').style.display = 'none';
-    history.pushState({ page: 'home' }, '', '#home'); // ✅ default after closing
+    // push a "home" state if needed
+    if (history.state?.page !== 'home') {
+        history.pushState({ page: 'home' }, '', '#home');
+    }
 }
 
 function selectAutomatedWebsite() {
@@ -1062,59 +1071,47 @@ function selectAutomatedWebsite() {
 function selectOnlineProducts() {
     selectedService = 'online-products';
     closeWelcomeModal();
-    // ✅ Redirect to external site
     window.location.href = "https://your-online-products-site.com";
 }
 
 function selectAdGeneration() {
     selectedService = 'ad-generation';
     closeWelcomeModal();
-    // ✅ Redirect to external site
     window.location.href = "https://your-ad-generation-site.com";
 }
 
 // Page Navigation
 function showPage(pageId) {
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
-    
-    // Show selected page
+    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     const targetPage = document.getElementById(pageId);
-    if (targetPage) {
-        targetPage.classList.add('active');
-    }
-    
-    // Update navigation active state
+    if (targetPage) targetPage.classList.add('active');
+
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
-        if (item.getAttribute('data-page') === pageId) {
-            item.classList.add('active');
-        }
+        if (item.getAttribute('data-page') === pageId) item.classList.add('active');
     });
 
-    history.pushState({ page: pageId }, '', '#' + pageId); // ✅ add state
+    if (history.state?.page !== pageId) {
+        history.pushState({ page: pageId }, '', '#' + pageId);
+    }
 }
 
-// ✅ Handle back/forward navigation
+// Handle back button
 window.addEventListener('popstate', function(event) {
     const page = event.state?.page;
 
-    if (page === 'welcome') {
+    if (!page || page === 'welcome') {
         showWelcomeModal();
-        // hide all pages when welcome is open
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    } else if (page) {
-        showPage(page);
     } else {
-        showWelcomeModal();
+        showPage(page);
     }
 });
 
-// ✅ Initialize first state
+// Initialize first state
 window.addEventListener('load', () => {
-    history.replaceState({ page: 'welcome' }, '', '#welcome');
+    if (!history.state || history.state.page !== 'welcome') {
+        history.replaceState({ page: 'welcome' }, '', '#welcome');
+    }
 });
 
 
