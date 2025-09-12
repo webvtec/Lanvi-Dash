@@ -1632,8 +1632,8 @@ function selectAutomatedWebsite() {
   // Close the welcome modal and stay on current site
   document.getElementById("welcomeModal").style.display = "none";
   
-  // Navigate to the request page
-  showPage('request');
+  // Navigate to the home page instead of request page
+  showPage('home');
   
   // Push state for back button functionality
   history.pushState({page: "automated-website"}, "", "");
