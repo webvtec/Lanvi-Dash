@@ -761,10 +761,10 @@ button,
  
 </style>
 
-<!-- Firebase SDK -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-app-compat.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-auth-compat.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-firestore-compat.min.js"></script>
+<!-- Replace the existing Firebase CDN links with these updated ones -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
 </head>
 <body>
@@ -972,8 +972,9 @@ button,
 
 
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
+        // Replace the Firebase initialization section with this improved version
+// Firebase Configuration
+const firebaseConfig = {
   apiKey: "AIzaSyCCpV0frAGRwXlmchKWf95rslweT3-zfWU",
   authDomain: "web-vtec.firebaseapp.com",
   projectId: "web-vtec",
@@ -982,16 +983,32 @@ button,
   appId: "1:557257370843:web:754838f11524032a8c70fe"
 };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+// Initialize Firebase with error handling
+try {
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    
+    // Enable offline persistence for reviews
+    db.enablePersistence({ synchronizeTabs: true })
+        .then(() => {
+            console.log('Firebase offline persistence enabled');
+        })
+        .catch((err) => {
+            console.log('Firebase offline persistence failed:', err);
+        });
+    
+    console.log('Firebase initialized successfully');
+} catch (error) {
+    console.error('Firebase initialization failed:', error);
+    alert('Database connection failed. Some features may not work properly.');
+}
 
-        // Google Auth Provider
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
+// Google Auth Provider
+const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-        // Current user state
-        let currentUser = null;
+// Current user state
+let currentUser = null;
 
         // Page navigation
         function showPage(pageId) {
@@ -1362,78 +1379,125 @@ button,
             });
         }
 
-        // Review form submission - Firebase only
-        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Check if user is logged in
-            if (!currentUser) {
-                showLoginModal();
-                return;
-            }
-            
-            const formData = new FormData(this);
-            const reviewData = Object.fromEntries(formData);
-            
-            if (!reviewData.starRating) {
-                alert('Please select a star rating.');
-                return;
-            }
+        // Replace your review form submission event listener with this improved version
+document.getElementById('reviewForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Check if user is logged in
+    if (!currentUser) {
+        showLoginModal();
+        return;
+    }
+    
+    const formData = new FormData(this);
+    const reviewData = Object.fromEntries(formData);
+    
+    if (!reviewData.starRating) {
+        alert('Please select a star rating.');
+        return;
+    }
+    
+    // Basic validation
+    if (!reviewData.reviewerName.trim()) {
+        alert('Please enter your name.');
+        return;
+    }
+    
+    if (!reviewData.reviewText.trim()) {
+        alert('Please enter your review.');
+        return;
+    }
 
-            const submitButton = this.querySelector('.submit-button');
-            const originalText = submitButton.textContent;
-            submitButton.disabled = true;
-            submitButton.textContent = 'Submitting...';
-            
-            try {
-                // Save review to Firestore
-                await db.collection('reviews').add({
-    name: reviewData.reviewerName,
-    rating: parseInt(reviewData.starRating),
-    text: reviewData.reviewText,
-    userEmail: currentUser.email,
-    userId: currentUser.uid,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-});
-
-                
-                // Reset form
-                this.reset();
-                document.getElementById('starRating').value = '';
-                document.querySelectorAll('.star').forEach(s => {
-                    s.classList.remove('active');
-                    s.style.color = '#6B7280';
-                });
-                
-                alert('Thank you for your review!');
-                loadReviews(); // Reload reviews
-                
-            } catch (error) {
-                console.error('Error saving review:', error);
-                alert('Error saving review. Please try again.');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = originalText;
-            }
+    const submitButton = this.querySelector('.submit-button');
+    const originalText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting...';
+    
+    try {
+        // Save review to Firestore with better data structure
+        const reviewDoc = await db.collection('reviews').add({
+            name: reviewData.reviewerName.trim(),
+            rating: parseInt(reviewData.starRating),
+            text: reviewData.reviewText.trim(),
+            userEmail: currentUser.email,
+            userId: currentUser.uid,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            approved: false // Reviews can be moderated
         });
 
-        // Load and display reviews - Firebase only
-        async function loadReviews() {
-            try {
-                const reviewsSnapshot = await db.collection('reviews')
-    .orderBy('timestamp', 'desc')
-    .get();
-
-                
-                displayReviews(reviewsSnapshot.docs.map(doc => doc.data()));
-                
-            } catch (error) {
-                console.error('Error loading reviews:', error);
-                // Show sample reviews as fallback
-                showSampleReviews();
-            }
+        console.log('Review saved with ID:', reviewDoc.id);
+        
+        // Reset form
+        this.reset();
+        document.getElementById('starRating').value = '';
+        document.querySelectorAll('.star').forEach(s => {
+            s.classList.remove('active');
+            s.style.color = '#6B7280';
+        });
+        
+        alert('Thank you for your review! It will appear shortly.');
+        
+        // Reload reviews to show the new one
+        setTimeout(() => {
+            loadReviews();
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Error saving review:', error);
+        
+        if (error.code === 'permission-denied') {
+            alert('Unable to save review. Please check your login status.');
+        } else {
+            alert('Error saving review. Please try again.');
         }
-
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+    }
+});
+        
+        // Replace your existing loadReviews function with this improved version
+async function loadReviews() {
+    try {
+        // First check if Firebase is initialized
+        if (!firebase.apps || firebase.apps.length === 0) {
+            console.error('Firebase not initialized');
+            showSampleReviews();
+            return;
+        }
+        
+        const reviewsSnapshot = await db.collection('reviews')
+            .orderBy('timestamp', 'desc')
+            .limit(20) // Limit to prevent loading too many reviews
+            .get();
+        
+        console.log(`Loaded ${reviewsSnapshot.docs.length} reviews from Firebase`);
+        
+        if (reviewsSnapshot.docs.length > 0) {
+            displayReviews(reviewsSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })));
+        } else {
+            // Show placeholder message for empty reviews
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = '<p style="color: #9CA3AF; text-align: center;">No reviews yet. Be the first to leave a review!</p>';
+        }
+        
+    } catch (error) {
+        console.error('Error loading reviews from Firebase:', error);
+        
+        // Check specific error types
+        if (error.code === 'permission-denied') {
+            console.log('Permission denied - reviews may not be publicly readable');
+        } else if (error.code === 'unavailable') {
+            console.log('Firebase service temporarily unavailable');
+        }
+        
+        // Show sample reviews as fallback
+        showSampleReviews();
+    }
+}
         // Display reviews function
         function displayReviews(reviews) {
             const reviewsList = document.getElementById('reviewsList');
@@ -1673,6 +1737,35 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("welcomeModal").style.display = "flex";
   }, 500);
 });
+
+
+        // Add this function to monitor Firebase connectivity
+function monitorFirebaseConnection() {
+    // Monitor Firestore connection
+    const unsubscribe = db.onSnapshotsInSync(() => {
+        console.log('Firebase is synced and online');
+    });
+    
+    // Check if offline
+    window.addEventListener('online', () => {
+        console.log('Internet connection restored');
+        loadReviews(); // Reload reviews when back online
+    });
+    
+    window.addEventListener('offline', () => {
+        console.log('Internet connection lost - using cached data');
+    });
+    
+    return unsubscribe;
+}
+
+// Add this to your DOMContentLoaded event listener
+// Call this after Firebase initialization
+setTimeout(() => {
+    if (typeof db !== 'undefined') {
+        monitorFirebaseConnection();
+    }
+}, 2000);
 
     </script>
 </body>
