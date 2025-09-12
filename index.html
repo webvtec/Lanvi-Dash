@@ -761,17 +761,6 @@ button,
 }
 
 
-.nav-item[type="button"] {
-    background: none;
-    border: none;
-    font-family: inherit;
-    outline: none;
-}
-
-.nav-item[type="button"]:focus {
-    outline: 2px solid #8B5CF6;
-    outline-offset: 2px;
-}
 
 </style>
 
@@ -816,9 +805,9 @@ button,
 
     <header class="header">
     <nav class="nav-menu">
-        <button type="button" class="nav-item active" data-page="home">HOME</button>
-        <button type="button" class="nav-item" data-page="request">REQUEST WEBSITE NOW</button>
-        <button type="button" class="nav-item" data-page="reviews">REVIEWS</button>
+        <a href="#" class="nav-item active" data-page="home">HOME</a>
+        <a href="#" class="nav-item" data-page="request">REQUEST WEBSITE NOW</a>
+        <a href="#" class="nav-item" data-page="reviews">REVIEWS</a>
     </nav>
     </header>
 
@@ -1088,42 +1077,63 @@ button,
             }
         }
 
-        // Page navigation
-        function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Show selected page
-            document.getElementById(pageId).classList.add('active');
-            
-            // Update navigation
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
-
-            // Load reviews if on reviews page
-            if (pageId === 'reviews') {
-                loadReviews();
-            }
-        }
-
-        // Navigation click handlers - Fixed for button elements
-function initializeNavigation() {
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            const pageId = this.getAttribute('data-page');
-            console.log('Navigation clicked:', pageId); // Debug log
-            showPage(pageId);
-        });
+        // Page navigation - FIXED VERSION
+function showPage(pageId) {
+    console.log('showPage called with:', pageId);
+    
+    // Hide all pages
+    const allPages = document.querySelectorAll('.page');
+    console.log('Found pages:', allPages.length);
+    
+    allPages.forEach(page => {
+        page.classList.remove('active');
+        console.log('Hiding page:', page.id);
     });
+    
+    // Show selected page
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+        console.log('Showing page:', pageId);
+    } else {
+        console.error('Page not found:', pageId);
+    }
+    
+    // Update navigation
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    const activeNavItem = document.querySelector(`[data-page="${pageId}"]`);
+    if (activeNavItem) {
+        activeNavItem.classList.add('active');
+        console.log('Updated active nav item');
+    }
+
+    // Load reviews if on reviews page
+    if (pageId === 'reviews') {
+        loadReviews();
+    }
 }
 
-// Call initialization function
-initializeNavigation();
+        // Navigation click handlers - Fixed for button elements
+// Navigation click handlers - FIXED VERSION
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const pageId = this.getAttribute('data-page');
+        console.log('Clicked navigation item:', pageId);
+        
+        if (pageId) {
+            showPage(pageId);
+        } else {
+            console.error('No data-page attribute found');
+        }
+    });
+});
+
 
         // FIXED: Star rating functionality with proper state management
         function initializeStarRating() {
@@ -1651,10 +1661,10 @@ initializeNavigation();
             }
             
             // Initialize all components
-initializeStarRating();
-initializeReviewForm();
-initializeWebsiteRequestForm();
-initializeNavigation(); // Add this line
+            initializeNavigation();
+            initializeStarRating();
+            initializeReviewForm();
+            initializeWebsiteRequestForm();
             
             // Load data and setup listeners
             loadReviews();
