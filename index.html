@@ -1338,14 +1338,14 @@ async function loadReviews() {
     }
 }
     
-function createReviewElement(review) {
+function createReviewElement(review, docId) {
     const reviewDiv = document.createElement('div');
     reviewDiv.className = 'review-item';
-    
+
     const initials = review.reviewerName.split(' ').map(name => name[0]).join('').toUpperCase();
     const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
     const timeAgo = review.timestamp ? timeAgoFormat(review.timestamp.toDate()) : 'Recently';
-    
+
     reviewDiv.innerHTML = `
         <div class="review-header">
             <div class="reviewer-avatar">${initials}</div>
@@ -1354,10 +1354,31 @@ function createReviewElement(review) {
                 <div class="review-stars">${stars}</div>
                 <div style="color: #9CA3AF; font-size: 12px;">${timeAgo}</div>
             </div>
+            ${
+                currentUser && currentUser.uid === review.userId
+                    ? `<button class="delete-review-btn" data-id="${docId}">🗑️</button>`
+                    : ''
+            }
         </div>
         <div class="review-text">"${review.reviewText}"</div>
     `;
-    
+
+    // If delete button exists, attach event
+    const deleteBtn = reviewDiv.querySelector('.delete-review-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', async () => {
+            if (confirm('Are you sure you want to delete your review?')) {
+                try {
+                    await db.collection('reviews').doc(docId).delete();
+                    alert('🗑️ Review deleted');
+                } catch (error) {
+                    console.error('Error deleting review:', error);
+                    alert('❌ Could not delete review.');
+                }
+            }
+        });
+    }
+
     return reviewDiv;
 }
 
@@ -1493,10 +1514,11 @@ function setupRealtimeListeners() {
           reviewsList.innerHTML = ''; // Clear before re-rendering
 
           snapshot.forEach(doc => {
-              const review = doc.data();
-              const reviewElement = createReviewElement(review);
-              reviewsList.appendChild(reviewElement);
-          });
+    const review = doc.data();
+    const reviewElement = createReviewElement(review, doc.id);
+    reviewsList.appendChild(reviewElement);
+});
+
 
           if (snapshot.empty) {
               reviewsList.innerHTML = `
