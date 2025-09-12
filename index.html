@@ -1062,13 +1062,15 @@ function selectAutomatedWebsite() {
 function selectOnlineProducts() {
     selectedService = 'online-products';
     closeWelcomeModal();
-    showPage('request');
+    // ✅ Redirect to external site
+    window.location.href = "https://your-online-products-site.com";
 }
 
 function selectAdGeneration() {
     selectedService = 'ad-generation';
     closeWelcomeModal();
-    showPage('request');
+    // ✅ Redirect to external site
+    window.location.href = "https://your-ad-generation-site.com";
 }
 
 // Page Navigation
