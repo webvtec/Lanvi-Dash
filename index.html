@@ -1650,75 +1650,97 @@ document.querySelectorAll('.nav-item').forEach(item => {
         }
 
         // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM Content Loaded - Initializing Web VTec...');
-            
-            // Check if Firebase is properly loaded
-            if (typeof firebase === 'undefined') {
-                console.error('Firebase not loaded!');
-                alert('Firebase connection failed. Please refresh the page.');
-                return;
-            }
-            
-            // Initialize all components
-            initializeStarRating();
-            initializeReviewForm();
-            initializeWebsiteRequestForm();
-            
-            // Load data and setup listeners
-            loadReviews();
-            loadAndApplyHomepageData();
-            listenForSiteSettingsUpdates();
-            setupFormAutoSave();
-
-            // Show welcome modal after delay
-            setTimeout(function() {
-                document.getElementById("welcomeModal").style.display = "flex";
-            }, 500);
-            
-            // Close modal when clicking outside
-            document.getElementById('loginModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeLoginModal();
-                }
-            });
-
-            // Handle Enter key in login form
-            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    loginWithEmail();
-                }
-            });
-
-            document.getElementById('loginEmail').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('loginPassword').focus();
-                }
-            });
-
-            // Add visual feedback for form interactions
-            document.querySelectorAll('input, textarea, select').forEach(field => {
-                field.addEventListener('focus', function() {
-                    this.parentElement.style.transform = 'translateY(-2px)';
-                    this.parentElement.style.transition = 'transform 0.2s ease';
-                });
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Initializing Web VTec...');
+    
+    // Check if Firebase is properly loaded
+    if (typeof firebase === 'undefined') {
+        console.error('Firebase not loaded!');
+        alert('Firebase connection failed. Please refresh the page.');
+        return;
+    }
+    
+    // Initialize navigation using event delegation (most reliable method)
+    const navMenu = document.querySelector('.nav-menu');
+    if (navMenu) {
+        navMenu.addEventListener('click', function(e) {
+            if (e.target.classList.contains('nav-item')) {
+                e.preventDefault();
                 
-                field.addEventListener('blur', function() {
-                    this.parentElement.style.transform = 'translateY(0)';
-                });
-            });
-
-            // Test Firebase connection
-            db.collection('reviews').limit(1).get()
-                .then(() => {
-                    console.log('Firebase connection successful');
-                })
-                .catch((error) => {
-                    console.error('Firebase connection failed:', error);
-                });
-            
-            console.log('Web VTec initialization complete!');
+                const pageId = e.target.getAttribute('data-page');
+                if (pageId) {
+                    showPage(pageId);
+                    
+                    // Update active states
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+                }
+            }
         });
+        console.log('Navigation initialized with event delegation');
+    }
+    
+    // Initialize all components
+    initializeStarRating();
+    initializeReviewForm();
+    initializeWebsiteRequestForm();
+    
+    // Load data and setup listeners
+    loadReviews();
+    loadAndApplyHomepageData();
+    listenForSiteSettingsUpdates();
+    setupFormAutoSave();
+
+    // Show welcome modal after delay
+    setTimeout(function() {
+        document.getElementById("welcomeModal").style.display = "flex";
+    }, 500);
+    
+    // Close modal when clicking outside
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeLoginModal();
+        }
+    });
+
+    // Handle Enter key in login form
+    document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            loginWithEmail();
+        }
+    });
+
+    document.getElementById('loginEmail').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('loginPassword').focus();
+        }
+    });
+
+    // Add visual feedback for form interactions
+    document.querySelectorAll('input, textarea, select').forEach(field => {
+        field.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'translateY(-2px)';
+            this.parentElement.style.transition = 'transform 0.2s ease';
+        });
+        
+        field.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Test Firebase connection
+    db.collection('reviews').limit(1).get()
+        .then(() => {
+            console.log('Firebase connection successful');
+        })
+        .catch((error) => {
+            console.error('Firebase connection failed:', error);
+        });
+    
+    console.log('Web VTec initialization complete!');
+});
 
     </script>
 </body>
