@@ -555,18 +555,21 @@
     }
 
     .user-status {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 10px 15px;
-        border-radius: 20px;
-        backdrop-filter: blur(10px);
-        color: #4B5563;
-        font-weight: 600;
-        z-index: 100;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    color: #4B5563;
+    font-weight: 600;
+    z-index: 100;
+    white-space: nowrap;
     }
 
+    
     .logout-btn {
         background: #EF4444;
         color: white;
@@ -772,9 +775,13 @@ button,
 </head>
 <body>
     <!-- User Status Display -->
+    <div style="position: relative; display: inline-block;">
+    <a href="#" class="admin-button" onclick="adminLogin()">ADMIN</a>
+    <!-- Move the userStatus div here from wherever it currently is -->
     <div id="userStatus" class="user-status" style="display: none;">
         <span id="userEmail"></span>
         <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
     </div>
 
     <!-- Login Modal -->
