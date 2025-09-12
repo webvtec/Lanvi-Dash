@@ -1042,7 +1042,57 @@ function setupEventListeners() {
     });
 }
 
+// Welcome Modal Functions
+function showWelcomeModal() {
+    document.getElementById('welcomeModal').style.display = 'flex';
+}
 
+function closeWelcomeModal() {
+    document.getElementById('welcomeModal').style.display = 'none';
+}
+
+function selectAutomatedWebsite() {
+    selectedService = 'automated-website';
+    closeWelcomeModal();
+    showPage('home');
+    
+}
+
+function selectOnlineProducts() {
+    selectedService = 'online-products';
+    closeWelcomeModal();
+    showPage('request');
+    
+}
+
+function selectAdGeneration() {
+    selectedService = 'ad-generation';
+    closeWelcomeModal();
+    showPage('request');
+    
+}
+
+// Page Navigation
+function showPage(pageId) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Show selected page
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
+    // Update navigation active state
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('data-page') === pageId) {
+            item.classList.add('active');
+        }
+    });
+}
 
 // Website Request Form Handler
 async function handleWebsiteRequest(e) {
@@ -1517,52 +1567,6 @@ window.addEventListener('offline', function() {
 });
 
 
-
-    // Modify your service selection functions
-function selectAutomatedWebsite() {
-    selectedService = 'automated-website';
-    closeWelcomeModal();
-    showPage('home');
-    history.pushState({page: 'home'}, '', '#home'); // push state
-}
-
-function selectOnlineProducts() {
-    selectedService = 'online-products';
-    closeWelcomeModal();
-    showPage('request');
-    history.pushState({page: 'request'}, '', '#request');
-}
-
-function selectAdGeneration() {
-    selectedService = 'ad-generation';
-    closeWelcomeModal();
-    showPage('request');
-    history.pushState({page: 'request'}, '', '#request');
-}
-
-// Add this listener once
-window.addEventListener('popstate', function(e) {
-    if (!e.state) {
-        // User pressed back past first page → show welcome modal again
-        goBackToWelcome();
-    } else {
-        showPage(e.state.page);
-    }
-});
-
-// Helper
-function goBackToWelcome() {
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
-
-    // Show welcome modal again
-    showWelcomeModal();
-
-    // Reset nav state
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-}
 
 </script>
 </body>
