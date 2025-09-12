@@ -1041,32 +1041,35 @@ let currentUser = null;
             });
         });
 
-        // Auth state observer
-        auth.onAuthStateChanged((user) => {
-            currentUser = user;
-            if (user) {
-                document.getElementById('userStatus').style.display = 'block';
-                document.getElementById('userEmail').textContent = user.email;
-                
-                // Show/hide admin button based on user email
-                const adminButton = document.querySelector('.admin-button');
-                if (isAdminUser(user.email)) {
-                    adminButton.style.display = 'inline-block';
-                } else {
-                    adminButton.style.display = 'none';
-                }
-                
-                // Load user's draft form data from Firebase
-                loadFormDraftFromFirebase(user.uid);
-            } else {
-                document.getElementById('userStatus').style.display = 'none';
-                const adminButton = document.querySelector('.admin-button');
-                if (adminButton) {
-                    adminButton.style.display = 'none';
-                }
-                isAdminLoggedIn = false;
-            }
-        });
+        // Replace your auth.onAuthStateChanged function with this fixed version
+auth.onAuthStateChanged((user) => {
+    currentUser = user;
+    const adminButton = document.querySelector('.admin-button');
+    
+    if (user) {
+        document.getElementById('userStatus').style.display = 'block';
+        document.getElementById('userEmail').textContent = user.email;
+        
+        // Only show admin button for specific admin emails
+        if (isAdminUser(user.email)) {
+            adminButton.style.display = 'inline-block';
+            console.log('Admin user logged in:', user.email);
+        } else {
+            adminButton.style.display = 'none';
+        }
+        
+        // Load user's draft form data from Firebase
+        loadFormDraftFromFirebase(user.uid);
+    } else {
+        document.getElementById('userStatus').style.display = 'none';
+        // Hide admin button when no user is logged in
+        if (adminButton) {
+            adminButton.style.display = 'none';
+        }
+        isAdminLoggedIn = false;
+        currentUser = null;
+    }
+});
 
         // Admin configuration - now stored in Firebase
         const ADMIN_EMAILS = [
@@ -1241,46 +1244,51 @@ let currentUser = null;
             }
         }
 
-        // Star rating functionality
-        document.querySelectorAll('.star').forEach(star => {
-            star.addEventListener('click', function() {
-                const rating = parseInt(this.getAttribute('data-rating'));
-                document.getElementById('starRating').value = rating;
-                
-                // Update star display
-                document.querySelectorAll('.star').forEach((s, index) => {
-                    if (index < rating) {
-                        s.classList.add('active');
-                    } else {
-                        s.classList.remove('active');
-                    }
-                });
-            });
-            
-            star.addEventListener('mouseover', function() {
-                const rating = parseInt(this.getAttribute('data-rating'));
-                document.querySelectorAll('.star').forEach((s, index) => {
-                    if (index < rating) {
-                        s.style.color = '#FFD700';
-                    } else {
-                        s.style.color = '#6B7280';
-                    }
-                });
-            });
+        // Replace your star rating functionality with this fixed version
+document.querySelectorAll('.star').forEach(star => {
+    star.addEventListener('click', function() {
+        const rating = parseInt(this.getAttribute('data-rating'));
+        document.getElementById('starRating').value = rating;
+        
+        console.log('Star rating set to:', rating); // Debug log
+        
+        // Update star display
+        document.querySelectorAll('.star').forEach((s, index) => {
+            if (index < rating) {
+                s.classList.add('active');
+                s.style.color = '#FFD700';
+            } else {
+                s.classList.remove('active');
+                s.style.color = '#6B7280';
+            }
         });
-
-        // Reset star colors on mouse leave
-        document.querySelector('.star-rating').addEventListener('mouseleave', function() {
-            const currentRating = parseInt(document.getElementById('starRating').value) || 0;
-            document.querySelectorAll('.star').forEach((s, index) => {
-                if (index < currentRating) {
-                    s.style.color = '#FFD700';
-                } else {
-                    s.style.color = '#6B7280';
-                }
-            });
+    });
+    
+    star.addEventListener('mouseover', function() {
+        const rating = parseInt(this.getAttribute('data-rating'));
+        document.querySelectorAll('.star').forEach((s, index) => {
+            if (index < rating) {
+                s.style.color = '#FFD700';
+            } else {
+                s.style.color = '#6B7280';
+            }
         });
+    });
+});
 
+// Reset star colors on mouse leave
+document.querySelector('.star-rating').addEventListener('mouseleave', function() {
+    const currentRating = parseInt(document.getElementById('starRating').value) || 0;
+    document.querySelectorAll('.star').forEach((s, index) => {
+        if (index < currentRating) {
+            s.style.color = '#FFD700';
+            s.classList.add('active');
+        } else {
+            s.style.color = '#6B7280';
+            s.classList.remove('active');
+        }
+    });
+});
         // Save form draft to Firebase
         async function saveFormDraftToFirebase(userId, formData) {
             if (!userId) return;
@@ -1380,11 +1388,16 @@ let currentUser = null;
         }
 
         // Replace your review form submission event listener with this improved version
+// Replace your review form submission with this fixed version
 document.getElementById('reviewForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // Check if user is logged in
+    console.log('Review form submitted');
+    
+    // First check if user is logged in - MOST IMPORTANT CHECK
     if (!currentUser) {
+        console.log('User not logged in - showing login modal');
+        alert('Please log in to leave a review');
         showLoginModal();
         return;
     }
@@ -1392,19 +1405,25 @@ document.getElementById('reviewForm').addEventListener('submit', async function(
     const formData = new FormData(this);
     const reviewData = Object.fromEntries(formData);
     
-    if (!reviewData.starRating) {
-        alert('Please select a star rating.');
+    console.log('Review data:', reviewData);
+    
+    // Check star rating
+    if (!reviewData.starRating || reviewData.starRating === '') {
+        alert('Please select a star rating by clicking on the stars.');
         return;
     }
     
-    // Basic validation
-    if (!reviewData.reviewerName.trim()) {
+    // Check name
+    if (!reviewData.reviewerName || !reviewData.reviewerName.trim()) {
         alert('Please enter your name.');
+        document.getElementById('reviewerName').focus();
         return;
     }
     
-    if (!reviewData.reviewText.trim()) {
+    // Check review text
+    if (!reviewData.reviewText || !reviewData.reviewText.trim()) {
         alert('Please enter your review.');
+        document.getElementById('reviewText').focus();
         return;
     }
 
@@ -1414,18 +1433,20 @@ document.getElementById('reviewForm').addEventListener('submit', async function(
     submitButton.textContent = 'Submitting...';
     
     try {
-        // Save review to Firestore with better data structure
-        const reviewDoc = await db.collection('reviews').add({
+        console.log('Attempting to save review to Firebase...');
+        
+        // Save review to Firestore
+        const docRef = await db.collection('reviews').add({
             name: reviewData.reviewerName.trim(),
             rating: parseInt(reviewData.starRating),
             text: reviewData.reviewText.trim(),
             userEmail: currentUser.email,
             userId: currentUser.uid,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            approved: false // Reviews can be moderated
+            approved: true // Auto-approve reviews for now
         });
 
-        console.log('Review saved with ID:', reviewDoc.id);
+        console.log('Review saved successfully with ID:', docRef.id);
         
         // Reset form
         this.reset();
@@ -1435,20 +1456,22 @@ document.getElementById('reviewForm').addEventListener('submit', async function(
             s.style.color = '#6B7280';
         });
         
-        alert('Thank you for your review! It will appear shortly.');
+        alert('Thank you for your review! It has been submitted successfully.');
         
-        // Reload reviews to show the new one
+        // Reload reviews to show the new one immediately
         setTimeout(() => {
             loadReviews();
-        }, 1000);
+        }, 500);
         
     } catch (error) {
         console.error('Error saving review:', error);
         
         if (error.code === 'permission-denied') {
-            alert('Unable to save review. Please check your login status.');
+            alert('Permission denied. Please try logging out and logging back in.');
+        } else if (error.code === 'unavailable') {
+            alert('Service temporarily unavailable. Please try again later.');
         } else {
-            alert('Error saving review. Please try again.');
+            alert('Error saving review: ' + error.message);
         }
     } finally {
         submitButton.disabled = false;
@@ -1560,136 +1583,126 @@ async function loadReviews() {
             return errors;
         }
 
-        // Initialize everything when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load reviews and homepage data
-            loadReviews();
-            loadAndApplyHomepageData();
-            
-            // Listen for real-time updates
-            listenForSiteSettingsUpdates();
-            
-            // Setup form auto-save
-            setupFormAutoSave();
+       // Replace the DOMContentLoaded section with this enhanced version
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Initializing Web VTec...');
+    
+    // Check if Firebase is properly loaded
+    if (typeof firebase === 'undefined') {
+        console.error('Firebase not loaded!');
+        alert('Firebase connection failed. Please refresh the page.');
+        return;
+    }
+    
+    // Load reviews and homepage data
+    loadReviews();
+    loadAndApplyHomepageData();
+    
+    // Listen for real-time updates
+    listenForSiteSettingsUpdates();
+    
+    // Setup form auto-save
+    setupFormAutoSave();
 
-            // Add admin button functionality
-            const adminButton = document.querySelector('.admin-button');
-            if (adminButton) {
-                adminButton.style.display = 'none'; // Hide by default
-                adminButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    adminLogin();
-                });
-            }
-
-            // Add click animation to CTA button
-            document.querySelector('.cta-button').addEventListener('click', function(e) {
-                // Create ripple effect
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-
-                ripple.style.cssText = `
-                    position: absolute;
-                    left: ${x}px;
-                    top: ${y}px;
-                    width: ${size}px;
-                    height: ${size}px;
-                    background: rgba(255, 255, 255, 0.3);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s linear;
-                    pointer-events: none;
-                `;
-
-                this.style.position = 'relative';
-                this.style.overflow = 'hidden';
-                this.appendChild(ripple);
-
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
-
-            // Add CSS animation for ripple effect
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-
-            // Close modal when clicking outside
-            document.getElementById('loginModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeLoginModal();
-                }
-            });
-
-            // Handle Enter key in login form
-            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    loginWithEmail();
-                }
-            });
-
-            document.getElementById('loginEmail').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('loginPassword').focus();
-                }
-            });
-
-            // Add visual feedback for form interactions
-            document.querySelectorAll('input, textarea, select').forEach(field => {
-                field.addEventListener('focus', function() {
-                    this.parentElement.style.transform = 'translateY(-2px)';
-                    this.parentElement.style.transition = 'transform 0.2s ease';
-                });
-                
-                field.addEventListener('blur', function() {
-                    this.parentElement.style.transform = 'translateY(0)';
-                });
-            });
+    // Admin button setup with proper hiding
+    const adminButton = document.querySelector('.admin-button');
+    if (adminButton) {
+        adminButton.style.display = 'none'; // Always hidden initially
+        adminButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            adminLogin();
+        });
+    }
+    
+    // Debug current user state
+    console.log('Current user on load:', currentUser);
+    
+    // Test Firebase connection
+    db.collection('reviews').limit(1).get()
+        .then(() => {
+            console.log('Firebase connection successful');
+        })
+        .catch((error) => {
+            console.error('Firebase connection failed:', error);
         });
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Press 'L' to open login modal (when not in input field)
-            if (e.key === 'l' && !e.target.matches('input, textarea') && !currentUser) {
-                showLoginModal();
-            }
-            
-            // Press 'Escape' to close modal
-            if (e.key === 'Escape') {
-                closeLoginModal();
-            }
-            
-            // Press numbers 1-3 for navigation
-            if (e.key >= '1' && e.key <= '3' && !e.target.matches('input, textarea')) {
-                const pages = ['home', 'request', 'reviews'];
-                showPage(pages[parseInt(e.key) - 1]);
-            }
-        });
+    // Rest of your existing DOMContentLoaded code...
+    // Add click animation to CTA button
+    document.querySelector('.cta-button').addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
 
-        // Performance optimization: Lazy load reviews
-        let reviewsLoaded = false;
-        function lazyLoadReviews() {
-            if (!reviewsLoaded) {
-                loadReviews();
-                reviewsLoaded = true;
+        ripple.style.cssText = `
+            position: absolute;
+            left: ${x}px;
+            top: ${y}px;
+            width: ${size}px;
+            height: ${size}px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        `;
+
+        this.style.position = 'relative';
+        this.style.overflow = 'hidden';
+        this.appendChild(ripple);
+
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    });
+
+    // Add CSS animation for ripple effect
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
             }
         }
+    `;
+    document.head.appendChild(style);
 
-        // Load reviews only when reviews page is visited
-        document.querySelector('[data-page="reviews"]').addEventListener('click', lazyLoadReviews);
+    // Close modal when clicking outside
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeLoginModal();
+        }
+    });
 
-        console.log('Web VTec website initialized with Firebase storage! 🚀');
+    // Handle Enter key in login form
+    document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            loginWithEmail();
+        }
+    });
+
+    document.getElementById('loginEmail').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('loginPassword').focus();
+        }
+    });
+
+    // Add visual feedback for form interactions
+    document.querySelectorAll('input, textarea, select').forEach(field => {
+        field.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'translateY(-2px)';
+            this.parentElement.style.transition = 'transform 0.2s ease';
+        });
+        
+        field.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'translateY(0)';
+        });
+    });
+    
+    console.log('Web VTec initialization complete!');
+});
 
 
         
