@@ -1045,31 +1045,30 @@ function setupEventListeners() {
 // Welcome Modal Functions
 function showWelcomeModal() {
     document.getElementById('welcomeModal').style.display = 'flex';
+    history.pushState({ page: 'welcome' }, '', '#welcome'); // ✅ add state
 }
 
 function closeWelcomeModal() {
     document.getElementById('welcomeModal').style.display = 'none';
+    history.pushState({ page: 'home' }, '', '#home'); // ✅ default after closing
 }
 
 function selectAutomatedWebsite() {
     selectedService = 'automated-website';
     closeWelcomeModal();
     showPage('home');
-    
 }
 
 function selectOnlineProducts() {
     selectedService = 'online-products';
     closeWelcomeModal();
     showPage('request');
-    
 }
 
 function selectAdGeneration() {
     selectedService = 'ad-generation';
     closeWelcomeModal();
     showPage('request');
-    
 }
 
 // Page Navigation
@@ -1092,7 +1091,30 @@ function showPage(pageId) {
             item.classList.add('active');
         }
     });
+
+    history.pushState({ page: pageId }, '', '#' + pageId); // ✅ add state
 }
+
+// ✅ Handle back/forward navigation
+window.addEventListener('popstate', function(event) {
+    const page = event.state?.page;
+
+    if (page === 'welcome') {
+        showWelcomeModal();
+        // hide all pages when welcome is open
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    } else if (page) {
+        showPage(page);
+    } else {
+        showWelcomeModal();
+    }
+});
+
+// ✅ Initialize first state
+window.addEventListener('load', () => {
+    history.replaceState({ page: 'welcome' }, '', '#welcome');
+});
+
 
 // Website Request Form Handler
 async function handleWebsiteRequest(e) {
