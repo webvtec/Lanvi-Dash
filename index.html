@@ -991,8 +991,6 @@ function initializeApp() {
     // Show welcome modal on first load
     showWelcomeModal();
     
-    // Load existing reviews
-    loadReviews();
     
     // Setup authentication state listener
     auth.onAuthStateChanged((user) => {
@@ -1215,8 +1213,6 @@ async function handleReviewSubmission(e) {
         alert('✅ Review submitted successfully!');
         e.target.reset();
         resetStarRating();
-        
-        // Reload reviews to show the new one immediately
     
         
     } catch (error) {
@@ -1486,27 +1482,30 @@ async function sendTelegramMessage(message) {
 
 // Real-time listeners for admin features
 function setupRealtimeListeners() {
-    // Listen for new website requests
-    db.collection('website-requests')
-        .where('status', '==', 'pending')
-        .onSnapshot((snapshot) => {
-            snapshot.docChanges().forEach((change) => {
-                if (change.type === 'added') {
-                    console.log('New website request received');
-                }
-            });
-        });
-    
-    // Listen for new reviews
+    // Listen for new reviews in real time
     db.collection('reviews')
-        .where('approved', '==', false)
-        .onSnapshot((snapshot) => {
-            snapshot.docChanges().forEach((change) => {
-                if (change.type === 'added') {
-                    console.log('New review pending approval');
-                }
-            });
-        });
+      .orderBy('timestamp', 'desc')
+      .limit(10)
+      .onSnapshot((snapshot) => {
+          const reviewsList = document.getElementById('reviewsList');
+          if (!reviewsList) return;
+
+          reviewsList.innerHTML = ''; // Clear before re-rendering
+
+          snapshot.forEach(doc => {
+              const review = doc.data();
+              const reviewElement = createReviewElement(review);
+              reviewsList.appendChild(reviewElement);
+          });
+
+          if (snapshot.empty) {
+              reviewsList.innerHTML = `
+                  <div style="text-align: center; color: #9CA3AF; font-style: italic; padding: 40px;">
+                      No reviews yet. Be the first to share your experience!
+                  </div>
+              `;
+          }
+      });
 }
 
 // Initialize real-time listeners
