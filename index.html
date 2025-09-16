@@ -771,8 +771,8 @@ button,
     margin-bottom: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     line-height: 1.2;
+    text-align: center; /* Make sure this is here */
 }
-
 .screenshot-container p {
     color: #e5e7eb;
     font-size: clamp(18px, 3vw, 22px);
@@ -813,15 +813,16 @@ button,
 @media (max-width: 768px) {
     .screenshot-container {
         margin: 20px 15px;
-        padding: 40px 25px 60px;
+        padding: 40px 25px 40px; /* Remove extra bottom padding */
     }
     
     .join-btn {
-        bottom: -15px;
+        margin: 20px auto 0 auto; /* Remove bottom positioning */
         padding: 16px 40px;
         font-size: 18px;
         min-width: 200px;
     }
+}
 }
 
 </style>
