@@ -827,18 +827,14 @@ button,
     font-weight: 400;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     text-align: left;
-    white-space: pre-line;
+    white-space: pre-wrap;
     word-spacing: normal;
     letter-spacing: 0.3px;
 }
 
-/* Reduce spacing created by blank lines */
-.container-content {
-    padding: 40px 40px 80px;
-    max-width: 1000px;
-    margin: 0 auto;
-    text-align: left;
-    line-height: 0.6; /* This controls blank line spacing */
+/* Custom handling of line breaks */
+.container-content br {
+    line-height: 0.8; /* Reduces blank line spacing */
 }
     
 .join-btn {
