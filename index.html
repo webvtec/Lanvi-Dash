@@ -845,6 +845,9 @@ button,
     </div>
 
 
+    <section id="containerSection"></section>
+
+
     <!-- REQUEST WEBSITE PAGE -->
     <div id="request" class="page">
         <div class="navy-gradient-container">
@@ -1594,6 +1597,21 @@ function adminLogin() {
         alert('Access denied. Admin privileges required.');
     }
 }
+
+
+    db.collection("site-containers").orderBy("order").get().then(snapshot => {
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    document.getElementById("containerSection").innerHTML += `
+      <div class="custom-card">
+        <h2>${data.title}</h2>
+        <p>${data.text}</p>
+        <a href="${data.buttonLink}" class="card-btn">${data.buttonLabel}</a>
+      </div>
+    `;
+  });
+});
+
 
 </script>
 </body>
