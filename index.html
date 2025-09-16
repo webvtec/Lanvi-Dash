@@ -987,6 +987,11 @@ let selectedService = null;
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEventListeners();
+    
+    // Load containers after Firebase is ready
+    setTimeout(() => {
+        loadSiteContainers();
+    }, 1000);
 });
 
 // Initialize the application
@@ -1599,15 +1604,34 @@ function adminLogin() {
 }
 
 
-    // Load containers from Firebase and display them
-function loadSiteContainers() {
+// Load containers from Firebase and display them
+async function loadSiteContainers() {
     const containerSection = document.getElementById("containerSection");
     
-    db.collection("site-containers").orderBy("order").get().then(snapshot => {
+    if (!containerSection) {
+        console.error("Container section not found");
+        return;
+    }
+    
+    try {
+        console.log("Loading site containers...");
+        
+        const snapshot = await db.collection("site-containers")
+            .orderBy("order")
+            .get();
+        
+        console.log("Containers loaded, count:", snapshot.size);
+        
         containerSection.innerHTML = ""; // Clear existing content
+        
+        if (snapshot.empty) {
+            console.log("No containers found");
+            return;
+        }
         
         snapshot.forEach(doc => {
             const data = doc.data();
+            console.log("Processing container:", data.title);
             
             const containerDiv = document.createElement('div');
             containerDiv.className = 'content-area';
@@ -1624,18 +1648,23 @@ function loadSiteContainers() {
             
             containerSection.appendChild(containerDiv);
         });
-    }).catch(error => {
+        
+    } catch (error) {
         console.error("Error loading containers:", error);
-    });
+        // Show a fallback container
+        containerSection.innerHTML = `
+            <div class="content-area" style="position: relative;">
+                <h2 style="color: #FFD700; text-align: center; margin-bottom: 20px; font-size: 28px;">Welcome to Web VTec</h2>
+                <p style="color: #A296E7; text-align: center; line-height: 1.6; font-size: 18px; margin-bottom: 30px;">Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.</p>
+                <div style="text-align: center;">
+                    <button class="join-button" onclick="showPage('request')" style="position: relative; border-radius: 25px;">
+                        Join Us Now
+                    </button>
+                </div>
+            </div>
+        `;
+    }
 }
-
-// Call this function when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-    // ... your existing DOMContentLoaded code ...
-    
-    // Load containers
-    loadSiteContainers();
-});
 
 </script>
 </body>
