@@ -823,11 +823,18 @@ button,
     color: #e5e7eb;
     font-size: clamp(18px, 3vw, 22px);
     line-height: 1.3;
-    margin: 0;
+    margin: 0 0 15px 0; /* Add controlled bottom margin */
     font-weight: 400;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     text-align: left;
-    white-space: pre-line; /* Add this line */
+    white-space: pre-line;
+    word-spacing: normal;
+    letter-spacing: 0.3px;
+}
+
+/* Remove extra spacing from last paragraph */
+.container-content p:last-child {
+    margin-bottom: 0;
 }
     
 .join-btn {
