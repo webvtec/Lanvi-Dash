@@ -1754,9 +1754,7 @@ async function loadSiteContainers() {
         containerSection.innerHTML = ""; // Clear existing content
         
         if (snapshot.empty) {
-            console.log("No containers found - showing fallback");
-            // Show fallback container that matches the screenshot design
-            showFallbackContainer(containerSection);
+            console.log("No containers found");
             return;
         }
         
@@ -1781,22 +1779,8 @@ async function loadSiteContainers() {
         
     } catch (error) {
         console.error("Error loading containers:", error);
-        showFallbackContainer(containerSection);
+        // ❌ Remove fallback here as well
     }
-}
-
-function showFallbackContainer(containerSection) {
-    containerSection.innerHTML = `
-        <div class="screenshot-container">
-            <div class="container-header">
-                <h1>Welcome to Web VTec</h1>
-            </div>
-            <div class="container-content">
-                <p>Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.</p>
-            </div>
-            <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
-        </div>
-    `;
 }
 
 </script>
