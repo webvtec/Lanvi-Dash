@@ -347,7 +347,7 @@
 
         @media (max-width: 768px) {
     .stats-container {
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
     }
         }
@@ -407,24 +407,22 @@
         </div>
 
         <div id="dashboard" style="display: none;">
-            <div class="stats-container">
-                <div class="stat-card">
-                    <h3>Total Requests</h3>
-                    <div class="stat-number" id="totalRequests">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Pending</h3>
-                    <div class="stat-number" id="pendingRequests" style="color: #FFA500;">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>In Progress</h3>
-                    <div class="stat-number" id="inProgressRequests" style="color: #3B82F6;">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Completed</h3>
-                    <div class="stat-number" id="completedRequests" style="color: #22C55E;">0</div>
-                </div>
-            </div>
+            <div class="stat-card">
+    <h3>Total Requests</h3>
+    <div class="stat-number" id="totalRequests">0</div>
+</div>
+<div class="stat-card">
+    <h3>Pending</h3>
+    <div class="stat-number" id="pendingRequests" style="color: #FFA500;">0</div>
+</div>
+<div class="stat-card">
+    <h3>Completed</h3>
+    <div class="stat-number" id="completedRequests" style="color: #22C55E;">0</div>
+</div>
+<div class="stat-card">
+    <h3>In Progress</h3>
+    <div class="stat-number" id="inProgressRequests" style="color: #3B82F6;">0</div>
+</div>
 
             <div class="requests-section">
                 <h2 class="section-title">Website Requests Management</h2>
