@@ -102,23 +102,24 @@
         .stats-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* always 2 beside each other */
-    gap: 12px; /* tighter spacing */
-    max-width: 500px; /* keeps them compact */
-    margin: 0 auto 30px; /* center */
+    gap: 15px;
+    max-width: 500px; /* smaller width so they don’t stretch */
+    margin: 0 auto 30px; /* center them */
 }
 
 .stat-card {
-    padding: 12px;  /* smaller padding */
-    border-radius: 10px; /* slightly smaller corners */
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .stat-card h3 {
-    font-size: 14px; /* smaller title text */
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin-bottom: 8px;
 }
 
 .stat-number {
-    font-size: 20px; /* smaller numbers */
+    font-size: 20px;
 }
 
         
@@ -356,9 +357,6 @@
                 flex-direction: column;
             }
             
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
             
             .request-details {
                 grid-template-columns: 1fr;
