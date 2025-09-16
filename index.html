@@ -1587,7 +1587,13 @@ window.addEventListener('offline', function() {
     alert('⚠️ You are offline. Some features may not work.');
 });
 
-
+function adminLogin() {
+    if (currentUser && ADMIN_EMAILS.includes(currentUser.email)) {
+        window.location.href = 'admindashboard.html';
+    } else {
+        alert('Access denied. Admin privileges required.');
+    }
+}
 
 </script>
 </body>
