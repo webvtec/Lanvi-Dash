@@ -751,7 +751,78 @@ button,
   }
 }
 
+/* Screenshot-matching container styles */
+.screenshot-container {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 35%, #6366f1 65%, #8b5cf6 100%);
+    border-radius: 20px;
+    padding: 60px 40px 80px;
+    margin: 40px auto;
+    max-width: 800px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
 
+.screenshot-container h1 {
+    color: #ffffff;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
+}
+
+.screenshot-container p {
+    color: #e5e7eb;
+    font-size: clamp(18px, 3vw, 22px);
+    line-height: 1.6;
+    margin-bottom: 60px;
+    font-weight: 400;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.join-btn {
+    background: linear-gradient(135deg, #a855f7, #9333ea);
+    color: white;
+    border: 2px solid #22c55e;
+    padding: 18px 60px;
+    border-radius: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 250px;
+}
+
+.join-btn:hover {
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 12px 30px rgba(168, 85, 247, 0.6);
+    border-color: #16a34a;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .screenshot-container {
+        margin: 20px 15px;
+        padding: 40px 25px 60px;
+    }
+    
+    .join-btn {
+        bottom: -15px;
+        padding: 16px 40px;
+        font-size: 18px;
+        min-width: 200px;
+    }
+}
 
 </style>
 
@@ -1625,7 +1696,9 @@ async function loadSiteContainers() {
         containerSection.innerHTML = ""; // Clear existing content
         
         if (snapshot.empty) {
-            console.log("No containers found");
+            console.log("No containers found - showing fallback");
+            // Show fallback container that matches the screenshot design
+            showFallbackContainer(containerSection);
             return;
         }
         
@@ -1634,16 +1707,11 @@ async function loadSiteContainers() {
             console.log("Processing container:", data.title);
             
             const containerDiv = document.createElement('div');
-            containerDiv.className = 'content-area';
-            containerDiv.style.position = 'relative';
+            containerDiv.className = 'screenshot-container';
             containerDiv.innerHTML = `
-                <h2 style="color: #FFD700; text-align: center; margin-bottom: 20px; font-size: 28px;">${data.title}</h2>
-                <p style="color: #A296E7; text-align: center; line-height: 1.6; font-size: 18px; margin-bottom: 30px;">${data.text}</p>
-                <div style="text-align: center;">
-                    <button class="join-button" onclick="showPage('request')" style="position: relative; border-radius: 25px;">
-                        Join Us Now
-                    </button>
-                </div>
+                <h1>${data.title}</h1>
+                <p>${data.text}</p>
+                <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
             `;
             
             containerSection.appendChild(containerDiv);
@@ -1651,19 +1719,18 @@ async function loadSiteContainers() {
         
     } catch (error) {
         console.error("Error loading containers:", error);
-        // Show a fallback container
-        containerSection.innerHTML = `
-            <div class="content-area" style="position: relative;">
-                <h2 style="color: #FFD700; text-align: center; margin-bottom: 20px; font-size: 28px;">Welcome to Web VTec</h2>
-                <p style="color: #A296E7; text-align: center; line-height: 1.6; font-size: 18px; margin-bottom: 30px;">Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.</p>
-                <div style="text-align: center;">
-                    <button class="join-button" onclick="showPage('request')" style="position: relative; border-radius: 25px;">
-                        Join Us Now
-                    </button>
-                </div>
-            </div>
-        `;
+        showFallbackContainer(containerSection);
     }
+}
+
+function showFallbackContainer(containerSection) {
+    containerSection.innerHTML = `
+        <div class="screenshot-container">
+            <h1>Welcome to Web VTec</h1>
+            <p>Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.</p>
+            <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
+        </div>
+    `;
 }
 
 </script>
