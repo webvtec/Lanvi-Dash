@@ -814,6 +814,11 @@ button,
     color: #fff;
     text-align: center;
     line-height: 1.2;
+    text-shadow: 
+        -1px -1px 0 #FFD700,
+        1px -1px 0 #FFD700,
+        -1px 1px 0 #FFD700,
+        1px 1px 0 #FFD700; /* Yellow text outline */
 }
 
 .container-content {
@@ -891,9 +896,20 @@ button,
     }
 
     .container-header h1 {
-        font-size: clamp(28px, 6vw, 36px);
+    margin: 0;
+    padding: 10px;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    line-height: 1.2;
+    text-shadow: 
+        -1px -1px 0 #FFD700,
+        1px -1px 0 #FFD700,
+        -1px 1px 0 #FFD700,
+        1px 1px 0 #FFD700; /* Yellow text outline */
     }
-
+    
     .container-content {
         padding: 30px 20px 20px;
     }
