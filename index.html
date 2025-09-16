@@ -823,14 +823,19 @@ button,
 .container-content p {
     color: #e5e7eb;
     font-size: clamp(18px, 3vw, 22px);
-    line-height: 1.2;
+    line-height: 1.3;
     margin: 0;
     font-weight: 400;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     text-align: left;
-    white-space: pre-line;
+    white-space: normal;
     word-spacing: normal;
     letter-spacing: 0.3px;
+}
+
+.container-content .line-break {
+    display: block;
+    height: 0.5em; /* Control blank line spacing here */
 }
     
 .join-btn {
@@ -1777,6 +1782,11 @@ async function loadSiteContainers() {
             const data = doc.data();
             console.log("Processing container:", data.title);
             
+            // Process the text to handle line breaks
+            const processedText = data.text
+                .replace(/\n\s*\n/g, '<span class="line-break"></span>') // Double line breaks become controlled spacing
+                .replace(/\n/g, '<br>'); // Single line breaks become regular breaks
+            
             const containerDiv = document.createElement('div');
             containerDiv.className = 'screenshot-container';
             containerDiv.innerHTML = `
@@ -1784,7 +1794,7 @@ async function loadSiteContainers() {
                     <h1>${data.title}</h1>
                 </div>
                 <div class="container-content">
-                    <p>${data.text}</p>
+                    <p>${processedText}</p>
                 </div>
                 <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
             `;
@@ -1794,7 +1804,6 @@ async function loadSiteContainers() {
         
     } catch (error) {
         console.error("Error loading containers:", error);
-        // ❌ Remove fallback here as well
     }
 }
 
