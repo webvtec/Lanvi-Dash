@@ -762,6 +762,8 @@ button,
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border: 2px solid #FFFFFF;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Add spacing between containers */
@@ -813,12 +815,12 @@ button,
 }
 
 .container-content {
-    padding: 40px 40px 40px;
+    padding: 40px 40px 20px;
     max-width: 1000px;
     margin: 0 auto;
-    text-align: left;
+    flex: 1;
 }
-
+    
 .container-content p {
     color: #e5e7eb;
     font-size: clamp(18px, 3vw, 22px);
@@ -843,7 +845,7 @@ button,
     background: #261A4C;
     color: white;
     border: 2px solid #FFFFFF;
-    border-radius: 0 0 18px 18px;
+    border-radius: 0 0 16px 16px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -856,7 +858,7 @@ button,
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px; /* Space from content */
+    margin-top: auto;
 }
 
 .join-btn:hover {
