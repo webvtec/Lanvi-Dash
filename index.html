@@ -1599,19 +1599,43 @@ function adminLogin() {
 }
 
 
+    // Load containers from Firebase and display them
+function loadSiteContainers() {
+    const containerSection = document.getElementById("containerSection");
+    
     db.collection("site-containers").orderBy("order").get().then(snapshot => {
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    document.getElementById("containerSection").innerHTML += `
-      <div class="custom-card">
-        <h2>${data.title}</h2>
-        <p>${data.text}</p>
-        <a href="${data.buttonLink}" class="card-btn">${data.buttonLabel}</a>
-      </div>
-    `;
-  });
-});
+        containerSection.innerHTML = ""; // Clear existing content
+        
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            
+            const containerDiv = document.createElement('div');
+            containerDiv.className = 'content-area';
+            containerDiv.style.position = 'relative';
+            containerDiv.innerHTML = `
+                <h2 style="color: #FFD700; text-align: center; margin-bottom: 20px; font-size: 28px;">${data.title}</h2>
+                <p style="color: #A296E7; text-align: center; line-height: 1.6; font-size: 18px; margin-bottom: 30px;">${data.text}</p>
+                <div style="text-align: center;">
+                    <button class="join-button" onclick="showPage('request')" style="position: relative; border-radius: 25px;">
+                        Join Us Now
+                    </button>
+                </div>
+            `;
+            
+            containerSection.appendChild(containerDiv);
+        });
+    }).catch(error => {
+        console.error("Error loading containers:", error);
+    });
+}
 
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // ... your existing DOMContentLoaded code ...
+    
+    // Load containers
+    loadSiteContainers();
+});
 
 </script>
 </body>
