@@ -1765,8 +1765,12 @@ async function loadSiteContainers() {
             const containerDiv = document.createElement('div');
             containerDiv.className = 'screenshot-container';
             containerDiv.innerHTML = `
-                <h1>${data.title}</h1>
-                <p>${data.text}</p>
+                <div class="container-header">
+                    <h1>${data.title}</h1>
+                </div>
+                <div class="container-content">
+                    <p>${data.text}</p>
+                </div>
                 <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
             `;
             
@@ -1780,29 +1784,17 @@ async function loadSiteContainers() {
 }
 
 function showFallbackContainer(containerSection) {
-    // In showFallbackContainer function:
-containerSection.innerHTML = `
-    <div class="screenshot-container">
-        <div class="container-header">
-            <h1>Welcome to Web VTec</h1>
+    containerSection.innerHTML = `
+        <div class="screenshot-container">
+            <div class="container-header">
+                <h1>Welcome to Web VTec</h1>
+            </div>
+            <div class="container-content">
+                <p>Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.</p>
+            </div>
+            <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
         </div>
-        <div class="container-content">
-            <p>Your trusted partner for web development and automation solutions. We create modern, responsive websites that help your business grow and automate your workflows.</p>
-        </div>
-        <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
-    </div>
-`;
-
-// In loadSiteContainers function, update the innerHTML to:
-containerDiv.innerHTML = `
-    <div class="container-header">
-        <h1>${data.title}</h1>
-    </div>
-    <div class="container-content">
-        <p>${data.text}</p>
-    </div>
-    <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
-`;
+    `;
 }
 
 </script>
