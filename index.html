@@ -784,13 +784,15 @@ button,
 
 
     .container-header {
-    background: rgba(255, 255, 255, 0.12); /* lighter translucency */
+    background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(12px);
-    padding: 15px 20px; /* smaller padding to move it closer */
-    border-radius: 12px 12px 0 0;
+    padding: 0; /* remove padding */
+    margin: 0; /* ensure no margin */
+    border-radius: 0; /* remove rounded corners */
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     position: relative;
-    z-index: 2; /* ensures it sits above background */
+    z-index: 2;
+    width: 100%; /* force full width */
     }
 
 .container-content {
@@ -798,13 +800,13 @@ button,
 }
 
 .container-header h1 {
-    color: #ffffff;
+    margin: 0; /* remove space above/below */
+    padding: 20px; /* control spacing inside */
     font-size: clamp(32px, 5vw, 48px);
     font-weight: bold;
-    margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    line-height: 1.2;
+    color: #fff;
     text-align: center;
+    line-height: 1.2;
 }
 
 .container-content p {
