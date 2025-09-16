@@ -786,27 +786,27 @@ button,
     .container-header {
     background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(12px);
-    padding: 0; /* remove padding */
-    margin: 0; /* ensure no margin */
-    border-radius: 0; /* remove rounded corners */
+    margin: 0; /* keep flush */
+    padding: 12px 0; /* reduced height */
+    border-radius: 18px 18px 0 0; /* curve only top edges */
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     position: relative;
     z-index: 2;
-    width: 100%; /* force full width */
-    }
-
-.container-content {
-    padding: 40px 40px 80px; /* Content padding, with space for button */
+    width: 100%; /* full width */
 }
 
 .container-header h1 {
-    margin: 0; /* remove space above/below */
-    padding: 20px; /* control spacing inside */
-    font-size: clamp(32px, 5vw, 48px);
+    margin: 0;
+    padding: 10px; /* tighten spacing inside */
+    font-size: clamp(24px, 4vw, 36px); /* a bit smaller */
     font-weight: bold;
     color: #fff;
     text-align: center;
     line-height: 1.2;
+}
+
+.container-content {
+    padding: 40px 40px 80px; /* Content padding, with space for button */
 }
 
 .container-content p {
