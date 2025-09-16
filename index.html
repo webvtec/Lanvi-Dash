@@ -815,14 +815,17 @@ button,
 
 .container-content {
     padding: 40px 40px 80px;
-    max-width: 1000px;   /* keeps text readable on big screens */
-    margin: 0 auto;      /* center content */
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+    --paragraph-spacing: 1.3;
+    --blank-line-spacing: 0.6;
 }
 
 .container-content p {
     color: #e5e7eb;
     font-size: clamp(18px, 3vw, 22px);
-    line-height: 1.3; /* Normal line spacing for text */
+    line-height: var(--paragraph-spacing);
     margin: 0;
     font-weight: 400;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
@@ -832,9 +835,11 @@ button,
     letter-spacing: 0.3px;
 }
 
-/* Control spacing for empty lines/blank spaces */
-.container-content p br {
-    line-height: 0.3; /* Controls spacing for blank lines only */
+/* Override line height for lines that are just whitespace/empty */
+.container-content p:empty,
+.container-content p:has(br:only-child) {
+    line-height: var(--blank-line-spacing);
+    height: calc(1em * var(--blank-line-spacing));
 }
     
 .join-btn {
