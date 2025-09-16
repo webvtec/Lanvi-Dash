@@ -860,14 +860,16 @@ button,
 
 @media (max-width: 768px) {
     .screenshot-container {
-        margin: 20px 15px;
-        padding: 40px 25px 70px; /* Adjust bottom padding for mobile */
+        margin: 0; /* remove margin so it sits flush */
+        padding: 25px 15px 60px; /* reduce height, keep bottom space for button */
+        width: 100%; /* ensure full width on mobile */
+        border-radius: 18px 18px 0 0; /* keep curved top edges */
     }
     
     .join-btn {
-        height: 50px; /* Slightly smaller on mobile */
+        height: 50px;
         font-size: 18px;
-        border-radius: 0 0 15px 15px; /* Adjust for mobile container radius */
+        border-radius: 0 0 15px 15px;
     }
 }
 @media (max-width: 768px) {
