@@ -1773,6 +1773,7 @@ function adminLogin() {
 }
 
 
+
 // Load containers from Firebase and display them
 async function loadSiteContainers() {
     const containerSection = document.getElementById("containerSection");
@@ -1781,6 +1782,15 @@ async function loadSiteContainers() {
         console.error("Container section not found");
         return;
     }
+    
+    // Define URL mappings based on container titles
+    const urlMappings = {
+        "HAIR & NAIL TECH WEBSITES": "https://your-nailtech-demo.com",
+        "RENTAL BUSINESS SITES": "https://your-rental-demo.com", 
+        "E-COMMERCE SOLUTIONS": "https://your-ecommerce-demo.com",
+        "PORTFOLIO WEBSITES": "https://your-portfolio-demo.com",
+        // Add more mappings as needed
+    };
     
     try {
         console.log("Loading site containers...");
@@ -1798,28 +1808,47 @@ async function loadSiteContainers() {
             return;
         }
         
+        let containerIndex = 0;
+        
         snapshot.forEach(doc => {
             const data = doc.data();
             console.log("Processing container:", data.title);
             
             // Process the text to handle line breaks
             const processedText = data.text
-                .replace(/\n\s*\n/g, '<span class="line-break"></span>') // Double line breaks become controlled spacing
-                .replace(/\n/g, '<br>'); // Single line breaks become regular breaks
+                .replace(/\n\s*\n/g, '<span class="line-break"></span>')
+                .replace(/\n/g, '<br>');
             
             const containerDiv = document.createElement('div');
             containerDiv.className = 'screenshot-container';
-            containerDiv.innerHTML = `
-                <div class="container-header">
-                    <h1>${data.title}</h1>
-                </div>
-                <div class="container-content">
-                    <p>${processedText}</p>
-                </div>
-                <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
-            `;
+            
+            // First container gets "JOIN US NOW", others get "PREVIEW A WEBSITE"
+            if (containerIndex === 0) {
+                containerDiv.innerHTML = `
+                    <div class="container-header">
+                        <h1>${data.title}</h1>
+                    </div>
+                    <div class="container-content">
+                        <p>${processedText}</p>
+                    </div>
+                    <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
+                `;
+            } else {
+                // Get URL based on container title
+                const previewUrl = urlMappings[data.title] || '#';
+                containerDiv.innerHTML = `
+                    <div class="container-header">
+                        <h1>${data.title}</h1>
+                    </div>
+                    <div class="container-content">
+                        <p>${processedText}</p>
+                    </div>
+                    <button class="join-btn" onclick="window.open('${previewUrl}', '_blank')">PREVIEW A WEBSITE</button>
+                `;
+            }
             
             containerSection.appendChild(containerDiv);
+            containerIndex++;
         });
         
     } catch (error) {
