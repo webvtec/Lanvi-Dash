@@ -925,30 +925,44 @@ button,
     width: 100%;
     height: 60px;
     color: white;
-    border: 3px solid transparent;
-    border-radius: 0 0 16px 16px;
     font-size: 20px;
     font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 0 0 16px 16px;
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
     z-index: 0;
+    transition: all 0.3s ease;
 
-    /* Animated purple-based gradient */
-    --start-color: #8e44ad; /* deep purple */
-    --mid-color: #9b59b6;   /* bright purple */
-    --end-color: #d19fe8;   /* soft lavender */
-    background: linear-gradient(45deg, var(--start-color), var(--mid-color), var(--end-color));
-    background-size: 400% 400%;
-    animation: gradientFlow 6s ease infinite;
+    /* Animated multi-layer gradient */
+    background: linear-gradient(45deg, #8e44ad, #9b59b6, #d19fe8, #bb8fce, #6c3483);
+    background-size: 600% 600%;
+    animation: gradientFlow 8s ease infinite, pulseGlow 2s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(155, 89, 182, 0.5);
 }
 
+.preview-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(120deg, #8e44ad, #9b59b6, #d19fe8, #bb8fce, #6c3483);
+    background-size: 600% 600%;
+    border-radius: 50%;
+    z-index: -1;
+    animation: swirl 12s linear infinite;
+    opacity: 0.6;
+}
+
+/* Keyframes for gradient movement */
 @keyframes gradientFlow {
     0% { background-position: 0% 50%; }
     25% { background-position: 50% 100%; }
@@ -957,21 +971,27 @@ button,
     100% { background-position: 0% 50%; }
 }
 
-/* Hover: brighten and shift gradient for more dynamic effect */
-.preview-btn:hover {
-    --start-color: #a569bd; /* lighter purple */
-    --mid-color: #c39bd3;   /* lavender purple */
-    --end-color: #e8d7f1;   /* soft lilac */
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(155, 89, 182, 0.5);
+/* Keyframes for pulsing glow */
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(155, 89, 182, 0.5); }
+    50% { box-shadow: 0 0 25px rgba(155, 89, 182, 0.9); }
 }
 
-@media (max-width: 768px) {
-    .preview-btn {
-        height: 50px;
-        font-size: 18px;
-    }
+/* Keyframes for swirling pseudo-element */
+@keyframes swirl {
+    0% { transform: rotate(0deg) translate(0,0); }
+    25% { transform: rotate(90deg) translate(0,0); }
+    50% { transform: rotate(180deg) translate(0,0); }
+    75% { transform: rotate(270deg) translate(0,0); }
+    100% { transform: rotate(360deg) translate(0,0); }
 }
+
+/* Hover effect: intensify glow and scale */
+.preview-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 40px rgba(155, 89, 182, 1), 0 12px 30px rgba(155, 89, 182, 0.5);
+}
+
 
 </style>
 
