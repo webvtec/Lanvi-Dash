@@ -810,59 +810,86 @@ async function handleContainerSubmit(e) {
 }
 
 // Load containers function
-function loadContainers() {
-    const containerList = document.getElementById("containerList");
+// Load containers from Firebase and display them
+async function loadSiteContainers() {
+    const containerSection = document.getElementById("containerSection");
     
-    if (!containerList) {
-        console.error("Container list element not found");
+    if (!containerSection) {
+        console.error("Container section not found");
         return;
     }
     
-    if (!currentUser || !ADMIN_EMAILS.includes(currentUser.email)) {
-        containerList.innerHTML = "<div style='text-align: center; padding: 20px; color: #EF4444;'>Admin access required</div>";
-        return;
-    }
+    // Define URL mappings based on container titles
+    const urlMappings = {
+        "HAIR & NAIL TECH WEBSITES": "https://your-nailtech-demo.com",
+        "RENTAL BUSINESS SITES": "https://your-rental-demo.com", 
+        "E-COMMERCE SOLUTIONS": "https://your-ecommerce-demo.com",
+        "PORTFOLIO WEBSITES": "https://your-portfolio-demo.com",
+        // Add more mappings as needed
+    };
     
-    containerList.innerHTML = "<div style='text-align: center; padding: 20px; color: #A296E7;'>Loading containers...</div>";
-    
-    db.collection("site-containers")
-        .orderBy("order")
-        .get()
-        .then(snapshot => {
-            console.log("Containers loaded successfully, count:", snapshot.size);
-            containerList.innerHTML = "";
+    try {
+        console.log("Loading site containers...");
+        
+        const snapshot = await db.collection("site-containers")
+            .orderBy("order")
+            .get();
+        
+        console.log("Containers loaded, count:", snapshot.size);
+        
+        containerSection.innerHTML = ""; // Clear existing content
+        
+        if (snapshot.empty) {
+            console.log("No containers found");
+            return;
+        }
+        
+        let containerIndex = 0;
+        
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            console.log("Processing container:", data.title);
             
-            if (snapshot.empty) {
-                containerList.innerHTML = "<div style='text-align: center; padding: 40px; color: #A296E7; font-style: italic;'>No containers found. Create your first one!</div>";
-                return;
+            // Process the text to handle line breaks
+            const processedText = data.text
+                .replace(/\n\s*\n/g, '<span class="line-break"></span>')
+                .replace(/\n/g, '<br>');
+            
+            const containerDiv = document.createElement('div');
+            containerDiv.className = 'screenshot-container';
+            
+            // First container gets "JOIN US NOW", others get "PREVIEW A WEBSITE"
+            if (containerIndex === 0) {
+                containerDiv.innerHTML = `
+                    <div class="container-header">
+                        <h1>${data.title}</h1>
+                    </div>
+                    <div class="container-content">
+                        <p>${processedText}</p>
+                    </div>
+                    <button class="join-btn" onclick="showPage('request')">JOIN US NOW</button>
+                `;
+            } else {
+                // Get URL based on container title
+                const previewUrl = urlMappings[data.title] || '#';
+                containerDiv.innerHTML = `
+                    <div class="container-header">
+                        <h1>${data.title}</h1>
+                    </div>
+                    <div class="container-content">
+                        <p>${processedText}</p>
+                    </div>
+                    <button class="join-btn" onclick="window.open('${previewUrl}', '_blank')">PREVIEW A WEBSITE</button>
+                `;
             }
             
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                const containerDiv = document.createElement('div');
-                containerDiv.className = 'request-card';
-                containerDiv.innerHTML = `
-                    <div class="request-header">
-                        <div>
-                            <h3 style="color: #FFD700; margin-bottom: 10px;">${data.title || 'Untitled'}</h3>
-                            <div style="color: #A296E7; font-size: 14px;">Order: ${data.order || 'N/A'}</div>
-                        </div>
-                    </div>
-                    <div style="margin: 20px 0;">
-                        <p style="color: white; line-height: 1.6;">${data.text || 'No content'}</p>
-                    </div>
-                    <div class="request-actions">
-                        <button class="action-btn update-btn" onclick="editContainer('${doc.id}')">Edit</button>
-                        <button class="action-btn delete-btn" onclick="deleteContainer('${doc.id}')">Delete</button>
-                    </div>
-                `;
-                containerList.appendChild(containerDiv);
-            });
-        })
-        .catch(error => {
-            console.error("Error loading containers:", error);
-            containerList.innerHTML = `<div style='text-align: center; padding: 20px; color: #EF4444;'>Error: ${error.message}</div>`;
+            containerSection.appendChild(containerDiv);
+            containerIndex++;
         });
+        
+    } catch (error) {
+        console.error("Error loading containers:", error);
+    }
 }
 
 // Delete container
