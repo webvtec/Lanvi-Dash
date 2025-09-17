@@ -1387,36 +1387,81 @@ function selectAdGeneration() {
     window.location.href = "https://your-ad-generation-site.com";
 }
 
-// Page Navigation
+// Global variable to track current page
+let currentPageId = 'home';
+
+// Page Navigation with fixed history management
 function showPage(pageId) {
+    // Don't do anything if already on this page
+    if (currentPageId === pageId) {
+        return;
+    }
+    
+    // Update page display
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     const targetPage = document.getElementById(pageId);
     if (targetPage) targetPage.classList.add('active');
 
+    // Update navigation active state
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
         if (item.getAttribute('data-page') === pageId) item.classList.add('active');
     });
 
-    if (history.state?.page !== pageId) {
-        history.pushState({ page: pageId }, '', '#' + pageId);
-    }
+    // Update current page tracker
+    currentPageId = pageId;
+    
+    // Replace current history state instead of pushing new one
+    history.replaceState({ page: pageId }, '', '#' + pageId);
 }
 
-// Handle back button
+// Handle back button - simplified
 window.addEventListener('popstate', function(event) {
     const page = event.state?.page;
 
     if (!page || page === 'welcome') {
         showWelcomeModal();
     } else {
-        showPage(page);
+        // Update display without creating new history entry
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const targetPage = document.getElementById(page);
+        if (targetPage) targetPage.classList.add('active');
+        
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('data-page') === page) item.classList.add('active');
+        });
+        
+        currentPageId = page;
     }
 });
 
-// Initialize first state
+// Update the welcome modal functions
+function closeWelcomeModal() {
+    document.getElementById('welcomeModal').style.display = 'none';
+    showPage('home');
+}
+
+function selectAutomatedWebsite() {
+    selectedService = 'automated-website';
+    closeWelcomeModal();
+}
+
+function selectOnlineProducts() {
+    selectedService = 'online-products';
+    closeWelcomeModal();
+    window.location.href = "https://webvtec.github.io/ALL-IN-ONE/";
+}
+
+function selectAdGeneration() {
+    selectedService = 'ad-generation';
+    closeWelcomeModal();
+    window.location.href = "https://your-ad-generation-site.com";
+}
+
+// Initialize first state - replace the existing one
 window.addEventListener('load', () => {
-    if (!history.state || history.state.page !== 'welcome') {
+    if (!history.state) {
         history.replaceState({ page: 'welcome' }, '', '#welcome');
     }
 });
