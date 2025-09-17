@@ -1116,17 +1116,24 @@ button,
                         </div>
                         
                         <div class="form-group">
-                            <label for="websiteType">Website Type</label>
-                            <select id="websiteType" name="websiteType" required>
-                                <option value="">Select Website Type</option>
-                                <option value="business">Business Website</option>
-                                <option value="ecommerce">E-commerce</option>
-                                <option value="portfolio">Portfolio</option>
-                                <option value="blog">Blog</option>
-                                <option value="landing">Landing Page</option>
-                                <option value="custom">Custom Solution</option>
-                            </select>
-                        </div>
+    <label for="websiteType">Website Type</label>
+    <select id="websiteType" name="websiteType" required>
+        <option value="">Select Website Type</option>
+        <option value="nail-tech">NAIL TECH WEBSITE</option>
+        <option value="hair-tech">HAIR TECH WEBSITE</option>
+        <option value="makeup">MAKEUP WEBSITE</option>
+        <option value="spa">SPA WEBSITE</option>
+        <option value="painting">PAINTING WEBSITE</option>
+        <option value="restaurant-delivery">RESTAURANT DELIVERY WEBSITE</option>
+        <option value="party-rental">PARTY RENTAL WEBSITE</option>
+        <option value="other">OTHER</option>
+    </select>
+</div>
+
+<div class="form-group" id="customWebsiteGroup" style="display: none;">
+    <label for="customWebsiteType">Please specify your website type:</label>
+    <input type="text" id="customWebsiteType" name="customWebsiteType" placeholder="Enter your website type...">
+</div>
                         
                         <button type="submit" class="submit-button">SUBMIT REQUEST</button>
                     </form>
@@ -1267,6 +1274,12 @@ function setupEventListeners() {
         reviewForm.addEventListener('submit', handleReviewSubmission);
     }
     
+    // Website type dropdown handler
+    const websiteTypeSelect = document.getElementById('websiteType');
+    if (websiteTypeSelect) {
+        websiteTypeSelect.addEventListener('change', handleWebsiteTypeChange);
+    }
+    
     // Navigation
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function() {
@@ -1369,12 +1382,24 @@ async function handleWebsiteRequest(e) {
     e.preventDefault();
     
     const formData = new FormData(e.target);
+    
+    // Handle website type - use custom type if "other" is selected
+    let websiteType = formData.get('websiteType');
+    if (websiteType === 'other') {
+        const customType = formData.get('customWebsiteType');
+        if (!customType || customType.trim() === '') {
+            alert('Please specify your website type.');
+            return;
+        }
+        websiteType = customType.trim();
+    }
+
     const requestData = {
         firstName: formData.get('firstName'),
         lastName: formData.get('lastName'),
         phone: formData.get('phone'),
         email: formData.get('email'),
-        websiteType: formData.get('websiteType'),
+        websiteType: websiteType,
         selectedService: selectedService || 'direct-request',
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         status: 'pending'
@@ -1395,14 +1420,14 @@ async function handleWebsiteRequest(e) {
 🚀 NEW WEBSITE REQUEST SUBMITTED!
 
 👤 Customer Details:
-• Name: ${requestData.firstName} ${requestData.lastName}
-• Email: ${requestData.email}
-• Phone: ${requestData.phone}
+- Name: ${requestData.firstName} ${requestData.lastName}
+- Email: ${requestData.email}
+- Phone: ${requestData.phone}
 
 💻 Request Details:
-• Website Type: ${requestData.websiteType}
-• Selected Service: ${requestData.selectedService}
-• Submitted: ${new Date().toLocaleString()}
+- Website Type: ${requestData.websiteType}
+- Selected Service: ${requestData.selectedService}
+- Submitted: ${new Date().toLocaleString()}
 
 Status: ⏳ PENDING REVIEW
 
@@ -1924,6 +1949,22 @@ async function loadSiteContainers() {
         
     } catch (error) {
         console.error("Error loading containers:", error);
+    }
+}
+
+
+// Handle website type dropdown change
+function handleWebsiteTypeChange(e) {
+    const customGroup = document.getElementById('customWebsiteGroup');
+    const customInput = document.getElementById('customWebsiteType');
+    
+    if (e.target.value === 'other') {
+        customGroup.style.display = 'block';
+        customInput.required = true;
+    } else {
+        customGroup.style.display = 'none';
+        customInput.required = false;
+        customInput.value = ''; // Clear the input when hiding
     }
 }
 </script>
