@@ -940,10 +940,10 @@ button,
     overflow: hidden;
     z-index: 0;
 
-    /* Animated gradient using CSS variables */
-    --start-color: #FF6B6B;
-    --mid-color: #4ECDC4;
-    --end-color: #DDA0DD;
+    /* Animated purple-based gradient */
+    --start-color: #8e44ad; /* deep purple */
+    --mid-color: #9b59b6;   /* bright purple */
+    --end-color: #d19fe8;   /* soft lavender */
     background: linear-gradient(45deg, var(--start-color), var(--mid-color), var(--end-color));
     background-size: 400% 400%;
     animation: gradientFlow 6s ease infinite;
@@ -951,17 +951,19 @@ button,
 
 @keyframes gradientFlow {
     0% { background-position: 0% 50%; }
+    25% { background-position: 50% 100%; }
     50% { background-position: 100% 50%; }
+    75% { background-position: 50% 0%; }
     100% { background-position: 0% 50%; }
 }
 
-/* Hover: slightly shift gradient colors */
+/* Hover: brighten and shift gradient for more dynamic effect */
 .preview-btn:hover {
-    --start-color: #FF9F9F;
-    --mid-color: #6FE0D6;
-    --end-color: #E0B0FF;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(16, 185, 129, 0.4);
+    --start-color: #a569bd; /* lighter purple */
+    --mid-color: #c39bd3;   /* lavender purple */
+    --end-color: #e8d7f1;   /* soft lilac */
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(155, 89, 182, 0.5);
 }
 
 @media (max-width: 768px) {
