@@ -1387,59 +1387,56 @@ function selectAdGeneration() {
     window.location.href = "https://your-ad-generation-site.com";
 }
 
-// Global variable to track current page
-let currentPageId = 'home';
-
-// Page Navigation with fixed history management
+// Page Navigation - Fixed version
 function showPage(pageId) {
-    // Don't do anything if already on this page
-    if (currentPageId === pageId) {
-        return;
-    }
-    
-    // Update page display
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     const targetPage = document.getElementById(pageId);
     if (targetPage) targetPage.classList.add('active');
 
-    // Update navigation active state
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
         if (item.getAttribute('data-page') === pageId) item.classList.add('active');
     });
 
-    // Update current page tracker
-    currentPageId = pageId;
-    
-    // Replace current history state instead of pushing new one
-    history.replaceState({ page: pageId }, '', '#' + pageId);
+    // Only push to history if it's different from current state
+    if (history.state?.page !== pageId) {
+        history.pushState({ page: pageId }, '', '#' + pageId);
+    }
 }
 
-// Handle back button - simplified
+// Handle back button - keep original functionality but prevent duplicates
 window.addEventListener('popstate', function(event) {
     const page = event.state?.page;
 
     if (!page || page === 'welcome') {
         showWelcomeModal();
     } else {
-        // Update display without creating new history entry
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        // Update display without pushing new history
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
         const targetPage = document.getElementById(page);
         if (targetPage) targetPage.classList.add('active');
-        
+
         document.querySelectorAll('.nav-item').forEach(item => {
             item.classList.remove('active');
             if (item.getAttribute('data-page') === page) item.classList.add('active');
         });
-        
-        currentPageId = page;
     }
 });
 
-// Update the welcome modal functions
+// Fixed welcome modal functions
+function showWelcomeModal() {
+    document.getElementById('welcomeModal').style.display = 'flex';
+    // Hide all pages when modal is shown
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+}
+
 function closeWelcomeModal() {
     document.getElementById('welcomeModal').style.display = 'none';
-    showPage('home');
+    // Show home page and push to history
+    document.getElementById('home').classList.add('active');
+    if (history.state?.page !== 'home') {
+        history.pushState({ page: 'home' }, '', '#home');
+    }
 }
 
 function selectAutomatedWebsite() {
@@ -1459,9 +1456,9 @@ function selectAdGeneration() {
     window.location.href = "https://your-ad-generation-site.com";
 }
 
-// Initialize first state - replace the existing one
+// Initialize first state
 window.addEventListener('load', () => {
-    if (!history.state) {
+    if (!history.state || history.state.page !== 'welcome') {
         history.replaceState({ page: 'welcome' }, '', '#welcome');
     }
 });
